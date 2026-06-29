@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChapterProps } from '../App';
 
+import photoSareeDhoti   from '@assets/00009664-DSC_0241_1782736874058.jpg';
+import photoRose         from '@assets/00005738-PHOTO-2026-04-06-19-19-23_1782736326994.jpg';
+import photoFitcheckThem from '@assets/00005874-PHOTO-2026-04-07-17-58-34_1782736498331.jpg';
+import photoKurta        from '@assets/00007197-PHOTO-2026-04-14-16-03-52_1782736685949.jpg';
+import photoDesignTeam   from '@assets/00004675-PHOTO-2026-04-01-21-16-37_1782736224375.jpg';
+import photoSwayam       from '@assets/00011504-PHOTO-2026-04-26-03-39-46_1782736935016.jpg';
+
 // ─── Sunlight drift ──────────────────────────────────────────────────────────
 function SunlightDrift() {
   return (
     <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <motion.div
         className="absolute top-0 left-0 w-[55%] h-full"
-        style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(232,184,109,0.14) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(232,184,109,0.13) 0%, transparent 60%)' }}
         animate={{ x: [0, 14, 0], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -32,9 +39,7 @@ function Note({
   );
 }
 
-// ─── Photo slot (hero / secondary / tertiary) ─────────────────────────────────
-// src: real photo when available. Until then shows a clean empty frame.
-// liftReveal: if true, tapping lifts the photo to show hidden text beneath.
+// ─── Photo slot ───────────────────────────────────────────────────────────────
 type PhotoSlotProps = {
   src?: string;
   alt: string;
@@ -47,11 +52,13 @@ type PhotoSlotProps = {
   liftReveal?: boolean;
   liftText?: React.ReactNode;
   tapeColor?: string;
+  objectPosition?: string;
 };
 
 function PhotoSlot({
   src, alt, width, height, rotate, delay, caption, captionDelay,
   liftReveal = false, liftText, tapeColor = 'rgba(232,184,109,0.5)',
+  objectPosition = 'center',
 }: PhotoSlotProps) {
   const [lifted, setLifted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
@@ -64,12 +71,9 @@ function PhotoSlot({
       className="relative"
       style={{ width }}
     >
-      {/* Hidden text behind photo — sits at the bottom, revealed as bottom edge lifts */}
+      {/* Hidden text beneath — revealed as bottom edge lifts */}
       {liftReveal && liftText && (
-        <div
-          className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none"
-          aria-hidden={!lifted}
-        >
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none" aria-hidden={!lifted}>
           <AnimatePresence>
             {lifted && (
               <motion.div
@@ -89,11 +93,7 @@ function PhotoSlot({
       {/* Photo frame — paper-lift physics */}
       <motion.div
         className={`bg-white border border-charcoal/5 ${liftReveal ? 'cursor-pointer' : ''}`}
-        style={{
-          padding: '8px 8px 32px 8px',
-          transformOrigin: 'top center',
-          transformPerspective: 700,
-        }}
+        style={{ padding: '8px 8px 32px 8px', transformOrigin: 'top center', transformPerspective: 700 }}
         initial={{ rotateZ: rotate, rotateX: 0, y: 0, boxShadow: '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)' }}
         animate={
           liftReveal && !shouldReduceMotion
@@ -108,41 +108,27 @@ function PhotoSlot({
               }
             : { rotateZ: rotate, rotateX: 0, y: 0, boxShadow: '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)' }
         }
-        transition={
-          lifted
-            ? { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }
-            : { type: 'spring', stiffness: 60, damping: 14 }
-        }
+        transition={lifted ? { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] } : { type: 'spring', stiffness: 60, damping: 14 }}
         onClick={liftReveal ? () => setLifted(v => !v) : undefined}
         role={liftReveal ? 'button' : undefined}
         tabIndex={liftReveal ? 0 : undefined}
         aria-label={liftReveal ? (lifted ? 'Set photo down' : 'Lift photo') : undefined}
-        onKeyDown={liftReveal ? e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLifted(v => !v); }
-        } : undefined}
+        onKeyDown={liftReveal ? e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLifted(v => !v); } } : undefined}
       >
         {/* Washi tape */}
         <div
-          className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 h-5 w-14"
-          style={{
-            backgroundColor: tapeColor,
-            transform: `translateX(-50%) rotate(${rotate * 0.4}deg)`,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-          }}
+          className="absolute -top-2.5 left-1/2 z-10 h-5 w-14"
+          style={{ backgroundColor: tapeColor, transform: `translateX(-50%) rotate(${rotate * 0.4}deg)`, boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
           aria-hidden="true"
         />
 
-        {/* Image area */}
-        <div
-          className="overflow-hidden bg-[#F0EAE0] relative"
-          style={{ width: width - 16, height }}
-        >
+        {/* Image */}
+        <div className="overflow-hidden bg-[#F0EAE0]" style={{ width: width - 16, height }}>
           {src ? (
             <img src={src} alt={alt} className="w-full h-full object-cover"
-              style={{ filter: 'sepia(0.08) contrast(1.03)' }} />
+              style={{ filter: 'sepia(0.06) contrast(1.02)', objectPosition }} />
           ) : (
-            /* Honest empty frame — ready for the real photo */
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2 opacity-50">
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 opacity-40">
               <svg viewBox="0 0 32 24" width="32" height="24" aria-hidden="true">
                 <rect x="1" y="1" width="30" height="22" rx="2" fill="none" stroke="#9C7B4F" strokeWidth="1.2" strokeDasharray="3 2" />
                 <circle cx="16" cy="11" r="4" fill="none" stroke="#9C7B4F" strokeWidth="1" />
@@ -155,9 +141,8 @@ function PhotoSlot({
 
         {/* Caption */}
         <motion.p
-          className="font-handwriting text-[10px] text-charcoal/40 text-center mt-1.5 leading-snug"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          className="font-handwriting text-[10px] text-charcoal/38 text-center mt-1.5 leading-snug"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: captionDelay ?? delay + 1, duration: 0.8 }}
         >
           {caption}
@@ -171,15 +156,12 @@ function PhotoSlot({
   );
 }
 
-// ─── Temple receipt — moment-first, not place-first ───────────────────────────
+// ─── Temple receipt ───────────────────────────────────────────────────────────
 function TempleReceipt({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -2.5 }}
-      animate={{ opacity: 1, rotate: -2.5 }}
-      transition={{ delay, duration: 1 }}
-      className="relative"
-      style={{ width: 130 }}
+      initial={{ opacity: 0, rotate: -2.5 }} animate={{ opacity: 1, rotate: -2.5 }}
+      transition={{ delay, duration: 1 }} className="relative" style={{ width: 128 }}
     >
       <div className="bg-[#FFFEF8] border border-[#C9A84C]/25 shadow-sm overflow-hidden">
         <div className="bg-[#C9A84C]/10 px-3 py-1 border-b border-[#C9A84C]/15">
@@ -188,42 +170,35 @@ function TempleReceipt({ delay }: { delay: number }) {
         <div className="px-3 py-2.5">
           <p className="font-letter text-[11px] text-charcoal/58 leading-relaxed">First temple together.</p>
           <div className="h-px border-t border-dashed border-[#C9A84C]/18 my-1.5" />
-          <p className="font-handwriting text-[8px] text-[#8B6020]/30 text-right italic">Hosakote</p>
+          <p className="font-handwriting text-[8px] text-[#8B6020]/28 text-right italic">Hosakote</p>
         </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── INTERACTION: Folded note (April moment, not future promise) ───────────────
+// ─── Folded note ─────────────────────────────────────────────────────────────
 function FoldedNote({ delay }: { delay: number }) {
   const [opened, setOpened] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 1.5 }}
-      animate={{ opacity: 1, rotate: 1.5 }}
-      transition={{ delay, duration: 1 }}
-      className="relative"
-      style={{ width: 152 }}
+      initial={{ opacity: 0, rotate: 1.5 }} animate={{ opacity: 1, rotate: 1.5 }}
+      transition={{ delay, duration: 1 }} className="relative" style={{ width: 148 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-4 washi-tape -rotate-[1deg]" />
-      <Note delay={delay + 0.8} className="absolute -right-2 -top-5 rotate-[4deg]">April.</Note>
 
       <div
         className="bg-[#FFFEF8] border border-[#C9A84C]/28 shadow-sm cursor-pointer focus-within:ring-2 focus-within:ring-[#C9A84C]/25"
         onClick={() => setOpened(v => !v)}
-        role="button"
-        tabIndex={0}
-        aria-label={opened ? 'Fold note' : 'Open note'}
+        role="button" tabIndex={0} aria-label={opened ? 'Fold note' : 'Open note'}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
         <div className="px-4 pt-3 pb-2 border-b border-[#C9A84C]/12 flex items-center justify-between">
-          <p className="font-sans text-[7px] tracking-[0.28em] uppercase text-[#8B6020]/35">Note</p>
+          <p className="font-sans text-[7px] tracking-[0.28em] uppercase text-[#8B6020]/30">Note</p>
           <motion.span animate={{ rotate: opened ? 90 : 0 }} transition={{ duration: 0.4 }}
-            className="text-[10px] text-[#C9A84C]/35" aria-hidden="true">▷</motion.span>
+            className="text-[10px] text-[#C9A84C]/30" aria-hidden="true">▷</motion.span>
         </div>
-
         <AnimatePresence initial={false}>
           {!opened && (
             <motion.div key="closed" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -233,11 +208,10 @@ function FoldedNote({ delay }: { delay: number }) {
                   <div key={i} className="h-px bg-[#C9A84C]/15" style={{ width: `${w / 4 * 100}%` }} />
                 ))}
               </div>
-              <p className="font-handwriting text-[8px] text-charcoal/20 text-right mt-2 italic">tap to open</p>
+              <p className="font-handwriting text-[8px] text-charcoal/18 text-right mt-2 italic">tap to open</p>
             </motion.div>
           )}
         </AnimatePresence>
-
         <AnimatePresence initial={false}>
           {opened && (
             <motion.div key="open" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
@@ -253,7 +227,7 @@ function FoldedNote({ delay }: { delay: number }) {
                 ].map((line, i) => (
                   <motion.p key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ delay: line.d, duration: 0.9 }}
-                    className="font-letter text-[13px] text-charcoal/65 leading-relaxed min-h-[18px]">
+                    className="font-letter text-[13px] text-charcoal/62 leading-relaxed min-h-[18px]">
                     {line.text}
                   </motion.p>
                 ))}
@@ -295,7 +269,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
 
           {/* Chapter header */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#8B6020]/38 mb-1">Chapter Four · April 2026</p>
+            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#8B6020]/36 mb-1">Chapter Four · April 2026</p>
             <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">Where We Found<br />Peace</h2>
             <motion.svg className="w-44 h-4 mt-1.5" viewBox="0 0 180 12" aria-hidden="true">
               <motion.path d="M0 7 Q45 3 90 7 Q135 11 180 6"
@@ -305,122 +279,164 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
             </motion.svg>
           </motion.div>
 
-          {/* HERO PHOTO — temple, with lift interaction */}
-          {/* When real photo is ready: src="@assets/..." */}
+          {/* HERO PHOTO — saree + dhoti, Tamil New Year. Lift reveals the date. */}
           <div className="relative">
-            {/* Ghost annotation — almost invisible, no explanation */}
+            {/* Ghost annotation — almost invisible */}
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 2.8, duration: 2.5 }}
               className="absolute -top-5 right-2 font-handwriting text-[9px] text-charcoal/18 italic pointer-events-none select-none rotate-[2deg] z-10"
               aria-hidden="true"
-            >
-              our peaceful day.
-            </motion.p>
+            >our peaceful day.</motion.p>
+
             <PhotoSlot
-              alt="First temple together"
-              width={260}
-              height={200}
+              src={photoSareeDhoti}
+              alt="Tamil New Year — saree and dhoti"
+              width={264}
+              height={210}
               rotate={-1.5}
               delay={0.6}
-              caption="5 April 2026"
+              caption="14 April 2026"
               captionDelay={1.4}
               liftReveal={true}
-              tapeColor="rgba(201,168,76,0.45)"
+              tapeColor="rgba(201,168,76,0.42)"
+              objectPosition="center top"
               liftText={
                 <div className="text-center select-none">
-                  <p className="font-handwriting text-sm text-[#7C4A10]/70">12 April 2026</p>
-                  <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-charcoal/35 mt-0.5">Halasuru Temple</p>
+                  <p className="font-handwriting text-sm text-[#7C4A10]/72">Tamil New Year</p>
+                  <p className="font-sans text-[9px] tracking-[0.28em] uppercase text-charcoal/32 mt-0.5">with Amma</p>
                 </div>
               }
             />
-            {/* Note attached below the photo */}
+
+            {/* Note attached below hero photo */}
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 1.6, duration: 1 }}
-              className="font-letter text-sm text-charcoal/55 mt-3 ml-2 leading-relaxed"
+              className="font-letter text-sm text-charcoal/52 mt-3 ml-2 leading-relaxed"
             >
               Some places become special<br />
-              <span className="ml-4 text-charcoal/40">because of who stood beside you.</span>
+              <span className="ml-4 text-charcoal/38">because of who stood beside you.</span>
             </motion.p>
           </div>
 
-          {/* Temple receipt — attached to left page context */}
+          {/* Temple receipt */}
           <div className="ml-4">
-            <TempleReceipt delay={1.8} />
+            <TempleReceipt delay={1.9} />
           </div>
 
           {/* Navigation */}
           <div className="flex gap-4 mt-auto pt-6">
-            <button
-              onClick={onPrev}
+            <button onClick={onPrev}
               className="font-handwriting text-xl text-[#8B6020]/50 hover:text-[#8B6020] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2"
-              aria-label="Previous chapter"
-            >← back</button>
-            <button
-              onClick={onNext}
+              aria-label="Previous chapter">← back</button>
+            <button onClick={onNext}
               className="font-handwriting text-xl text-[#E8924A] hover:text-[#8B6020] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2 ml-auto"
-              aria-label="Next chapter"
-            >next chapter →</button>
+              aria-label="Next chapter">next chapter →</button>
           </div>
         </div>
 
-        {/* ═══════════ RIGHT PAGE ═══════════ */}
-        <div className="flex-1 md:pl-12 py-8 z-10 relative">
-          <div className="relative flex flex-col gap-6">
+        {/* ═══════════ RIGHT PAGE — photos scattered like a real album ═══════════ */}
+        <div className="flex-1 md:pl-10 py-8 z-10">
+          <div className="relative" style={{ minHeight: 760 }}>
 
-            {/* SECONDARY PHOTO — saree & dhoti, with note attached */}
-            <div className="relative self-end mr-4">
+            {/* ROSE PHOTO — first rose, most prominent on right page */}
+            <div className="absolute top-0 left-6">
               <PhotoSlot
-                alt="Saree & Dhoti"
-                width={210}
-                height={164}
+                src={photoRose}
+                alt="First rose"
+                width={218}
+                height={170}
                 rotate={2.5}
                 delay={1}
-                caption="12–13 April"
+                caption="6 April 2026"
                 captionDelay={1.9}
-                tapeColor="rgba(139,32,32,0.18)"
+                tapeColor="rgba(139,32,32,0.20)"
+                objectPosition="center"
               />
-              {/* Note attached below this photo */}
-              <Note delay={2.1} className="absolute -bottom-5 left-3 rotate-[1deg] !text-[9px]">
-                Both of us in temple clothes.
-              </Note>
+              <Note delay={2.1} className="absolute -bottom-5 left-3 rotate-[1deg] !text-[10px]">first rose.</Note>
             </div>
 
-            {/* Folded note — stands in as the one real interaction */}
-            <div className="self-start ml-6">
-              <FoldedNote delay={1.5} />
-            </div>
-
-            {/* TERTIARY PHOTO — Swayam Fest */}
-            <div className="relative self-center ml-2">
+            {/* FITCHECK — them together outside, overlaps the rose slightly */}
+            <div className="absolute top-16 right-2">
               <PhotoSlot
-                alt="Swayam Fest"
-                width={180}
-                height={140}
-                rotate={-2}
-                delay={1.3}
-                caption="28–29 April"
-                captionDelay={2.2}
-                tapeColor="rgba(232,184,109,0.4)"
+                src={photoFitcheckThem}
+                alt="Fitcheck together"
+                width={168}
+                height={134}
+                rotate={-2.5}
+                delay={1.2}
+                caption="7 April"
+                captionDelay={2.1}
+                tapeColor="rgba(201,168,76,0.38)"
+                objectPosition="center top"
               />
-              {/* Note attached */}
-              <Note delay={2.4} className="absolute -bottom-5 right-2 -rotate-[2deg] !text-[9px]">
-                walking. talking. nothing in particular.
-              </Note>
             </div>
 
-            {/* Ending — quiet, bottom right */}
+            {/* DESIGN TEAM — Swayam April 1 */}
+            <div className="absolute top-220 left-0" style={{ top: 212 }}>
+              <PhotoSlot
+                src={photoDesignTeam}
+                alt="Swayam design team"
+                width={190}
+                height={146}
+                rotate={1.5}
+                delay={1.4}
+                caption="Swayam team"
+                captionDelay={2.3}
+                tapeColor="rgba(232,184,109,0.40)"
+                objectPosition="center"
+              />
+              <Note delay={2.5} className="absolute -bottom-5 right-2 -rotate-[2deg]">1 April.</Note>
+            </div>
+
+            {/* KURTA — Tamil New Year fitcheck */}
+            <div className="absolute right-4" style={{ top: 228 }}>
+              <PhotoSlot
+                src={photoKurta}
+                alt="Tamil New Year fitcheck"
+                width={138}
+                height={183}
+                rotate={-1.5}
+                delay={1.3}
+                caption="14 April"
+                captionDelay={2.2}
+                tapeColor="rgba(139,32,32,0.15)"
+                objectPosition="center top"
+              />
+            </div>
+
+            {/* Folded note — wedged between photos */}
+            <div className="absolute" style={{ top: 390, left: 24 }}>
+              <FoldedNote delay={1.7} />
+            </div>
+
+            {/* SWAYAM FEST — them together */}
+            <div className="absolute" style={{ top: 440, right: 8 }}>
+              <PhotoSlot
+                src={photoSwayam}
+                alt="Swayam Fest together"
+                width={196}
+                height={156}
+                rotate={2}
+                delay={1.5}
+                caption="Swayam Fest"
+                captionDelay={2.4}
+                tapeColor="rgba(232,184,109,0.45)"
+                objectPosition="center top"
+              />
+              <Note delay={2.6} className="absolute -bottom-5 left-2 rotate-[1deg]">walking. talking. nothing in particular.</Note>
+            </div>
+
+            {/* Ending — fades in last */}
             <motion.div
-              className="self-end pr-2 pt-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 3.2, duration: 2 }}
+              className="absolute right-2 text-right"
+              style={{ bottom: 8 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 3.4, duration: 2 }}
             >
-              <p className="font-quote text-sm text-charcoal/32 italic text-right">Some memories</p>
-              <p className="font-quote text-sm text-charcoal/25 italic text-right">never needed words.</p>
+              <p className="font-quote text-sm text-charcoal/30 italic">Some memories</p>
+              <p className="font-quote text-sm text-charcoal/22 italic">never needed words.</p>
             </motion.div>
 
           </div>
