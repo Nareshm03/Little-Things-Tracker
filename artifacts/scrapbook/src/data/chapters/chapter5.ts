@@ -23,7 +23,7 @@ export const chapter5Data = {
   intro:
     'Not every memory is loud. Some of the ones that stayed the longest were barely there at all — a shared silence, the sound of bells carried on warm air, and the feeling of nowhere else to be.',
   handwrittenParagraph:
-    'You don't have to say much when you're in the right place with the right person. We sat for hours once and it still wasn't long enough.',
+    'You don\'t have to say much when you\'re in the right place with the right person. We sat for hours once and it still wasn\'t long enough.',
   annotation: 'temple visit, Oct',
 
   pullQuote: '"We didn\'t need to fill the silence. Just being there — that was enough."',

@@ -11,7 +11,8 @@ import ChapterFour from './chapters/ChapterFour';
 import ChapterFive from './chapters/ChapterFive';
 import ChapterSix from './chapters/ChapterSix';
 import ChapterSeven from './chapters/ChapterSeven';
-import Ending from './chapters/Ending';
+import ChapterEpilogue from './chapters/ChapterEpilogue';
+import ClosingSequence from './chapters/ClosingSequence';
 import NavigationBookmarks from './components/NavigationBookmarks';
 
 export type ChapterProps = {
@@ -20,29 +21,33 @@ export type ChapterProps = {
 };
 
 const chapters = [
-  { id: 'cover', component: Cover, isDark: false },
-  { id: 'dedication', component: Dedication, isDark: false },
-  { id: 'before', component: BeforeWeBegin, isDark: false },
-  { id: 'ch1', component: ChapterOne, isDark: false },
-  { id: 'ch2', component: ChapterTwo, isDark: false },
-  { id: 'ch3', component: ChapterThree, isDark: false },
-  { id: 'ch4', component: ChapterFour, isDark: false },
-  { id: 'ch5', component: ChapterFive, isDark: false },
-  { id: 'ch6', component: ChapterSix, isDark: true }, // The Nights We Never Forgot
-  { id: 'ch7', component: ChapterSeven, isDark: false },
-  { id: 'ending', component: Ending, isDark: false },
+  { id: 'cover',      component: Cover,           isDark: false },
+  { id: 'dedication', component: Dedication,       isDark: false },
+  { id: 'before',     component: BeforeWeBegin,    isDark: false },
+  { id: 'ch1',        component: ChapterOne,       isDark: false },
+  { id: 'ch2',        component: ChapterTwo,       isDark: false },
+  { id: 'ch3',        component: ChapterThree,     isDark: false },
+  { id: 'ch4',        component: ChapterFour,      isDark: false },
+  { id: 'ch5',        component: ChapterFive,      isDark: false },
+  { id: 'ch6',        component: ChapterSix,       isDark: true  },
+  { id: 'ch7',        component: ChapterSeven,     isDark: false },
+  { id: 'epilogue',   component: ChapterEpilogue,  isDark: false },
 ];
 
 function App() {
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const currentChapter = chapters[currentChapterIndex];
   const CurrentComponent = currentChapter.component;
+  const isLastChapter = currentChapterIndex === chapters.length - 1;
 
   const nextChapter = () => {
-    if (currentChapterIndex < chapters.length - 1) {
+    if (isLastChapter) {
+      setIsClosing(true);
+    } else if (currentChapterIndex < chapters.length - 1) {
       setCurrentChapterIndex(prev => prev + 1);
     }
   };
@@ -59,61 +64,80 @@ function App() {
     }
   };
 
-  // Keyboard navigation
+  const handleReadAgain = () => {
+    setIsClosing(false);
+    setCurrentChapterIndex(0);
+    setHasStarted(false);
+  };
+
+  // Keyboard navigation — disabled during closing sequence
   useEffect(() => {
+    if (isClosing) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        nextChapter();
-      } else if (e.key === 'ArrowLeft') {
-        prevChapter();
-      }
+      // Don't fire if user is interacting with an input or modal
+      if ((e.target as HTMLElement).closest('[role="dialog"]')) return;
+      if (e.key === 'ArrowRight') nextChapter();
+      else if (e.key === 'ArrowLeft') prevChapter();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentChapterIndex]);
+  }, [currentChapterIndex, isClosing]);
 
-  // Handle Dark mode class
+  // Handle dark mode class
   useEffect(() => {
+    if (isClosing) {
+      document.documentElement.classList.remove('dark');
+      return;
+    }
     if (currentChapter.isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [currentChapter.isDark]);
+  }, [currentChapter.isDark, isClosing]);
 
   return (
     <div className="min-h-[100dvh] w-full overflow-hidden relative selection:bg-golden selection:text-white">
-      
-      {/* Audio Toggle */}
-      {hasStarted && (
-        <button 
+
+      {/* Audio Toggle — hidden during closing */}
+      {hasStarted && !isClosing && (
+        <button
           onClick={() => setIsMuted(!isMuted)}
           className="fixed top-6 right-6 z-50 p-3 bg-white/50 backdrop-blur-sm rounded-full shadow-sm hover:bg-white/80 transition-all text-brown hover:text-coffee"
-          aria-label={isMuted ? "Unmute" : "Mute"}
+          aria-label={isMuted ? 'Unmute' : 'Mute'}
         >
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
       )}
 
-      {/* Navigation Bookmarks */}
-      {hasStarted && (
-        <NavigationBookmarks 
-          chapters={chapters} 
-          currentIndex={currentChapterIndex} 
-          onSelect={goToChapter} 
+      {/* Navigation Bookmarks — hidden during closing */}
+      {hasStarted && !isClosing && (
+        <NavigationBookmarks
+          chapters={chapters}
+          currentIndex={currentChapterIndex}
+          onSelect={goToChapter}
         />
       )}
 
-      {/* Chapter Content container */}
+      {/* Chapter content */}
       <AnimatePresence mode="wait">
-        <CurrentComponent 
-          key={currentChapter.id} 
-          onNext={() => {
-            if (!hasStarted) setHasStarted(true);
-            nextChapter();
-          }} 
-          onPrev={prevChapter} 
-        />
+        {!isClosing && (
+          <CurrentComponent
+            key={currentChapter.id}
+            onNext={() => {
+              if (!hasStarted) setHasStarted(true);
+              nextChapter();
+            }}
+            onPrev={prevChapter}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Closing sequence — layered on top */}
+      <AnimatePresence>
+        {isClosing && (
+          <ClosingSequence key="closing" onReadAgain={handleReadAgain} />
+        )}
       </AnimatePresence>
 
     </div>
