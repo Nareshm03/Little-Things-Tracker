@@ -1,0 +1,130 @@
+# Sprint 7 — Build Chapter Five: "Days That Felt Peaceful"
+
+Continue the existing scrapbook project.
+
+The architecture is complete.
+
+The Story Engine is complete.
+
+The Component Library is complete.
+
+Build the next fully data-driven chapter.
+
+TITLE
+
+Chapter Five
+
+Days That Felt Peaceful
+
+GOAL
+
+Create the calmest and most emotionally reflective chapter in the scrapbook.
+
+The experience should feel like quietly remembering peaceful days spent together.
+
+Do NOT create another scrolling page.
+
+Do NOT reuse the comic or map layouts.
+
+This chapter must have its own visual identity.
+
+## LEFT PAGE
+
+Include:
+
+* Chapter Header
+* Short reflective introduction
+* One handwritten paragraph
+* Pressed flower decoration
+* Small temple illustration
+* Decorative brass bell
+* Gentle pull quote
+
+## RIGHT PAGE
+
+Build a premium photo journal.
+
+Include:
+
+* 5–6 large scrapbook photographs
+* Torn paper edges
+* Washi tape
+* Soft shadows
+* Handwritten captions
+* Date chips
+
+Each photograph should be interactive.
+
+When clicked:
+
+* Expand smoothly.
+* Display the date.
+* Show a short chat snippet.
+* Show one handwritten memory.
+* Close elegantly.
+
+## ANIMATIONS
+
+Very slow.
+
+Very calm.
+
+Use existing motion tokens.
+
+Include:
+
+* Soft sunlight drift
+* Floating flower petals
+* Gentle incense smoke
+* Slow paper fade
+* Photo settle animation
+* Caption handwriting animation
+
+No bouncing.
+
+No energetic movement.
+
+## HIDDEN INTERACTION
+
+Hide one pressed flower bookmark.
+
+When discovered:
+
+Reveal a handwritten note with a quiet personal memory.
+
+## DATA
+
+All content must come from:
+
+data/chapters/chapter5.ts
+
+Do not hardcode story content.
+
+## ACCESSIBILITY
+
+* Keyboard navigation
+* Reduced motion
+* Responsive layout
+* ARIA labels
+* Zero TypeScript errors
+
+## CONSTRAINTS
+
+Do not redesign previous chapters.
+
+Do not add global navigation.
+
+Do not build Chapter 6.
+
+Keep the scrapbook aesthetic consistent.
+
+## DELIVERABLES
+
+* Complete Chapter Five
+* Fully populated chapter5.ts
+* Premium peaceful photo journal
+* Hidden pressed flower interaction
+* Responsive implementation
+* Zero TypeScript errors
+
+Stop after Chapter Five and wait for review.
