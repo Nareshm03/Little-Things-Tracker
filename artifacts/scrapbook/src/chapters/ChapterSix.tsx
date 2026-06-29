@@ -672,6 +672,35 @@ export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
               {chapter6Data.annotation}
             </motion.p>
 
+            {/* Decorative postage stamp */}
+            <motion.div
+              className="self-start relative pointer-events-none select-none"
+              initial={{ opacity: 0, rotate: -6 }}
+              animate={{ opacity: 0.28, rotate: -6 }}
+              transition={{ delay: 1.8, duration: 1.4 }}
+              aria-hidden="true"
+            >
+              <svg width="64" height="78" viewBox="0 0 64 78">
+                <defs>
+                  <pattern id="perforation" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+                    <circle cx="3" cy="3" r="2.2" fill="#111A27" />
+                  </pattern>
+                  <mask id="stampMask">
+                    <rect width="64" height="78" fill="white" />
+                    <rect x="0" y="0" width="64" height="6" fill="url(#perforation)" />
+                    <rect x="0" y="72" width="64" height="6" fill="url(#perforation)" />
+                    <rect x="0" y="0" width="6" height="78" fill="url(#perforation)" />
+                    <rect x="58" y="0" width="6" height="78" fill="url(#perforation)" />
+                  </mask>
+                </defs>
+                <rect width="64" height="78" fill="#1B2D42" mask="url(#stampMask)" />
+                <rect x="7" y="7" width="50" height="64" fill="#0D1B2A" />
+                <text x="32" y="30" textAnchor="middle" fill="#B8C9E1" fontSize="18" opacity="0.6">✦</text>
+                <text x="32" y="52" textAnchor="middle" fill="#B8C9E1" fontSize="7" fontFamily="serif" letterSpacing="1" opacity="0.45">AIRMAIL</text>
+                <text x="32" y="64" textAnchor="middle" fill="#B8C9E1" fontSize="6" fontFamily="serif" opacity="0.3">∼ 2024 ∼</text>
+              </svg>
+            </motion.div>
+
             {/* ── Letters ── */}
             <div className="flex flex-col gap-5">
               {letters.map((letter, i) => (

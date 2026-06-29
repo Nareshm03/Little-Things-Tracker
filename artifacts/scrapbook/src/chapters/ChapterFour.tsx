@@ -216,10 +216,18 @@ function PolaroidCard({
               src={src}
               alt={polaroid.caption}
               className="w-full h-full object-cover"
-              initial={{ filter: 'brightness(1.6) contrast(0.6) sepia(1)', opacity: 0.4 }}
-              whileInView={{ filter: 'brightness(1) contrast(1.05) sepia(0.15)', opacity: 1 }}
+              initial={{ filter: 'brightness(2.2) contrast(0.3) saturate(0) blur(3px)', opacity: 0.2 }}
+              whileInView={{
+                filter: [
+                  'brightness(2.2) contrast(0.3) saturate(0) blur(3px)',
+                  'brightness(1.6) contrast(0.5) saturate(0.2) blur(1.5px) sepia(0.9)',
+                  'brightness(1.15) contrast(0.85) saturate(0.75) blur(0px) sepia(0.45)',
+                  'brightness(1) contrast(1.05) saturate(1) blur(0px) sepia(0.15)',
+                ],
+                opacity: [0.2, 0.5, 0.85, 1],
+              }}
               viewport={{ once: true }}
-              transition={{ duration: 2.5, delay: slideDelay + 0.5 }}
+              transition={{ duration: 3, delay: slideDelay + 0.5, times: [0, 0.25, 0.62, 1], ease: 'easeOut' }}
               onError={() => setImgError(true)}
             />
           ) : (

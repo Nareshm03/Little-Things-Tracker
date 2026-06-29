@@ -32,7 +32,7 @@ function seededRand(seed: number): number {
 // ─── Floating flower petals ──────────────────────────────────────────────────
 function FloatingPetals({
   colors,
-  count = 12,
+  count = 8,
 }: {
   colors: string[];
   count?: number;
@@ -708,7 +708,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
         />
 
         <SunlightDrift />
-        <FloatingPetals colors={petalColors} count={14} />
+        <FloatingPetals colors={petalColors} count={10} />
 
         <div className="relative z-10 max-w-7xl mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-0 min-h-full">
 

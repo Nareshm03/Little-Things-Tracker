@@ -89,7 +89,7 @@ function Panel({
       whileHover={
         shouldReduceMotion
           ? {}
-          : { y: -4, boxShadow: '6px 8px 0 #2D2D2D', transition: { duration: 0.15 } }
+          : { y: -4, rotate: index % 2 === 0 ? -2 : 2, boxShadow: '6px 8px 0 #2D2D2D', transition: { duration: 0.2 } }
       }
       onClick={() => onClick(panel)}
       role="button"

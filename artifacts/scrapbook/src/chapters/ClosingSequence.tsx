@@ -76,8 +76,8 @@ function Book({ phase }: { phase: Phase }) {
   const coverClosed     = phase === 'settled';
   const showShadow      = phase === 'settled' || phase === 'final' || phase === 'gratitude' || phase === 'reopen' || phase === 'readagain';
 
-  // 5 page slices
-  const pageSlices = [0, 1, 2, 3, 4];
+  // 7 page slices for realistic paper thickness
+  const pageSlices = [0, 1, 2, 3, 4, 5, 6];
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: 260, height: 200 }}>
@@ -353,7 +353,7 @@ export default function ClosingSequence({ onReadAgain }: Props) {
       setTimeout(() => setPhase('final'),     8800 * t),
       setTimeout(() => setPhase('gratitude'), 12000 * t),
       setTimeout(() => setPhase('reopen'),    16000 * t),
-      setTimeout(() => setPhase('readagain'), 20000 * t),
+      setTimeout(() => setPhase('readagain'), 18500 * t),
     ];
 
     return () => timers.forEach(clearTimeout);

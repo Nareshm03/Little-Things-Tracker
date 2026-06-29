@@ -41,29 +41,29 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="font-quote text-xl md:text-2xl text-charcoal leading-relaxed max-w-md"
+            className="font-quote text-lg md:text-xl text-charcoal leading-relaxed max-w-sm"
           >
-            "It wasn't always grand gestures. It was the texts checking if I ate, the shared playlists, the way you remembered the small things I casually mentioned weeks ago."
+            "It wasn't always grand gestures. It was the little texts, the shared playlists, the way you remembered things I casually mentioned weeks ago."
           </motion.div>
 
           {/* Chat bubbles */}
-          <div className="space-y-4 pt-8">
+          <div className="space-y-3 pt-6">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.5, duration: 0.6 }}
-              className="bg-white px-5 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-border/40 inline-block max-w-[80%]"
+              className="bg-white px-4 py-2.5 rounded-2xl rounded-tl-sm shadow-sm border border-border/40 inline-block max-w-[75%]"
             >
-              <p className="font-sans text-charcoal">Did you reach safely? 🥺</p>
+              <p className="font-sans text-sm text-charcoal">Did you reach safely? 🥺</p>
             </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 2.2, duration: 0.6 }}
-              className="bg-blue-50 px-5 py-3 rounded-2xl rounded-tr-sm shadow-sm border border-blue-100/40 inline-block max-w-[80%] ml-auto block"
+              className="bg-blue-50 px-4 py-2.5 rounded-2xl rounded-tr-sm shadow-sm border border-blue-100/40 inline-block max-w-[75%] ml-auto block"
             >
-              <p className="font-sans text-charcoal">Yes! Just got in. Thinking about you already ❤️</p>
+              <p className="font-sans text-sm text-charcoal">Just got in. Thinking of you ❤️</p>
             </motion.div>
           </div>
         </div>

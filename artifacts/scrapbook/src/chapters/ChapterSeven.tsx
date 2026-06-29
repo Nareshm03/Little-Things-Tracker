@@ -180,7 +180,7 @@ function HandwrittenReveal({ text, startDelay = 0 }: { text: string; startDelay?
           key={i}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: startDelay + i * 0.05, duration: 0.12 }}
+          transition={{ delay: startDelay + i * 0.052, duration: 0.125 }}
           aria-hidden="true"
         >
           {char}

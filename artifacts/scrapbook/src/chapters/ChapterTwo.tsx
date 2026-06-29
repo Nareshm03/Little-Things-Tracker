@@ -77,9 +77,13 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
               tabIndex={0}
               aria-label={`View memory: ${loc.name}`}
               style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 + (i * 0.5), type: "spring", bounce: 0.5 }}
+              initial={{ opacity: 0, y: -30, scale: 0.6 }}
+              animate={{ 
+                opacity: [0, 1, 1, 1],
+                y: [-30, -40, -40, 0],
+                scale: [0.6, 1.2, 1.2, 1],
+              }}
+              transition={{ delay: 1 + (i * 0.5), duration: 0.65, times: [0, 0.2, 0.35, 1], ease: 'easeOut' }}
               onClick={() => setActivePin(loc.id)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActivePin(loc.id); } }}
             >
@@ -105,7 +109,8 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-lg shadow-xl border border-border max-w-sm w-[90%]"
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-lg border border-border max-w-sm w-[90%]"
+                style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.18), 0 6px 16px rgba(0,0,0,0.10)' }}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-4 washi-tape" />
                 <button 

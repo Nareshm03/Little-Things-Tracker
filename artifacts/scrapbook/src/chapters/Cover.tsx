@@ -37,7 +37,7 @@ export default function Cover({ onNext }: ChapterProps) {
       />
 
       {/* Floating Dust Particles */}
-      {[...Array(20)].map((_, i) => (
+      {[...Array(28)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 rounded-full bg-golden/20 pointer-events-none blur-[1px]"
@@ -116,9 +116,17 @@ export default function Cover({ onNext }: ChapterProps) {
             aria-hidden="true"
           />
 
-          {/* Golden foil border */}
-          <div className="absolute inset-4 border border-golden/40 rounded-r-2xl pointer-events-none" />
-          <div className="absolute inset-6 border border-golden/20 rounded-r-xl pointer-events-none" />
+          {/* Golden foil border — subtle breathing pulse */}
+          <motion.div
+            className="absolute inset-4 border border-golden/40 rounded-r-2xl pointer-events-none"
+            animate={{ opacity: [0.4, 0.75, 0.4] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute inset-6 border border-golden/20 rounded-r-xl pointer-events-none"
+            animate={{ opacity: [0.2, 0.45, 0.2] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+          />
 
           {/* Cover content */}
           <motion.div 

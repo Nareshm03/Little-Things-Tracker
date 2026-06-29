@@ -67,7 +67,7 @@ export default function BeforeWeBegin({ onNext }: ChapterProps) {
                   initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className={`font-quote text-2xl text-charcoal/80 ${index === 0 ? 'text-3xl mb-4 font-display italic-none' : ''}`}
+                  className={`font-quote text-2xl text-charcoal/80 leading-relaxed ${index === 0 ? 'text-3xl mb-4 font-display italic-none' : ''}`}
                 >
                   {line}
                 </motion.p>
