@@ -40,6 +40,8 @@ function Note({
 }
 
 // ─── Photo slot ───────────────────────────────────────────────────────────────
+type PhotoVariant = 'normal' | 'bent' | 'creased' | 'yellowed' | 'faded';
+
 type PhotoSlotProps = {
   src?: string;
   alt: string;
@@ -53,12 +55,19 @@ type PhotoSlotProps = {
   liftText?: React.ReactNode;
   tapeColor?: string;
   objectPosition?: string;
+  photoVariant?: PhotoVariant;
 };
+
+function variantImgFilter(v: PhotoVariant): string {
+  if (v === 'yellowed') return 'sepia(0.22) contrast(1.01) brightness(1.02)';
+  if (v === 'faded')    return 'saturate(0.68) brightness(1.06) contrast(0.93)';
+  return 'sepia(0.06) contrast(1.02)';
+}
 
 function PhotoSlot({
   src, alt, width, height, rotate, delay, caption, captionDelay,
   liftReveal = false, liftText, tapeColor = 'rgba(232,184,109,0.5)',
-  objectPosition = 'center',
+  objectPosition = 'center', photoVariant = 'normal',
 }: PhotoSlotProps) {
   const [lifted, setLifted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
@@ -123,10 +132,10 @@ function PhotoSlot({
         />
 
         {/* Image */}
-        <div className="overflow-hidden bg-[#F0EAE0]" style={{ width: width - 16, height }}>
+        <div className="overflow-hidden bg-[#F0EAE0] relative" style={{ width: width - 16, height }}>
           {src ? (
             <img src={src} alt={alt} className="w-full h-full object-cover"
-              style={{ filter: 'sepia(0.06) contrast(1.02)', objectPosition }} />
+              style={{ filter: variantImgFilter(photoVariant), objectPosition }} />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-2 opacity-40">
               <svg viewBox="0 0 32 24" width="32" height="24" aria-hidden="true">
@@ -136,6 +145,28 @@ function PhotoSlot({
               </svg>
               <p className="font-handwriting text-[9px] text-[#9C7B4F]">{alt}</p>
             </div>
+          )}
+
+          {/* Crease — faint diagonal line across the image */}
+          {photoVariant === 'creased' && (
+            <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
+              style={{ background: 'linear-gradient(34deg, transparent 46%, rgba(0,0,0,0.045) 47.5%, rgba(255,255,255,0.06) 49%, transparent 50.5%)' }} />
+          )}
+
+          {/* Yellowed edges — warm vignette */}
+          {photoVariant === 'yellowed' && (
+            <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
+              style={{ background: 'radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(180,130,40,0.13) 80%, rgba(160,110,20,0.22) 100%)' }} />
+          )}
+
+          {/* Bent corner — bottom-right fold */}
+          {photoVariant === 'bent' && (
+            <div className="absolute bottom-0 right-0 pointer-events-none" aria-hidden="true"
+              style={{
+                width: 18, height: 18,
+                background: 'linear-gradient(225deg, #e8dcc8 40%, rgba(0,0,0,0.10) 41%, transparent 55%)',
+                boxShadow: '-2px -2px 4px rgba(0,0,0,0.10)',
+              }} />
           )}
         </div>
 
@@ -353,6 +384,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 captionDelay={1.9}
                 tapeColor="rgba(139,32,32,0.20)"
                 objectPosition="center"
+                photoVariant="bent"
               />
               <Note delay={2.1} className="absolute -bottom-5 left-3 rotate-[1deg] !text-[10px]">first rose.</Note>
             </div>
@@ -366,10 +398,11 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 height={134}
                 rotate={-2.5}
                 delay={1.2}
-                caption="7 April"
+                caption="just us."
                 captionDelay={2.1}
                 tapeColor="rgba(201,168,76,0.38)"
                 objectPosition="center top"
+                photoVariant="creased"
               />
             </div>
 
@@ -382,12 +415,12 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 height={146}
                 rotate={1.5}
                 delay={1.4}
-                caption="Swayam team"
+                caption="her team."
                 captionDelay={2.3}
                 tapeColor="rgba(232,184,109,0.40)"
                 objectPosition="center"
+                photoVariant="yellowed"
               />
-              <Note delay={2.5} className="absolute -bottom-5 right-2 -rotate-[2deg]">1 April.</Note>
             </div>
 
             {/* KURTA — Tamil New Year fitcheck */}
@@ -399,10 +432,11 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 height={183}
                 rotate={-1.5}
                 delay={1.3}
-                caption="14 April"
+                caption="dressed up."
                 captionDelay={2.2}
                 tapeColor="rgba(139,32,32,0.15)"
                 objectPosition="center top"
+                photoVariant="faded"
               />
             </div>
 
@@ -420,7 +454,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 height={156}
                 rotate={2}
                 delay={1.5}
-                caption="Swayam Fest"
+                caption="late April."
                 captionDelay={2.4}
                 tapeColor="rgba(232,184,109,0.45)"
                 objectPosition="center top"
