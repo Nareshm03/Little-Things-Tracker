@@ -53,7 +53,7 @@ function FoldedLetter({ delay }: { delay: number }) {
       >
         {/* Fold header — always visible */}
         <div className="px-5 pt-4 pb-2 border-b border-[#D4C89A]/35 flex items-center justify-between">
-          <p className="font-handwriting text-[10px] text-charcoal/32 tracking-wide">March 2026</p>
+          <p className="font-handwriting text-[10px] text-charcoal/32 tracking-wide">2 March 2026 — 11:17 PM</p>
           <div className="w-6 h-6 rounded-full bg-[#8B2020]/12 border border-[#8B2020]/18 flex items-center justify-center">
             <span className="font-display text-[8px] text-[#8B2020]/35 font-bold">N</span>
           </div>
@@ -82,21 +82,35 @@ function FoldedLetter({ delay }: { delay: number }) {
               className="overflow-hidden relative">
               {/* Ruled lines */}
               <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                {Array.from({ length: 10 }).map((_, i) => (
+                {Array.from({ length: 26 }).map((_, i) => (
                   <div key={i} className="border-b border-[#B8A880]/10" style={{ height: 26 }} />
                 ))}
               </div>
-              <div className="px-6 py-4 relative space-y-1 pb-8">
-                {/* ⚠️ LETTER CONTENT — replace with Naresh's actual letter text */}
+              <div className="px-6 py-4 relative space-y-1 pb-6">
                 {[
-                  { text: 'Every night before I sleep,', d: 0.1 },
-                  { text: 'I think about you.', d: 0.5 },
-                  { text: '', d: 0.7 },
-                  { text: 'Not because I have to.', d: 0.9 },
-                  { text: 'Because you just... appear.', d: 1.3 },
-                  { text: '', d: 1.5 },
-                  { text: 'Like comfort.', d: 1.7 },
-                  { text: 'Like home.', d: 2.0 },
+                  { text: 'Every night before I sleep, I think about you…..',      d: 0.1 },
+                  { text: 'and suddenly the whole day feels your presence…',        d: 0.4 },
+                  { text: '',                                                        d: 0.5 },
+                  { text: 'love you so deeply that sometimes I don\'t even have',   d: 0.6 },
+                  { text: 'the right words for it.',                                d: 0.9 },
+                  { text: '',                                                        d: 1.0 },
+                  { text: 'It\'s not just love… it\'s comfort, peace and that',     d: 1.1 },
+                  { text: 'feeling of home with you…',                              d: 1.4 },
+                  { text: '',                                                        d: 1.5 },
+                  { text: 'I crave every single minute…',                           d: 1.6 },
+                  { text: '',                                                        d: 1.7 },
+                  { text: 'I miss your presence in the smallest moments —',         d: 1.8 },
+                  { text: 'your voice, your fragrance and just you…',               d: 2.1 },
+                  { text: '',                                                        d: 2.2 },
+                  { text: 'Sleep peacefully, my beautiful girl.',                   d: 2.3 },
+                  { text: 'May your dreams be wonderful filled with me.',           d: 2.6 },
+                  { text: '',                                                        d: 2.7 },
+                  { text: 'And remember…',                                          d: 2.8 },
+                  { text: 'Your always Mine and Im always yours',                   d: 3.1 },
+                  { text: 'no matter it doesn\'t change.',                          d: 3.4 },
+                  { text: '',                                                        d: 3.5 },
+                  { text: 'Good night, baby.',                                      d: 3.6 },
+                  { text: 'I love you more than I can explain.',                    d: 3.9 },
                 ].map((line, i) => (
                   <motion.p key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ delay: line.d, duration: 1.2 }}
@@ -104,8 +118,6 @@ function FoldedLetter({ delay }: { delay: number }) {
                     {line.text}
                   </motion.p>
                 ))}
-                {/* Gradient fade at bottom — letter continues beyond view */}
-                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#FEFCE8] to-transparent pointer-events-none" />
               </div>
             </motion.div>
           )}
