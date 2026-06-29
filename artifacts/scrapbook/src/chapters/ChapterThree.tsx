@@ -1,946 +1,695 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 import { ChapterProps } from '../App';
-import { chapter3Data, ComicPanel } from '../data/chapters/chapter3';
+import birthdayPhoto from '@assets/00003349-PHOTO-2026-03-11-20-20-02_1782729987549.jpg';
 
-// ─── Motion variants ────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const pageVariants = {
-  initial: { scale: 0.94, opacity: 0, rotate: -1 },
-  animate: { scale: 1, opacity: 1, rotate: 0 },
-  exit: { scale: 1.04, opacity: 0, rotate: 1 },
-};
-
-const panelVariants = {
-  hidden: { y: 60, opacity: 0, rotate: -2 },
-  visible: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    rotate: i % 2 === 0 ? -0.5 : 0.5,
-    transition: { delay: 0.3 + i * 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
-const popVariants = {
-  hidden: { scale: 0, opacity: 0 },
-  visible: (i: number) => ({
-    scale: 1,
-    opacity: 1,
-    transition: { delay: 0.4 + i * 0.12, type: 'spring', bounce: 0.5 },
-  }),
-};
-
-const chatVariants = {
-  hidden: { x: -30, opacity: 0 },
-  visible: (i: number) => ({
-    x: 0,
-    opacity: 1,
-    transition: { delay: 0.6 + i * 0.22, duration: 0.45, ease: 'easeOut' },
-  }),
-};
-
-const modalVariants = {
-  hidden: { scale: 0.85, opacity: 0, y: 30 },
-  visible: { scale: 1, opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.28, duration: 0.5 } },
-  exit: { scale: 0.9, opacity: 0, y: 20, transition: { duration: 0.25 } },
-};
-
-// ─── Ben-Day dots SVG background (comic book texture) ───────────────────────
-
-function BenDayDots({ color = '#D4844A', opacity = 0.06 }: { color?: string; opacity?: number }) {
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <defs>
-        <pattern id="dots" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="2" fill={color} opacity={opacity} />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dots)" />
-    </svg>
-  );
-}
-
-// ─── Comic panel component ───────────────────────────────────────────────────
-
-function Panel({
-  panel,
-  index,
-  onClick,
-}: {
-  panel: ComicPanel;
-  index: number;
-  onClick: (panel: ComicPanel) => void;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-
+function DateLine({ date, delay = 0 }: { date: string; delay?: number }) {
   return (
     <motion.div
-      className="relative bg-white border-[3px] border-charcoal cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-      style={{ boxShadow: '4px 4px 0 #2D2D2D' }}
-      custom={index}
-      variants={panelVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-40px' }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : { y: -4, rotate: index % 2 === 0 ? -2 : 2, boxShadow: '6px 8px 0 #2D2D2D', transition: { duration: 0.2 } }
-      }
-      onClick={() => onClick(panel)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Open panel: ${panel.caption}`}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick(panel);
-        }
-      }}
-    >
-      {/* Ben-Day dots in corner */}
-      <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden pointer-events-none">
-        <svg width="64" height="64" aria-hidden="true">
-          <defs>
-            <pattern id={`dots-${panel.id}`} x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill={panel.doodleColor} opacity="0.25" />
-            </pattern>
-          </defs>
-          <rect width="64" height="64" fill={`url(#dots-${panel.id})`} />
-        </svg>
-      </div>
-
-      {/* Badge */}
-      <motion.div
-        className="absolute -top-4 -left-2 z-10 font-display text-sm font-black px-3 py-1 border-2 border-charcoal"
-        style={{ backgroundColor: panel.badgeColor, boxShadow: '2px 2px 0 #2D2D2D', color: '#2D2D2D', rotate: '-6deg' }}
-        custom={index}
-        variants={popVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        {panel.badge}
-      </motion.div>
-
-      {/* Dialogue */}
-      <div className="p-4 pt-6 space-y-3 min-h-[110px]">
-        {panel.lines.map((line, li) => (
-          <p
-            key={li}
-            className="font-letter text-xl leading-snug text-charcoal"
-            style={{ textAlign: line.speaker === 'me' ? 'right' : 'left' }}
-          >
-            {line.text}
-          </p>
-        ))}
-      </div>
-
-      {/* Caption band */}
-      <div className="border-t-[3px] border-charcoal bg-soft-beige px-3 py-1.5">
-        <p className="font-handwriting text-base text-coffee/80 italic">{panel.caption}</p>
-      </div>
-
-      {/* Doodle squiggle */}
-      <svg
-        className="absolute bottom-8 right-2 w-10 h-10 pointer-events-none opacity-40"
-        viewBox="0 0 40 40"
-        aria-hidden="true"
-      >
-        <motion.path
-          d="M 5 20 Q 15 5 20 20 Q 25 35 35 20"
-          fill="none"
-          stroke={panel.doodleColor}
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.5 + index * 0.2 }}
-        />
-      </svg>
-
-      {/* Expand hint */}
-      <div className="absolute bottom-1 right-2 text-[10px] font-sans text-charcoal/30 group-hover:text-charcoal/60 transition-colors select-none">
-        tap to expand
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Sticker component ───────────────────────────────────────────────────────
-
-function Sticker({
-  sticker,
-  index,
-}: {
-  sticker: { id: number; emoji: string; label: string; rotate: number; color: string };
-  index: number;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className="relative flex flex-col items-center gap-1 cursor-default select-none"
-      custom={index}
-      variants={popVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : {
-              rotate: [sticker.rotate, sticker.rotate - 4, sticker.rotate + 6, sticker.rotate],
-              y: -5,
-              transition: { duration: 0.4 },
-            }
-      }
-      style={{ rotate: `${sticker.rotate}deg` }}
-      aria-label={sticker.label}
-    >
-      <div
-        className="w-14 h-14 rounded-xl border-2 border-charcoal/20 flex items-center justify-center text-3xl shadow-md"
-        style={{ backgroundColor: sticker.color, boxShadow: '3px 3px 0 rgba(45,45,45,0.15)' }}
-      >
-        {sticker.emoji}
-      </div>
-      <p className="font-handwriting text-sm text-coffee/70 text-center max-w-[70px] leading-tight">
-        {sticker.label}
-      </p>
-    </motion.div>
-  );
-}
-
-// ─── Panel modal ─────────────────────────────────────────────────────────────
-
-function PanelModal({
-  panel,
-  onClose,
-}: {
-  panel: ComicPanel;
-  onClose: () => void;
-}) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    closeRef.current?.focus();
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onClose]);
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Memory: ${panel.caption}`}
+      transition={{ delay, duration: 1 }}
+      className="flex items-center gap-3 my-3"
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-charcoal/40 backdrop-blur-sm" />
+      <div className="flex-1 h-px bg-charcoal/10" />
+      <p className="font-handwriting text-[10px] text-charcoal/32 tracking-wide whitespace-nowrap">{date}</p>
+      <div className="flex-1 h-px bg-charcoal/10" />
+    </motion.div>
+  );
+}
 
-      {/* Card */}
-      <motion.div
-        className="relative bg-warm-white border-[3px] border-charcoal max-w-md w-full rounded-sm overflow-hidden"
-        style={{ boxShadow: '8px 8px 0 #2D2D2D' }}
-        variants={modalVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        onClick={(e) => e.stopPropagation()}
+// ─── INTERACTIVE 1: Folded Letter ─────────────────────────────────────────────
+// "Every night before I sleep..."
+// The letter unfolds. Ink fades in. Nothing else moves.
+
+function FoldedLetter({ delay }: { delay: number }) {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1.2 }}
+      className="relative"
+    >
+      {/* Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-5 washi-tape rotate-[1deg]" />
+
+      {/* Letter card */}
+      <div
+        className="bg-[#FEFCE8] border border-[#D4C89A]/50 shadow-md overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/20"
+        onClick={() => setOpened(v => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={opened ? 'Fold letter' : 'Unfold letter'}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
-        {/* Washi tape top */}
-        <div
-          className="absolute -top-2 left-1/2 -translate-x-1/2 w-20 h-5 washi-tape z-10"
-          style={{ backgroundColor: panel.badgeColor + 'AA' }}
-          aria-hidden="true"
-        />
+        {/* Fold creases — visible when closed */}
+        <AnimatePresence initial={false}>
+          {!opened && (
+            <motion.div
+              key="folded"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4 }}
+              className="px-5 py-5"
+            >
+              <div className="border-b border-[#D4C89A]/40 pb-3 mb-3 flex items-center justify-between">
+                <p className="font-handwriting text-[10px] text-charcoal/32 tracking-wide">March 2026</p>
+                {/* Wax seal */}
+                <div className="w-7 h-7 rounded-full bg-[#8B2020]/15 border border-[#8B2020]/20 flex items-center justify-center">
+                  <span className="font-display text-[9px] text-[#8B2020]/40 font-bold">N</span>
+                </div>
+              </div>
+              <div className="border-t border-[#D4C89A]/30 pt-3 space-y-1.5">
+                <div className="h-px bg-[#D4C89A]/20 w-3/4" />
+                <div className="h-px bg-[#D4C89A]/20 w-full" />
+                <div className="h-px bg-[#D4C89A]/20 w-5/6" />
+              </div>
+              <p className="font-handwriting text-[10px] text-charcoal/28 text-center mt-4 italic">tap to unfold</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Header badge */}
-        <div
-          className="px-6 pt-8 pb-3 border-b-[3px] border-charcoal flex items-center gap-3"
-          style={{ backgroundColor: panel.badgeColor + '33' }}
-        >
-          <span
-            className="font-display text-xl font-black px-3 py-0.5 border-2 border-charcoal"
-            style={{ backgroundColor: panel.badgeColor, boxShadow: '2px 2px 0 #2D2D2D' }}
-          >
-            {panel.badge}
-          </span>
-          <p className="font-handwriting text-xl text-coffee italic">{panel.caption}</p>
+        {/* Open state — ink fades in line by line */}
+        <AnimatePresence initial={false}>
+          {opened && (
+            <motion.div
+              key="open"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="px-6 py-6 relative">
+                {/* Ruled lines in background */}
+                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                  {[0,1,2,3,4,5,6,7].map(i => (
+                    <div key={i} className="border-b border-[#B8A880]/12" style={{ height: 28 }} />
+                  ))}
+                </div>
+
+                <div className="relative space-y-1.5 pb-4">
+                  {[
+                    { text: 'Every night before I sleep,', delay: 0.1 },
+                    { text: 'I think about you.', delay: 0.5 },
+                    { text: '', delay: 0.8 },
+                    { text: 'Not because I have to.', delay: 0.9 },
+                    { text: 'Because you just... appear.', delay: 1.3 },
+                  ].map((line, i) => (
+                    <motion.p
+                      key={i}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: line.delay, duration: 1.2 }}
+                      className="font-letter text-sm text-charcoal/72 leading-relaxed min-h-[20px]"
+                    >
+                      {line.text}
+                    </motion.p>
+                  ))}
+                </div>
+
+                {/* Gradient fade — letter continues beyond view */}
+                <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[#FEFCE8] to-transparent pointer-events-none" />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── STATIC: Movie Ticket ─────────────────────────────────────────────────────
+// Slightly faded. Seats 15 • 16. The chat below.
+
+function MovieTicket({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: -2 }}
+      animate={{ opacity: 1, rotate: -2 }}
+      transition={{ delay, duration: 1 }}
+      className="relative flex-shrink-0"
+      style={{ width: 140 }}
+    >
+      {/* Pin */}
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#C8924A]/40 border border-[#C8924A]/30 z-10" />
+
+      <div className="bg-[#1A1A2E] rounded-sm overflow-hidden shadow-md" style={{ opacity: 0.88 }}>
+        {/* Header */}
+        <div className="px-3 py-2 border-b border-white/10">
+          <p className="font-sans text-[8px] tracking-[0.3em] uppercase text-white/40 text-center">Cinema</p>
+          <p className="font-display text-xs text-[#C8924A]/80 text-center mt-0.5">March 2026</p>
         </div>
-
-        {/* Photo placeholder */}
-        <div className="mx-6 mt-4 h-28 bg-soft-beige border-2 border-charcoal/20 flex items-center justify-center rounded-sm relative overflow-hidden">
-          <BenDayDots color={panel.doodleColor} opacity={0.12} />
-          <div className="flex flex-col items-center gap-1 z-10">
-            <span className="text-3xl opacity-40">📷</span>
-            <p className="font-handwriting text-sm text-coffee/40">{panel.photoAlt}</p>
+        {/* Seats */}
+        <div className="px-3 py-3 text-center">
+          <p className="font-sans text-[8px] tracking-widest uppercase text-white/30 mb-1">Seats</p>
+          <p className="font-display text-2xl text-white/75 tracking-wider">15 • 16</p>
+          <p className="font-sans text-[8px] text-white/25 mt-1">Middle Row</p>
+        </div>
+        {/* Perforated line */}
+        <div className="border-t border-dashed border-white/15 mx-2" />
+        {/* Chat */}
+        <div className="px-3 py-3 space-y-1.5">
+          <div className="flex justify-end">
+            <p className="font-sans text-[9px] text-white/50 bg-white/8 px-2 py-1 rounded-lg rounded-tr-none max-w-[90%]">
+              Book any corner seats know...
+            </p>
           </div>
-          {/* Polaroid bottom strip */}
-          <div className="absolute bottom-0 left-0 right-0 h-7 bg-white border-t border-charcoal/10 flex items-center justify-center">
-            <p className="font-handwriting text-base text-navy/60 italic">{panel.handwrittenCaption}</p>
+          <div className="flex justify-start">
+            <p className="font-sans text-[9px] text-[#C8924A]/65 bg-[#C8924A]/8 px-2 py-1 rounded-lg rounded-tl-none max-w-[90%]">
+              I booked.
+            </p>
           </div>
         </div>
+        {/* Popcorn doodle */}
+        <div className="text-center pb-2" aria-hidden="true">
+          <span className="text-sm opacity-30">🍿</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
-        {/* Full chat conversation */}
-        <div className="px-6 py-4 space-y-2 max-h-48 overflow-y-auto">
-          {panel.fullConversation.map((line, i) => (
+// ─── STATIC: Handwriting Strip ────────────────────────────────────────────────
+// Assignment paper. Real exchange. Tiny. Funny.
+
+function HandwritingStrip({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 1.5 }}
+      animate={{ opacity: 1, rotate: 1.5 }}
+      transition={{ delay, duration: 0.9 }}
+    >
+      <div className="absolute -top-3 right-4 w-10 h-4 washi-tape -rotate-[2deg]" />
+      <div className="bg-white border border-charcoal/8 shadow-sm px-4 py-3" style={{ borderLeft: '3px solid #D4C89A' }}>
+        {/* Ruled lines */}
+        <div className="space-y-px mb-2" aria-hidden="true">
+          <div className="h-px bg-[#B8D4E8]/25 w-full" />
+          <div className="h-px bg-[#B8D4E8]/25 w-full" />
+        </div>
+        <p className="font-letter text-xs text-charcoal/65">
+          See how worst is my handwriting
+        </p>
+        <p className="font-letter text-xs text-coffee/60 mt-1.5 italic">
+          "It's looking good from far 😂"
+        </p>
+        <div className="space-y-px mt-2" aria-hidden="true">
+          <div className="h-px bg-[#B8D4E8]/25 w-full" />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── STATIC: Tobby Polaroid ───────────────────────────────────────────────────
+
+function TobbyPolaroid({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 3 }}
+      animate={{ opacity: 1, rotate: 3 }}
+      transition={{ delay, duration: 1 }}
+      className="relative flex-shrink-0"
+    >
+      <div className="absolute -top-3 left-3 w-12 h-4 washi-tape rotate-[1deg]" />
+      <div className="bg-white p-2 pb-6 shadow-md border border-charcoal/5" style={{ width: 120 }}>
+        {/* Dog doodle in polaroid space */}
+        <svg viewBox="0 0 96 80" width="96" height="80" className="block bg-[#F5F0E8]" aria-label="Tobby the dog">
+          {/* Body */}
+          <ellipse cx="48" cy="54" rx="26" ry="18" fill="#C8A87A" />
+          {/* Head */}
+          <ellipse cx="48" cy="32" rx="20" ry="18" fill="#D4B48A" />
+          {/* Floppy ears */}
+          <ellipse cx="29" cy="36" rx="10" ry="14" fill="#B89060" transform="rotate(-15 29 36)" />
+          <ellipse cx="67" cy="36" rx="10" ry="14" fill="#B89060" transform="rotate(15 67 36)" />
+          {/* Eyes */}
+          <circle cx="41" cy="30" r="4" fill="#3D2A1A" />
+          <circle cx="55" cy="30" r="4" fill="#3D2A1A" />
+          <circle cx="42" cy="28.5" r="1.2" fill="white" />
+          <circle cx="56" cy="28.5" r="1.2" fill="white" />
+          {/* Nose */}
+          <ellipse cx="48" cy="38" rx="5" ry="3.5" fill="#3D2A1A" />
+          {/* Mouth */}
+          <path d="M44 41 Q48 45 52 41" fill="none" stroke="#3D2A1A" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Tail */}
+          <path d="M72 60 Q84 50 80 42" fill="none" stroke="#C8A87A" strokeWidth="5" strokeLinecap="round" />
+          {/* Paws */}
+          <ellipse cx="34" cy="68" rx="8" ry="5" fill="#C8A87A" />
+          <ellipse cx="62" cy="68" rx="8" ry="5" fill="#C8A87A" />
+        </svg>
+        <p className="font-handwriting text-[10px] text-charcoal/50 text-center mt-2 leading-tight">
+          Tobby
+        </p>
+      </div>
+      {/* Chat below */}
+      <div className="mt-2 space-y-1 px-1">
+        <p className="font-letter text-[10px] text-charcoal/55">
+          "Tobby is looking handsome."
+        </p>
+        <p className="font-letter text-[10px] text-coffee/50 italic">
+          "He is more handsome I guess 😂"
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── STATIC: Daily Care Strips ────────────────────────────────────────────────
+// Cut WhatsApp strips. Dozens of times in March. That's why they matter.
+
+const careMessages = [
+  { msg: 'Had breakfast?', side: 'out' },
+  { msg: 'Reached PG?', side: 'in' },
+  { msg: 'Go eat.', side: 'out' },
+  { msg: 'Sleep properly.', side: 'out' },
+  { msg: 'Drink water.', side: 'in' },
+];
+
+function DailyCareStrips({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+    >
+      <div className="absolute -top-3 left-2 w-12 h-4 washi-tape rotate-[2deg]" />
+      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm p-3">
+        <p className="font-sans text-[8px] tracking-[0.3em] uppercase text-charcoal/28 mb-2.5 text-center">Every day. All of March.</p>
+        <div className="space-y-1.5">
+          {careMessages.map((m, i) => (
             <motion.div
               key={i}
-              className={`flex ${line.speaker === 'me' ? 'justify-end' : 'justify-start'}`}
-              initial={{ opacity: 0, x: line.speaker === 'me' ? 20 : -20 }}
+              initial={{ opacity: 0, x: m.side === 'out' ? 8 : -8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.07, duration: 0.3 }}
+              transition={{ delay: delay + 0.15 * i, duration: 0.7 }}
+              className={`flex ${m.side === 'out' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`px-3 py-2 max-w-[80%] border border-charcoal/20 ${
-                  line.speaker === 'me'
-                    ? 'bg-orange/10 rounded-2xl rounded-tr-sm'
-                    : 'bg-white rounded-2xl rounded-tl-sm'
-                }`}
-              >
-                <p className="font-letter text-lg text-charcoal">{line.text}</p>
+              <div className={`px-2.5 py-1 rounded-lg text-[10px] font-sans max-w-[80%] ${
+                m.side === 'out'
+                  ? 'bg-[#DCF8C6] text-[#0A0A0A]/65 rounded-tr-none'
+                  : 'bg-white text-[#0A0A0A]/55 rounded-tl-none border border-charcoal/6'
+              }`}>
+                {m.msg}
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Handwritten annotation */}
-        <div className="mx-6 mb-2">
-          <motion.svg
-            className="w-full h-6"
-            viewBox="0 0 300 20"
-            aria-hidden="true"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <motion.path
-              d="M 10 10 Q 80 5 150 10 Q 220 15 290 8"
-              fill="none"
-              stroke={panel.doodleColor}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            />
-          </motion.svg>
-          <p className="font-handwriting text-lg text-coffee/60 italic text-center -mt-1">
-            {panel.handwrittenCaption}
-          </p>
-        </div>
-
-        {/* Close button */}
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 bg-charcoal text-warm-white flex items-center justify-center text-sm font-bold hover:bg-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-          style={{ boxShadow: '2px 2px 0 #2D2D2D' }}
-          aria-label="Close panel"
-        >
-          ✕
-        </button>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
-// ─── Secret memory card ──────────────────────────────────────────────────────
+// ─── INTERACTIVE 2: Surprise Lunch ────────────────────────────────────────────
+// A folded paper bag. When opened — three lines. No drama. Just kindness.
 
-function SecretCard({ onClose }: { onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const { secretMemory } = chapter3Data;
-
-  useEffect(() => {
-    closeRef.current?.focus();
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+function LunchWrapper({ delay }: { delay: number }) {
+  const [opened, setOpened] = useState(false);
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Secret memory"
+      initial={{ opacity: 0, rotate: -1.5 }}
+      animate={{ opacity: 1, rotate: -1.5 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 184 }}
     >
-      <div className="absolute inset-0 bg-navy/50 backdrop-blur-sm" />
-
-      <motion.div
-        className="relative bg-[#FFFDE7] border-[3px] border-charcoal max-w-sm w-full p-8 rounded-sm"
-        style={{ boxShadow: '10px 10px 0 #2D2D2D', rotate: '-1deg' }}
-        variants={modalVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        onClick={(e) => e.stopPropagation()}
+      <div className="absolute -top-3 right-3 w-14 h-4 washi-tape rotate-[1deg]" />
+      <div
+        className="overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/20"
+        onClick={() => setOpened(v => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={opened ? 'Close lunch wrapper' : 'Open lunch wrapper'}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
-        {/* Star burst decoration */}
-        <div
-          className="absolute -top-5 -left-5 text-3xl animate-slow-spin pointer-events-none"
-          aria-hidden="true"
-        >
-          ✨
-        </div>
-        <div
-          className="absolute -top-3 -right-4 text-2xl pointer-events-none"
-          style={{ rotate: '20deg', display: 'inline-block' }}
-          aria-hidden="true"
-        >
-          🌟
-        </div>
-
-        <p className="font-handwriting text-2xl text-orange mb-1">{secretMemory.title}</p>
-        <p className="font-letter text-sm text-coffee/60 uppercase tracking-widest mb-4">
-          {secretMemory.caption}
-        </p>
-
-        <div className="border-t-2 border-charcoal/10 pt-4">
-          <p className="font-quote text-xl text-charcoal leading-relaxed">{secretMemory.content}</p>
+        {/* Paper bag */}
+        <div className="bg-[#C8924A]/20 border border-[#C8924A]/25 px-4 py-3 relative">
+          {/* Bag folds */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-[#C8924A]/15 border-b border-[#C8924A]/20" />
+          <div className="flex items-center justify-between pt-1">
+            <div>
+              <p className="font-handwriting text-sm text-[#7C4A0A]/60">Surprise 🍱</p>
+              <p className="font-sans text-[9px] text-charcoal/30 mt-0.5">tap to open</p>
+            </div>
+            <motion.span
+              animate={{ rotate: opened ? 90 : 0 }}
+              transition={{ duration: 0.4 }}
+              className="text-base opacity-30"
+              aria-hidden="true"
+            >▷</motion.span>
+          </div>
         </div>
 
-        <motion.div
-          className="mt-5 bg-orange/10 border border-orange/30 px-4 py-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <p className="font-handwriting text-2xl text-coffee italic">
-            "{secretMemory.handwrittenNote}"
-          </p>
-        </motion.div>
-
-        {/* Drawn underline */}
-        <motion.svg className="w-full h-4 mt-2" viewBox="0 0 280 12" aria-hidden="true">
-          <motion.path
-            d="M 5 8 Q 70 2 140 8 Q 210 14 275 6"
-            fill="none"
-            stroke="#D4844A"
-            strokeWidth="2"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
-        </motion.svg>
-
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 bg-charcoal text-warm-white flex items-center justify-center text-sm font-bold hover:bg-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-          style={{ boxShadow: '2px 2px 0 #2D2D2D' }}
-          aria-label="Close secret memory"
-        >
-          ✕
-        </button>
-      </motion.div>
+        {/* Contents — revealed on open */}
+        <AnimatePresence>
+          {opened && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="bg-[#FEFCE8] border border-t-0 border-[#C8924A]/20 px-5 py-4">
+                {[
+                  { text: 'I brought you lunch...', delay: 0.1 },
+                  { text: 'Sorry...', delay: 0.5 },
+                  { text: 'It\'s okay madam.', delay: 0.9, style: 'italic text-coffee/55' },
+                ].map((line, i) => (
+                  <motion.p
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: line.delay, duration: 0.9 }}
+                    className={`font-letter text-sm text-charcoal/65 leading-relaxed ${line.style || ''}`}
+                  >
+                    {line.text}
+                  </motion.p>
+                ))}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.4, duration: 1 }}
+                  className="font-handwriting text-[10px] text-charcoal/32 mt-3 text-right italic"
+                >
+                  I wish you had eaten.
+                </motion.p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.div>
   );
 }
 
-// ─── Main component ──────────────────────────────────────────────────────────
+// ─── STATIC: Bus Ticket ───────────────────────────────────────────────────────
+
+function BusTicket({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 2 }}
+      animate={{ opacity: 1, rotate: 2 }}
+      transition={{ delay, duration: 0.9 }}
+      style={{ width: 160 }}
+    >
+      <div className="bg-[#F5F5DC] border border-charcoal/12 shadow-sm overflow-hidden">
+        {/* Header */}
+        <div className="bg-[#2D4A8A]/12 px-3 py-1.5 border-b border-charcoal/8">
+          <p className="font-sans text-[8px] tracking-widest uppercase text-charcoal/35 text-center">BMTC</p>
+        </div>
+        {/* Chat as ticket text */}
+        <div className="px-3 py-2.5 space-y-1">
+          <div className="flex justify-end">
+            <p className="font-sans text-[9px] text-charcoal/50 bg-[#DCF8C6]/60 px-2 py-0.5 rounded-sm">I reached PG.</p>
+          </div>
+          <div className="flex justify-start">
+            <p className="font-sans text-[9px] text-charcoal/45 bg-white/60 px-2 py-0.5 rounded-sm border border-charcoal/5">Got bus?</p>
+          </div>
+          <div className="flex justify-end">
+            <p className="font-sans text-[9px] text-charcoal/50 bg-[#DCF8C6]/60 px-2 py-0.5 rounded-sm">Almost ITPL.</p>
+          </div>
+        </div>
+        {/* Perforated bottom */}
+        <div className="border-t border-dashed border-charcoal/12 mx-2 mb-1" />
+        <p className="font-handwriting text-[8px] text-charcoal/20 text-center pb-1.5">The same route. Every day.</p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── STATIC: Birthday Polaroid ────────────────────────────────────────────────
+// 11 March. Outside. Sunset. Pink flower. She's smiling.
+
+function BirthdayPolaroid({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: -2.5 }}
+      animate={{ opacity: 1, rotate: -2.5 }}
+      transition={{ delay, duration: 1.1 }}
+      className="relative"
+    >
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 washi-tape rotate-[1deg]" />
+      <div className="bg-white p-2 pb-8 shadow-lg border border-charcoal/5" style={{ width: 168 }}>
+        <img
+          src={birthdayPhoto}
+          alt="Naresh and Meghana outside on her birthday, sunset, holding a pink flower"
+          className="w-full object-cover"
+          style={{ height: 180, objectPosition: 'center top' }}
+        />
+      </div>
+      <div className="mt-2 px-1">
+        <p className="font-handwriting text-[10px] text-charcoal/38 text-center">11 March 2026</p>
+        <p className="font-quote text-[11px] text-charcoal/52 italic text-center leading-snug mt-1">
+          Sometimes the best moments were<br />simply finding each other.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── INTERACTIVE 3: Washi Tape — Deleted Message ──────────────────────────────
+// Lift the tape. WhatsApp deletion. Tap again. Silence.
+
+function WashiHidden({ delay }: { delay: number }) {
+  const [phase, setPhase] = useState<'covered' | 'deleted' | 'reflection'>('covered');
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 200 }}
+    >
+      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm overflow-hidden">
+        {/* WhatsApp-style conversation */}
+        <div className="px-3 py-3">
+          {phase === 'covered' && (
+            <div
+              className="relative cursor-pointer"
+              onClick={() => setPhase('deleted')}
+              role="button"
+              tabIndex={0}
+              aria-label="Lift the tape"
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPhase('deleted'); } }}
+            >
+              <div className="flex justify-end mb-1.5">
+                <div className="bg-[#DCF8C6] px-2.5 py-1 rounded-lg rounded-tr-none text-[10px] text-charcoal/60 max-w-[80%]">
+                  ...
+                </div>
+              </div>
+              {/* Washi tape covering the message */}
+              <div className="relative">
+                <div className="washi-tape w-full h-6 flex items-center justify-center" style={{ opacity: 0.7 }}>
+                  <p className="font-handwriting text-[9px] text-charcoal/40">lift ↑</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {phase === 'deleted' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="cursor-pointer"
+              onClick={() => setPhase('reflection')}
+              role="button"
+              tabIndex={0}
+              aria-label="Continue"
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPhase('reflection'); } }}
+            >
+              <div className="flex justify-end mb-1.5">
+                <div className="bg-[#DCF8C6] px-2.5 py-1 rounded-lg rounded-tr-none text-[10px] text-charcoal/60 max-w-[80%]">
+                  ...
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <div className="flex items-center gap-1.5 bg-[#DCF8C6] px-2.5 py-1.5 rounded-lg rounded-tr-none max-w-[88%] border border-charcoal/5">
+                  <span className="text-[11px] text-charcoal/28" aria-hidden="true">🚫</span>
+                  <p className="font-sans text-[9px] text-charcoal/35 italic">You deleted this message</p>
+                </div>
+              </div>
+              <p className="font-handwriting text-[8px] text-charcoal/22 text-right mt-1.5">tap to continue</p>
+            </motion.div>
+          )}
+
+          {phase === 'reflection' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4 }}
+              className="py-2 text-center"
+            >
+              <p className="font-quote text-sm text-charcoal/52 italic leading-relaxed">
+                Some things<br />didn't need words.
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Chapter Three ────────────────────────────────────────────────────────────
 
 export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
-  const [openPanel, setOpenPanel] = useState<ComicPanel | null>(null);
-  const [secretFound, setSecretFound] = useState(false);
-  const [showSecret, setShowSecret] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-
-  const { comicPanels, chatBubbles, stickers, reactionCards, insideJokes, quote, attribution } =
-    chapter3Data;
-
-  const handleSecretClick = () => {
-    setSecretFound(true);
-    setShowSecret(true);
+  const slideVariants = {
+    initial: { x: '100%', opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: '-100%', opacity: 0 },
   };
 
   return (
-    <>
-      <motion.div
-        className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden"
-        style={{ backgroundColor: '#FBF8F2' }}
-        variants={shouldReduceMotion ? {} : pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 0.9, ease: [0.77, 0, 0.175, 1] }}
-        aria-label="Chapter Three: The Way We Made Each Other Laugh"
-      >
-        {/* Global comic texture */}
-        <BenDayDots color="#D4844A" opacity={0.04} />
+    <motion.div
+      className="absolute inset-0 bg-soft-beige w-full h-full overflow-y-auto overflow-x-hidden paper-texture"
+      variants={slideVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+    >
+      <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-[#FFF6EC]/40 to-transparent pointer-events-none" />
 
-        {/* Comic border frame */}
-        <div
-          className="absolute inset-3 pointer-events-none border-[3px] border-charcoal/8 rounded-sm"
-          aria-hidden="true"
-        />
+      <div className="max-w-6xl mx-auto min-h-full p-6 md:p-12 flex flex-col md:flex-row gap-0">
 
-        {/* ── Two-page spread container ───────────────────────────── */}
-        <div className="min-h-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-0 lg:gap-0">
+        {/* ═══════════ LEFT PAGE ═══════════ */}
+        <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-12 flex flex-col py-8 z-10 relative">
 
-          {/* ══════════ LEFT PAGE ══════════ */}
-          <div className="flex-1 lg:border-r-[3px] lg:border-charcoal/20 lg:pr-8 pb-8 lg:pb-0 flex flex-col gap-6">
+          {/* Background texture details */}
+          <div className="absolute top-28 left-3 w-14 h-14 rounded-full border border-[#C8924A]/10 pointer-events-none"
+            style={{ boxShadow: 'inset 0 0 0 4px rgba(200,146,74,0.04)' }} aria-hidden="true" />
+          <svg className="absolute top-52 left-0 opacity-12 pointer-events-none" width="14" height="38" viewBox="0 0 14 38" aria-hidden="true">
+            <path d="M7 2 Q13 2 13 8 L13 30 Q13 36 7 36 Q1 36 1 30 L1 10 Q1 6 4 6 Q7 6 7 10 L7 28 Q7 32 5 32" fill="none" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          {/* Dried flower */}
+          <div className="absolute bottom-52 left-1 text-xs opacity-12 pointer-events-none" aria-hidden="true">🌸</div>
 
-            {/* Chapter header */}
-            <motion.div
-              className="pt-6"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.7 }}
-            >
-              <p className="font-sans text-xs tracking-[0.3em] uppercase text-coffee/50 mb-1">
-                {chapter3Data.chapterNumber}
-              </p>
-              <h2 className="font-display text-4xl md:text-5xl text-charcoal leading-tight">
-                {chapter3Data.title}
-              </h2>
-              {/* Drawn underline */}
-              <motion.svg
-                className="w-48 h-5 mt-1"
-                viewBox="0 0 200 16"
-                aria-hidden="true"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <motion.path
-                  d="M 0 10 C 40 4, 80 14, 120 8 S 180 12, 200 8"
-                  fill="none"
-                  stroke="#D4844A"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.2, delay: 0.4 }}
-                />
-              </motion.svg>
-            </motion.div>
+          {/* Chapter header */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="mb-6">
+            <p className="font-sans text-xs tracking-[0.38em] uppercase text-brown/38 mb-2">Chapter Three</p>
+            <p className="font-handwriting text-xl text-coffee/48 mb-1">March 2026</p>
+            <h2 className="font-display text-3xl md:text-4xl text-coffee font-light leading-snug">
+              When Everyday<br />Became Home
+            </h2>
+            <motion.svg className="w-40 h-4 mt-2" viewBox="0 0 160 12" aria-hidden="true">
+              <motion.path d="M 0 8 C 35 3, 80 11, 120 6 S 150 9, 160 7"
+                fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                transition={{ duration: 1.8, delay: 0.8, ease: 'easeOut' }} />
+            </motion.svg>
+          </motion.div>
 
-            {/* Intro text with handwritten annotation */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <p className="font-quote text-xl text-charcoal/80 leading-relaxed max-w-md">
-                {chapter3Data.intro}
-              </p>
+          <DateLine date="Early March 2026" delay={0.8} />
 
-              {/* Handwritten annotation arrow */}
-              <div className="absolute -right-4 top-0 hidden md:block" aria-hidden="true">
-                <svg width="80" height="60" viewBox="0 0 80 60">
-                  <motion.path
-                    d="M 10 10 C 30 5, 50 30, 65 50"
-                    fill="none"
-                    stroke="#C9A84C"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeDasharray="4 3"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, delay: 0.8 }}
-                  />
-                  <motion.path
-                    d="M 58 46 L 65 50 L 61 42"
-                    fill="none"
-                    stroke="#C9A84C"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 2 }}
-                  />
-                </svg>
-                <p
-                  className="font-handwriting text-base text-golden/80"
-                  style={{ rotate: '10deg', marginTop: '-8px' }}
-                >
-                  yes, really
-                </p>
-              </div>
-            </motion.div>
+          {/* THE LETTER — centerpiece of left page */}
+          <div className="relative mb-6">
+            <FoldedLetter delay={1.0} />
+          </div>
 
-            {/* ── Comic strip ──────────────────────────────────────── */}
-            <div className="flex flex-col gap-0">
-              {/* Comic strip label */}
-              <motion.div
-                className="flex items-center gap-3 mb-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                <div
-                  className="font-display text-sm font-black px-3 py-1 text-warm-white"
-                  style={{ backgroundColor: '#2D2D2D', letterSpacing: '0.1em' }}
-                >
-                  THE STRIP
-                </div>
-                <div className="h-px flex-1 bg-charcoal/15" />
-              </motion.div>
-
-              {/* Panels grid — 2×2 with the bottom spanning full */}
-              <div className="grid grid-cols-2 gap-[3px] bg-charcoal/20">
-                {comicPanels.slice(0, 2).map((panel, i) => (
-                  <Panel key={panel.id} panel={panel} index={i} onClick={setOpenPanel} />
-                ))}
-                {comicPanels.slice(2, 4).map((panel, i) => (
-                  <Panel key={panel.id} panel={panel} index={i + 2} onClick={setOpenPanel} />
-                ))}
-              </div>
-
-              {/* Annotation below strip */}
-              <motion.div
-                className="mt-3 flex items-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.4 }}
-              >
-                <svg width="24" height="20" viewBox="0 0 24 20" aria-hidden="true">
-                  <motion.path
-                    d="M 2 2 C 10 8, 14 12, 22 18"
-                    fill="none"
-                    stroke="#D4844A"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 1.6 }}
-                  />
-                </svg>
-                <p className="font-handwriting text-lg text-coffee/60 italic">
-                  tap any panel to read the full story
-                </p>
-              </motion.div>
+          {/* Movie ticket + handwriting strip — side by side */}
+          <DateLine date="Mid March 2026" delay={1.6} />
+          <div className="flex gap-4 items-start flex-wrap mb-5">
+            <div className="relative">
+              <MovieTicket delay={1.8} />
             </div>
-
-            {/* Inside jokes list */}
-            <motion.div
-              className="mt-2 border-l-4 border-orange pl-4 py-2"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <p className="font-display text-base text-coffee mb-2">The canon inside jokes:</p>
-              <ul className="space-y-1" aria-label="Inside jokes">
-                {insideJokes.map((joke, i) => (
-                  <motion.li
-                    key={i}
-                    className="font-handwriting text-xl text-charcoal/75 flex items-start gap-2"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                  >
-                    <span className="text-orange mt-0.5 flex-shrink-0">•</span>
-                    {joke}
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Quote */}
-            <motion.blockquote
-              className="mt-auto pt-4 border-t border-charcoal/10"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <p className="font-quote text-lg text-charcoal/60 italic leading-relaxed">
-                {quote}
-              </p>
-              <footer className="font-handwriting text-base text-coffee/50 mt-1">{attribution}</footer>
-            </motion.blockquote>
-
-            {/* Page navigation */}
-            <div className="flex gap-4 pt-4 pb-2">
-              <button
-                onClick={onPrev}
-                className="font-handwriting text-xl text-coffee/60 hover:text-coffee transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-                aria-label="Previous chapter"
-              >
-                ← back
-              </button>
-              <button
-                onClick={onNext}
-                className="font-handwriting text-xl text-orange hover:text-coffee transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 ml-auto"
-                aria-label="Next chapter"
-              >
-                next chapter →
-              </button>
+            <div className="relative flex-1 min-w-[140px]">
+              <HandwritingStrip delay={2.2} />
             </div>
           </div>
 
-          {/* Gutter line decoration */}
-          <div className="hidden lg:flex flex-col items-center px-3 py-8 gap-2" aria-hidden="true">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="w-px h-4 bg-charcoal/10" />
-            ))}
+          {/* Tobby */}
+          <DateLine date="March 2026" delay={2.6} />
+          <div className="mb-4">
+            <TobbyPolaroid delay={2.8} />
           </div>
 
-          {/* ══════════ RIGHT PAGE ══════════ */}
-          <div className="flex-1 lg:pl-8 flex flex-col gap-6 pb-8">
-
-            {/* Right page header */}
-            <motion.div
-              className="pt-6 flex items-center justify-between"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <p className="font-handwriting text-2xl text-coffee/60 italic">...and then we laughed</p>
-              {/* Hidden smiley easter egg */}
-              <motion.button
-                className="text-[10px] text-charcoal/8 hover:text-charcoal/40 transition-colors duration-500 cursor-pointer select-none focus-visible:outline-none focus-visible:text-orange"
-                onClick={handleSecretClick}
-                whileHover={{ scale: 1.5 }}
-                aria-label="A tiny smiley face"
-                title="You found it! ☺"
-              >
-                ☺
-              </motion.button>
-            </motion.div>
-
-            {/* ── Chat bubbles ───────────────────────────────────── */}
-            <div>
-              <motion.p
-                className="font-handwriting text-xl text-coffee/50 mb-3 italic"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                actual things we said:
-              </motion.p>
-
-              <div className="space-y-3" role="log" aria-label="Chat conversation">
-                {chatBubbles.map((bubble, i) => (
-                  <motion.div
-                    key={bubble.id}
-                    className={`flex ${bubble.sender === 'us' ? 'justify-end' : 'justify-start'}`}
-                    custom={i}
-                    variants={chatVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    <motion.div
-                      className={`
-                        relative px-4 py-2.5 max-w-[85%] border-2 border-charcoal
-                        ${bubble.sender === 'us'
-                          ? 'bg-orange/15 rounded-2xl rounded-tr-none'
-                          : 'bg-white rounded-2xl rounded-tl-none'
-                        }
-                      `}
-                      style={{ boxShadow: '2px 2px 0 rgba(45,45,45,0.2)' }}
-                      whileHover={
-                        shouldReduceMotion ? {} : { scale: 1.02, transition: { duration: 0.15 } }
-                      }
-                    >
-                      <p className="font-letter text-xl text-charcoal">{bubble.text}</p>
-                      {bubble.reaction && (
-                        <span className="absolute -bottom-3 right-2 text-base">{bubble.reaction}</span>
-                      )}
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Emoji stickers ─────────────────────────────────── */}
-            <div>
-              <motion.p
-                className="font-handwriting text-xl text-coffee/50 italic mb-3"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-              >
-                filed under:
-              </motion.p>
-              <div
-                className="flex flex-wrap gap-4 items-end"
-                role="list"
-                aria-label="Emoji stickers"
-              >
-                {stickers.map((sticker, i) => (
-                  <div key={sticker.id} role="listitem">
-                    <Sticker sticker={sticker} index={i} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Reaction cards ─────────────────────────────────── */}
-            <div>
-              <motion.div
-                className="flex items-center gap-3 mb-3"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
-                <div
-                  className="font-display text-sm font-black px-3 py-1 text-warm-white"
-                  style={{ backgroundColor: '#2D2D2D', letterSpacing: '0.1em' }}
-                >
-                  REACTIONS
-                </div>
-                <div className="h-px flex-1 bg-charcoal/15" />
-              </motion.div>
-
-              <div className="flex flex-wrap gap-3" role="list" aria-label="Reaction cards">
-                {reactionCards.map((card, i) => (
-                  <motion.div
-                    key={card.id}
-                    className="flex items-center gap-2 px-4 py-2 border-2 border-charcoal rounded-full"
-                    style={{
-                      backgroundColor: card.color,
-                      boxShadow: '3px 3px 0 #2D2D2D',
-                    }}
-                    custom={i}
-                    variants={popVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    whileHover={shouldReduceMotion ? {} : { y: -2, transition: { duration: 0.15 } }}
-                    role="listitem"
-                    aria-label={`${card.emoji} ${card.label}: ${card.count}`}
-                  >
-                    <span className="text-xl">{card.emoji}</span>
-                    <span className="font-letter text-lg text-charcoal">{card.label}</span>
-                    <span
-                      className="font-display text-sm font-black text-charcoal/50 ml-1"
-                    >
-                      {card.count}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Doodle area ────────────────────────────────────── */}
-            <motion.div
-              className="relative flex-1 min-h-[120px] border-2 border-dashed border-charcoal/15 rounded-sm overflow-hidden"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              aria-hidden="true"
-            >
-              <BenDayDots color="#6F4E37" opacity={0.05} />
-
-              {/* Spiral doodle */}
-              <svg className="absolute bottom-4 right-6 w-20 h-20 opacity-30" viewBox="0 0 80 80">
-                <motion.path
-                  d="M 40 40 C 40 30, 50 25, 55 35 C 60 45, 55 58, 40 60 C 25 62, 15 50, 18 35 C 21 20, 35 12, 50 15 C 65 18, 72 30, 68 45"
-                  fill="none"
-                  stroke="#D4844A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 2, delay: 0.5 }}
-                />
-              </svg>
-
-              {/* Stars */}
-              {[
-                { x: '15%', y: '30%', delay: 0.5, size: 16 },
-                { x: '55%', y: '20%', delay: 0.7, size: 12 },
-                { x: '30%', y: '65%', delay: 0.9, size: 14 },
-                { x: '75%', y: '50%', delay: 1.1, size: 10 },
-              ].map((star, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute text-golden/50"
-                  style={{ left: star.x, top: star.y, fontSize: star.size }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: star.delay, type: 'spring', bounce: 0.6 }}
-                >
-                  ★
-                </motion.div>
-              ))}
-
-              {/* Center text */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="font-handwriting text-2xl text-coffee/20 italic text-center px-4">
-                  "the world is funnier when you're in it with the right person"
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Secret found badge */}
-            <AnimatePresence>
-              {secretFound && (
-                <motion.div
-                  className="mt-2 flex items-center gap-2 px-4 py-2 bg-[#FFFDE7] border-2 border-golden/40 rounded-full self-start cursor-pointer"
-                  initial={{ opacity: 0, scale: 0.7, x: -20 }}
-                  animate={{ opacity: 1, scale: 1, x: 0 }}
-                  exit={{ opacity: 0, scale: 0.7 }}
-                  onClick={() => setShowSecret(true)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Open secret memory"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setShowSecret(true);
-                    }
-                  }}
-                  style={{ boxShadow: '2px 2px 0 rgba(201,168,76,0.4)' }}
-                >
-                  <span>✨</span>
-                  <span className="font-handwriting text-xl text-coffee/80">
-                    you found something...
-                  </span>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          {/* Navigation */}
+          <div className="flex items-center justify-between pt-6 mt-auto border-t border-charcoal/10">
+            <button onClick={onPrev} className="font-sans text-xs text-charcoal/35 hover:text-coffee transition-colors tracking-widest uppercase">← Chapter Two</button>
+            <button onClick={onNext} className="font-sans text-xs text-charcoal/45 hover:text-coffee transition-colors tracking-widest uppercase">Next →</button>
           </div>
         </div>
-      </motion.div>
 
-      {/* ── Panel modal ─── */}
-      <AnimatePresence>
-        {openPanel && (
-          <PanelModal panel={openPanel} onClose={() => setOpenPanel(null)} />
-        )}
-      </AnimatePresence>
+        {/* ═══════════ RIGHT PAGE — organic scatter ═══════════ */}
+        <div className="flex-1 md:pl-12 py-8">
 
-      {/* ── Secret memory card ─── */}
-      <AnimatePresence>
-        {showSecret && (
-          <SecretCard onClose={() => setShowSecret(false)} />
-        )}
-      </AnimatePresence>
-    </>
+          {/* Desktop organic scatter */}
+          <div className="hidden md:block relative" style={{ minHeight: 800 }}>
+            {/* Daily care strips — top area */}
+            <div style={{ position: 'absolute', top: 0, left: 0 }}>
+              <DailyCareStrips delay={1.2} />
+            </div>
+            {/* Lunch wrapper — top right */}
+            <div style={{ position: 'absolute', top: 20, left: 220 }}>
+              <LunchWrapper delay={1.6} />
+            </div>
+            {/* Bus ticket — mid left */}
+            <div style={{ position: 'absolute', top: 230, left: 10 }}>
+              <BusTicket delay={2.0} />
+            </div>
+            {/* Birthday polaroid — mid right */}
+            <div style={{ position: 'absolute', top: 190, left: 200 }}>
+              <BirthdayPolaroid delay={2.4} />
+            </div>
+            {/* Washi hidden — lower left */}
+            <div style={{ position: 'absolute', top: 430, left: 5 }}>
+              <WashiHidden delay={2.8} />
+            </div>
+
+            {/* Ending — bottom, centered */}
+            <motion.div
+              style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 5, duration: 2.5 }}
+            >
+              <div className="border-t border-charcoal/8 pt-6 text-center">
+                <p className="font-quote text-base text-charcoal/48 italic leading-loose">
+                  March wasn't special<br />because something big happened.
+                </p>
+                <p className="font-quote text-base text-charcoal/55 italic leading-loose mt-2">
+                  It was special because<br />
+                  <em className="font-display text-coffee/65 not-italic">ordinary</em><br />
+                  started feeling like home.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Mobile: natural flow */}
+          <div className="flex flex-col gap-7 md:hidden">
+            <DailyCareStrips delay={1.2} />
+            <LunchWrapper delay={1.5} />
+            <BusTicket delay={1.8} />
+            <BirthdayPolaroid delay={2.1} />
+            <WashiHidden delay={2.4} />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 4, duration: 2.5 }}
+              className="border-t border-charcoal/8 pt-6 text-center"
+            >
+              <p className="font-quote text-base text-charcoal/48 italic leading-loose">
+                March wasn't special<br />because something big happened.
+              </p>
+              <p className="font-quote text-base text-charcoal/55 italic leading-loose mt-2">
+                It was special because<br />
+                <em className="font-display text-coffee/65 not-italic">ordinary</em><br />
+                started feeling like home.
+              </p>
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </motion.div>
   );
 }
