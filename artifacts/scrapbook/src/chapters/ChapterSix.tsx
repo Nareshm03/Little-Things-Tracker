@@ -1,890 +1,622 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChapterProps } from '../App';
-import { chapter6Data, SealedLetter } from '../data/chapters/chapter6';
 
-// ─── Stable seeded random ────────────────────────────────────────────────────
-function sr(seed: number): number {
-  const x = Math.sin(seed + 1) * 10000;
-  return x - Math.floor(x);
-}
-
-// ─── Page variants ───────────────────────────────────────────────────────────
-const pageVariants = {
-  initial: { opacity: 0, filter: 'blur(6px)' },
-  animate: { opacity: 1, filter: 'blur(0px)' },
-  exit:    { opacity: 0, filter: 'blur(8px)' },
-};
-
-// ─── Star field ──────────────────────────────────────────────────────────────
-function StarField({
-  count,
-  specialIndex,
-  onSpecialClick,
-  shotFired,
-}: {
-  count: number;
-  specialIndex: number;
-  onSpecialClick: () => void;
-  shotFired: boolean;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-  const stars = useMemo(
-    () =>
-      Array.from({ length: count }, (_, i) => ({
-        id: i,
-        x: sr(i * 7) * 100,
-        y: sr(i * 11) * 75,
-        size: sr(i * 3) < 0.7 ? 1.5 : sr(i * 3) < 0.9 ? 2.5 : 3.5,
-        opacity: 0.3 + sr(i * 5) * 0.7,
-        delay: sr(i * 13) * 4,
-        dur: 2.5 + sr(i * 17) * 3,
-      })),
-    [count]
-  );
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden={!shotFired}>
-      {stars.map((s, i) => {
-        const isSpecial = i === specialIndex;
-        return (
-          <motion.div
-            key={s.id}
-            className={`absolute rounded-full ${isSpecial ? 'pointer-events-auto cursor-pointer' : 'pointer-events-none'}`}
-            style={{
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              width: isSpecial ? 7 : s.size,
-              height: isSpecial ? 7 : s.size,
-              backgroundColor: isSpecial ? '#FFD700' : 'white',
-              boxShadow: isSpecial ? '0 0 8px 3px rgba(255,215,0,0.5)' : 'none',
-            }}
-            animate={
-              shouldReduceMotion
-                ? {}
-                : {
-                    opacity: [s.opacity, s.opacity * 0.25, s.opacity],
-                    scale: [1, 0.7, 1],
-                  }
-            }
-            transition={{
-              duration: s.dur,
-              repeat: Infinity,
-              delay: s.delay,
-              ease: 'easeInOut',
-            }}
-            onClick={isSpecial ? onSpecialClick : undefined}
-            role={isSpecial ? 'button' : undefined}
-            tabIndex={isSpecial ? 0 : undefined}
-            aria-label={isSpecial ? 'A special star — click it' : undefined}
-            onKeyDown={
-              isSpecial
-                ? (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      onSpecialClick();
-                    }
-                  }
-                : undefined
-            }
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Shooting-star animation ─────────────────────────────────────────────────
-function ShootingStar({ onDone }: { onDone: () => void }) {
-  return (
-    <motion.div
-      className="fixed pointer-events-none z-40"
-      style={{ top: '18%', left: '55%' }}
-      initial={{ x: 0, y: 0, opacity: 1 }}
-      animate={{ x: 260, y: 140, opacity: 0 }}
-      transition={{ duration: 1.1, ease: 'easeIn' }}
-      onAnimationComplete={onDone}
-      aria-hidden="true"
-    >
-      <div
-        className="h-px bg-gradient-to-r from-transparent via-yellow-200 to-white"
-        style={{ width: 120, transform: 'rotate(30deg)', filter: 'blur(0.5px)' }}
-      />
-    </motion.div>
-  );
-}
-
-// ─── Moon ────────────────────────────────────────────────────────────────────
-function Moon() {
-  const shouldReduceMotion = useReducedMotion();
-  return (
-    <motion.div
-      className="absolute top-8 right-12 md:top-14 md:right-20 w-24 h-24 rounded-full pointer-events-none"
-      style={{
-        background: 'radial-gradient(ellipse at 35% 35%, #F8F5E8 0%, #D4CC9A 60%, #B8B070 100%)',
-        boxShadow: '0 0 60px 20px rgba(240,238,228,0.15), 0 0 120px 40px rgba(240,238,228,0.07)',
-      }}
-      animate={shouldReduceMotion ? {} : { boxShadow: [
-        '0 0 60px 20px rgba(240,238,228,0.15), 0 0 120px 40px rgba(240,238,228,0.07)',
-        '0 0 80px 28px rgba(240,238,228,0.22), 0 0 160px 60px rgba(240,238,228,0.10)',
-        '0 0 60px 20px rgba(240,238,228,0.15), 0 0 120px 40px rgba(240,238,228,0.07)',
-      ]}}
-      transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-      aria-hidden="true"
-    >
-      {/* Craters */}
-      <div className="absolute top-5 left-5 w-5 h-5 rounded-full bg-black/8 blur-sm" />
-      <div className="absolute bottom-7 right-7 w-7 h-7 rounded-full bg-black/6 blur-sm" />
-      <div className="absolute top-12 right-5 w-3 h-3 rounded-full bg-black/5 blur-[2px]" />
-    </motion.div>
-  );
-}
-
-// ─── Drifting clouds ─────────────────────────────────────────────────────────
-function DriftingClouds() {
+// ─── Morning sunlight — very subtle top-right warm glow ───────────────────────
+function MorningSunlight() {
   const shouldReduceMotion = useReducedMotion();
   if (shouldReduceMotion) return null;
-  const clouds = [
-    { y: '8%', w: 180, opacity: 0.055, dur: 90, delay: 0, start: '-20%' },
-    { y: '22%', w: 260, opacity: 0.04, dur: 120, delay: 20, start: '-30%' },
-    { y: '38%', w: 140, opacity: 0.045, dur: 80, delay: 40, start: '-15%' },
-  ];
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {clouds.map((c, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full blur-3xl bg-hope"
-          style={{ top: c.y, width: c.w, height: c.w * 0.4, opacity: c.opacity, left: c.start }}
-          animate={{ x: ['0%', '130vw'] }}
-          transition={{ duration: c.dur, repeat: Infinity, delay: c.delay, ease: 'linear' }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// ─── Rain ────────────────────────────────────────────────────────────────────
-function Rain({ count = 28 }: { count?: number }) {
-  const shouldReduceMotion = useReducedMotion();
-  const drops = useMemo(
-    () =>
-      Array.from({ length: count }, (_, i) => ({
-        id: i,
-        left: sr(i * 9) * 100,
-        dur: 1.6 + sr(i * 3) * 1.2,
-        delay: sr(i * 7) * 3,
-        opacity: 0.06 + sr(i * 11) * 0.10,
-        height: 12 + sr(i * 5) * 14,
-      })),
-    [count]
-  );
-
-  if (shouldReduceMotion) return null;
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {drops.map((d) => (
-        <motion.div
-          key={d.id}
-          className="absolute w-px bg-hope/30"
-          style={{ left: `${d.left}%`, top: -20, height: d.height, opacity: d.opacity }}
-          animate={{ y: ['0vh', '105vh'] }}
-          transition={{ duration: d.dur, repeat: Infinity, delay: d.delay, ease: 'linear' }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// ─── Floating paper notes ────────────────────────────────────────────────────
-function FloatingNotes() {
-  const shouldReduceMotion = useReducedMotion();
-  const { floatingNotes } = chapter6Data;
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {floatingNotes.map((note) => (
-        <motion.div
-          key={note.id}
-          className="absolute bg-[#1E2D44] border border-hope/10 px-2 py-1 shadow-sm"
-          style={{ left: `${note.x}%`, top: `${note.y}%`, rotate: note.rotate }}
-          animate={
-            shouldReduceMotion
-              ? {}
-              : { y: [0, note.driftY, 0], opacity: [0.35, 0.6, 0.35] }
-          }
-          transition={{ duration: note.duration, repeat: Infinity, delay: note.delay, ease: 'easeInOut' }}
-        >
-          <p className="font-letter text-sm text-moonlight/50 whitespace-nowrap">{note.text}</p>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// ─── Paper clip SVG ──────────────────────────────────────────────────────────
-function PaperClip({ className = '' }: { className?: string }) {
-  return (
-    <svg width="16" height="48" viewBox="0 0 16 48" className={`opacity-50 ${className}`} aria-hidden="true">
-      <path
-        d="M 8 4 C 3 4 2 8 2 12 L 2 38 C 2 44 6 46 8 46 C 10 46 14 44 14 38 L 14 14 C 14 10 12 8 8 8 C 5 8 4 10 4 14 L 4 36 C 4 39 6 40 8 40 C 10 40 12 39 12 36 L 12 16"
-        fill="none"
-        stroke="#B8C9E1"
-        strokeWidth="1.5"
-        strokeLinecap="round"
+      <motion.div
+        className="absolute"
+        style={{
+          top: -60, right: -40, width: 520, height: 420,
+          background: 'radial-gradient(ellipse at 80% 20%, rgba(232,184,109,0.10) 0%, transparent 62%)',
+        }}
+        animate={{ opacity: [0.65, 1, 0.65] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
-    </svg>
+      <motion.div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at 25% 65%, rgba(255,255,255,0.05) 0%, transparent 55%)' }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+      />
+    </div>
   );
 }
 
-// ─── Wax seal ────────────────────────────────────────────────────────────────
-function WaxSeal({ color, glyph, broken, onClick }: {
-  color: string;
-  glyph: string;
-  broken: boolean;
-  onClick: () => void;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-  return (
-    <motion.button
-      className="relative flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hope focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-      style={{ backgroundColor: color, boxShadow: `0 0 0 3px ${color}44, 0 4px 12px rgba(0,0,0,0.4)` }}
-      onClick={onClick}
-      aria-label={broken ? 'Seal broken — letter open' : 'Click to break seal and open letter'}
-      whileHover={shouldReduceMotion || broken ? {} : { scale: 1.08 }}
-      transition={{ duration: 0.3 }}
-      disabled={broken}
-    >
-      {/* Seal texture rings */}
-      <div className="absolute inset-1 rounded-full border border-white/15" />
-      <div className="absolute inset-2.5 rounded-full border border-white/10" />
-
-      <AnimatePresence mode="wait">
-        {!broken ? (
-          <motion.span
-            key="sealed"
-            className="font-display text-xl text-white/90 font-bold select-none"
-            exit={
-              shouldReduceMotion
-                ? {}
-                : { scale: 1.6, opacity: 0, rotate: 20, transition: { duration: 0.35 } }
-            }
-          >
-            {glyph}
-          </motion.span>
-        ) : (
-          <motion.span
-            key="broken"
-            className="text-xl"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            aria-hidden="true"
-          >
-            ✦
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </motion.button>
-  );
-}
-
-// ─── Sealed letter ───────────────────────────────────────────────────────────
-function LetterCard({
-  letter,
-  index,
-}: {
-  letter: SealedLetter;
-  index: number;
-}) {
-  const [open, setOpen] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-  const delay = 0.4 + index * 0.25;
-
+// ─── Bucket list — torn paper strip ──────────────────────────────────────────
+function BucketList({ delay }: { delay: number }) {
   return (
     <motion.div
-      className="relative"
-      style={{ marginLeft: letter.offset > 0 ? `${Math.min(letter.offset, 48)}px` : 0 }}
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 206, rotate: '-1deg' }}
     >
-      {/* Paper clip at top corner */}
-      <PaperClip className="absolute -top-3 left-6 z-10" />
-
-      {/* Letter envelope / card */}
-      <div
-        className="relative border border-hope/12 overflow-hidden"
-        style={{ backgroundColor: '#1B2D42' }}
-      >
-        {/* Ink texture overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Sealed state header */}
-        <div className="flex items-center gap-4 p-5 pb-4">
-          <WaxSeal
-            color={letter.sealColor}
-            glyph={letter.sealGlyph}
-            broken={open}
-            onClick={() => setOpen(true)}
-          />
-          <div className="flex-1 min-w-0">
-            <p className="font-sans text-[10px] tracking-widest uppercase text-hope/35 mb-1">
-              {open ? 'letter opened' : 'sealed letter'}
+      <svg width="206" height="10" viewBox="0 0 206 10" className="w-full block" aria-hidden="true">
+        <path d="M0,8 C14,2 30,8 46,5 C62,2 78,8 94,4 C110,0 126,7 142,3 C158,0 176,6 206,5 L206,10 L0,10 Z"
+          fill="#FDFAF4" />
+      </svg>
+      <div className="bg-[#FDFAF4] border-x border-b border-charcoal/8 shadow-sm px-4 pb-4 pt-2.5">
+        <p className="font-sans text-[6.5px] tracking-[0.35em] uppercase text-charcoal/22 mb-2.5">Bucket List</p>
+        <div className="space-y-1.5">
+          {[
+            { text: 'Tirupati ride 🛕', checked: false },
+            { text: 'Passport', checked: false },
+            { text: 'IELTS', checked: false },
+            { text: 'Abroad', checked: false },
+            { text: 'Build something together', checked: false },
+          ].map(({ text, checked }, i) => (
+            <p key={i} className="font-handwriting text-[12px] text-charcoal/55 flex items-center gap-2">
+              <span className="text-[14px] text-charcoal/32">{checked ? '☑' : '☐'}</span>
+              {text}
             </p>
-            {!open && (
-              <p className="font-letter text-lg text-moonlight/50 italic truncate">
-                {letter.previewLine}
-              </p>
-            )}
-            {open && (
-              <motion.p
-                className="font-sans text-[10px] text-hope/40 italic"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                press Escape or click ✕ to fold
-              </motion.p>
-            )}
+          ))}
+          <div className="pt-0.5 border-t border-charcoal/8 mt-1">
+            <p className="font-handwriting text-[12px] text-[#3A5C82]/65 flex items-center gap-2">
+              <span className="text-[14px] text-[#3A5C82]/50">☑</span>
+              Stay together
+            </p>
           </div>
-          {open && (
-            <button
-              className="w-6 h-6 rounded-full border border-hope/20 text-hope/40 flex items-center justify-center text-xs hover:text-moonlight hover:border-hope/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hope"
-              onClick={() => setOpen(false)}
-              aria-label="Close letter"
-            >
-              ✕
-            </button>
-          )}
         </div>
-
-        {/* Unfolding letter body */}
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { scaleY: 0.08, opacity: 0 }
-              }
-              animate={{ scaleY: 1, opacity: 1 }}
-              exit={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { scaleY: 0.08, opacity: 0 }
-              }
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              style={{ transformOrigin: 'top' }}
-            >
-              {/* Fold crease line */}
-              <div className="mx-5 border-t border-hope/10 mb-4" aria-hidden="true" />
-
-              {/* Chat snippet */}
-              <div className="px-5 pb-3 space-y-2" role="log" aria-label="Letter chat snippet">
-                {letter.chatSnippet.map((line, i) => (
-                  <motion.div
-                    key={i}
-                    className={`flex ${line.speaker === 'me' ? 'justify-end' : 'justify-start'}`}
-                    initial={{ opacity: 0, x: line.speaker === 'me' ? 12 : -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
-                  >
-                    <div
-                      className={`px-3 py-1.5 max-w-[80%] ${
-                        line.speaker === 'me'
-                          ? 'bg-hope/10 border border-hope/15 rounded-2xl rounded-tr-sm'
-                          : 'bg-white/5 border border-white/8 rounded-2xl rounded-tl-sm'
-                      }`}
-                    >
-                      <p className="font-letter text-lg text-moonlight/80 leading-snug">{line.text}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Handwritten memory */}
-              <motion.div
-                className="mx-5 mb-5 pt-3 border-t border-hope/10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.55, duration: 0.8 }}
-              >
-                {/* Ink line */}
-                <svg className="w-full h-4 mb-2" viewBox="0 0 300 12" aria-hidden="true">
-                  <motion.path
-                    d="M 4 8 Q 75 3 150 8 Q 225 13 296 6"
-                    fill="none"
-                    stroke="#B8C9E1"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    opacity={0.35}
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
-                  />
-                </svg>
-                <p className="font-letter text-lg text-moonlight/65 italic leading-relaxed">
-                  "{letter.memory}"
-                </p>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </motion.div>
   );
 }
 
-// ─── Secret letter modal ─────────────────────────────────────────────────────
-function SecretLetterModal({ onClose }: { onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const { secretLetter } = chapter6Data;
+// ─── Passport photo — small, clipped with paperclip ───────────────────────────
+function PassportPhoto({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 0.9 }}
+      className="relative"
+      style={{ width: 72 }}
+    >
+      <svg width="14" height="40" viewBox="0 0 14 40" className="absolute -top-2 left-5 z-10"
+        aria-hidden="true" style={{ opacity: 0.5 }}>
+        <path d="M 7 3 C 4 3 3 6 3 9 L 3 30 C 3 35 5 37 7 37 C 9 37 11 35 11 30 L 11 11 C 11 8 10 6 7 6 C 5 6 4 8 4 11 L 4 29 C 4 31 5 32 7 32 C 9 32 10 31 10 29 L 10 13"
+          fill="none" stroke="#8B9BAD" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+      <div className="bg-white border border-charcoal/8 shadow-sm" style={{ padding: '4px', rotate: '2deg' }}>
+        <div className="bg-[#E4EAF2] flex flex-col items-center justify-center" style={{ width: 64, height: 82 }}>
+          <p className="font-handwriting text-[19px] text-[#3A5C82]/55 leading-none">N</p>
+          <p className="font-handwriting text-[9px] text-charcoal/25 my-0.5">+</p>
+          <p className="font-handwriting text-[19px] text-[#3A5C82]/55 leading-none">M</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
-  useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
+// ─── "deal is deal." tiny sticky ─────────────────────────────────────────────
+function DealSticky({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.9 }}
+      style={{
+        backgroundColor: '#FFF9C4',
+        width: 100,
+        rotate: '3deg',
+        padding: '8px 10px 12px 10px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+      }}
+    >
+      <p className="font-handwriting text-[12px] text-charcoal/58 italic">deal is deal.</p>
+    </motion.div>
+  );
+}
+
+// ─── Passport folder — interaction 1 ─────────────────────────────────────────
+function PassportFolder({ delay }: { delay: number }) {
+  const [open, setOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.7 }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Secret letter"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 152, rotate: '1.5deg' }}
     >
-      <div className="absolute inset-0 bg-navy/70 backdrop-blur-md" />
-
       <motion.div
-        className="relative max-w-sm w-full border border-hope/15 overflow-hidden"
-        style={{ backgroundColor: '#1B2D42', boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}
-        initial={{ opacity: 0, scale: 0.88, y: 28 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 16 }}
-        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-        onClick={(e) => e.stopPropagation()}
+        className="relative cursor-pointer overflow-hidden"
+        style={{
+          background: 'linear-gradient(145deg, #1A3A5C 0%, #243B55 100%)',
+          borderRadius: 2,
+          boxShadow: open
+            ? '0 14px 36px rgba(0,0,0,0.24), 0 4px 12px rgba(0,0,0,0.12)'
+            : '0 4px 14px rgba(0,0,0,0.18)',
+        }}
+        onClick={() => setOpen(v => !v)}
+        role="button" tabIndex={0}
+        aria-label={open ? 'Close passport folder' : 'Open passport folder'}
+        aria-expanded={open}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(v => !v); } }}
       >
-        {/* Moon glow top accent */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(240,238,228,0.35), transparent)' }}
-          aria-hidden="true"
-        />
-
-        <div className="p-8">
-          {/* Star icon */}
-          <motion.div
-            className="text-2xl mb-4"
-            animate={{ rotate: [0, 15, -10, 5, 0], scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, delay: 0.4 }}
-            aria-hidden="true"
-          >
-            ✦
-          </motion.div>
-
-          <motion.p
-            className="font-handwriting text-2xl text-moonlight mb-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.9 }}
-          >
-            {secretLetter.title}
-          </motion.p>
-
-          {/* Ink divider */}
-          <svg className="w-full h-4 mb-4" viewBox="0 0 280 12" aria-hidden="true">
-            <motion.path
-              d="M 4 8 Q 70 3 140 8 Q 210 13 276 6"
-              fill="none"
-              stroke="#B8C9E1"
-              strokeWidth="1.3"
-              strokeLinecap="round"
-              opacity={0.3}
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.8, delay: 0.3, ease: 'easeOut' }}
-            />
-          </svg>
-
-          <motion.p
-            className="font-letter text-xl text-moonlight/75 leading-relaxed mb-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.55, duration: 1 }}
-          >
-            {secretLetter.body}
-          </motion.p>
-
-          {/* Second ink line */}
-          <svg className="w-full h-4 mb-3" viewBox="0 0 280 12" aria-hidden="true">
-            <motion.path
-              d="M 4 8 C 60 5, 120 10, 180 7 S 240 9, 276 6"
-              fill="none"
-              stroke="#B8C9E1"
-              strokeWidth="1.3"
-              strokeLinecap="round"
-              opacity={0.25}
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.4, delay: 0.9, ease: 'easeOut' }}
-            />
-          </svg>
-
-          <motion.p
-            className="font-handwriting text-xl text-hope/70 italic text-right"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-          >
-            {secretLetter.signOff}
-          </motion.p>
+        <div className="px-4 py-3 flex flex-col items-center gap-1">
+          <p className="font-sans text-[5.5px] tracking-[0.35em] uppercase text-white/28">Republic of India</p>
+          <div className="w-7 h-7 rounded-full border border-white/14 flex items-center justify-center my-0.5">
+            <p className="text-[13px]" aria-hidden="true">⚜️</p>
+          </div>
+          <p className="font-sans text-[7.5px] tracking-[0.2em] uppercase text-white/45">Passport</p>
+          {!open && (
+            <p className="font-handwriting text-[7px] text-white/18 italic mt-0.5">tap to open</p>
+          )}
         </div>
 
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-3 right-3 w-7 h-7 border border-hope/20 text-hope/40 flex items-center justify-center rounded-full text-sm hover:text-moonlight hover:border-hope/50 transition-colors duration-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hope focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-          aria-label="Close letter"
-        >
-          ✕
-        </button>
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { scaleY: 0, opacity: 0 }}
+              animate={{ scaleY: 1, opacity: 1 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { scaleY: 0, opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              style={{ transformOrigin: 'top' }}
+              className="bg-[#FDFCF8] border-t border-white/10 px-4 py-4"
+            >
+              <p className="font-sans text-[6px] tracking-[0.32em] uppercase text-charcoal/28 mb-2">Destination</p>
+              <p className="font-letter text-[22px] text-charcoal/55 leading-tight">Unknown.</p>
+              <p className="font-letter text-[20px] text-[#3A5C82]/58 mt-1">Together.</p>
+              <div className="mt-3 pt-2 border-t border-charcoal/8">
+                <p className="font-handwriting text-[8.5px] text-charcoal/24 italic">wherever it is, we go.</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );
 }
 
-// ─── Main component ──────────────────────────────────────────────────────────
-export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
-  const [shotFired, setShotFired] = useState(false);
-  const [showSecret, setShowSecret] = useState(false);
-  const [starFound, setStarFound] = useState(false);
+// ─── Bike route sketch — tracing paper lift, interaction 2 ────────────────────
+function BikeSketch({ delay }: { delay: number }) {
+  const [lifted, setLifted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
-  const { letters, pullQuote, attribution, moonMessage } = chapter6Data;
-
-  const SPECIAL_STAR_INDEX = 23;
-
-  const handleSpecialStar = () => {
-    if (shotFired) return;
-    setShotFired(true);
-    setStarFound(true);
-  };
-
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 182 }}
+    >
+      {/* Base: route map on paper */}
+      <div className="bg-[#FDFAF4] border border-charcoal/10 shadow-sm p-3" style={{ rotate: '-2deg' }}>
+        <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-charcoal/18 mb-1.5">Route Sketch</p>
+        <svg width="156" height="68" viewBox="0 0 156 68" aria-label="Bike route sketch from start to Tirupati">
+          <path d="M 8 58 C 30 52, 52 44, 72 34 C 92 24, 112 18, 134 20 C 148 21, 152 30, 150 42"
+            fill="none" stroke="#3A5C82" strokeWidth="1.5" strokeLinecap="round"
+            strokeDasharray="3 2.5" opacity="0.32" />
+          <path d="M 0 56 Q 22 38, 44 50 Q 60 60, 84 40 Q 104 22, 156 28"
+            fill="none" stroke="#8BA888" strokeWidth="0.9" opacity="0.16" strokeLinecap="round" />
+          <circle cx="8" cy="58" r="2.5" fill="#3A5C82" opacity="0.38" />
+          <text x="3" y="66" fontSize="5" fill="#2D2D2D" opacity="0.22" fontFamily="cursive">start</text>
+          <circle cx="150" cy="42" r="2.5" fill="#C9A84C" opacity="0.48" />
+          <text x="136" y="37" fontSize="5" fill="#2D2D2D" opacity="0.28" fontFamily="cursive">Tirupati</text>
+          <text x="76" y="32" fontSize="9" opacity="0.32">🏍</text>
+        </svg>
+        <div className="mt-1.5 pt-1.5 border-t border-charcoal/8">
+          <p className="font-letter text-[13px] text-charcoal/55 leading-snug">
+            Tirupati.<br />
+            <span className="text-charcoal/42">After exams.</span><br />
+            <span className="font-handwriting text-[11px] text-[#C9A84C]/62 italic">Deal is deal.</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Tracing paper overlay */}
       <motion.div
-        className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden bg-background text-foreground"
-        variants={shouldReduceMotion ? {} : pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 1.8, ease: 'easeInOut' }}
-        aria-label="Chapter Six: The Nights We Never Forgot"
+        className="absolute inset-0 cursor-pointer"
+        style={{
+          background: 'rgba(244, 247, 252, 0.90)',
+          border: '1px solid rgba(58, 92, 130, 0.10)',
+          transformOrigin: 'top center',
+          transformPerspective: 600,
+          backdropFilter: 'blur(0.5px)',
+          rotate: '-2deg',
+        }}
+        animate={!shouldReduceMotion
+          ? { rotateX: lifted ? -58 : 0, y: lifted ? -20 : 0, opacity: lifted ? 0 : 1 }
+          : { opacity: lifted ? 0 : 1 }
+        }
+        transition={{ duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+        onClick={() => setLifted(v => !v)}
+        role="button" tabIndex={0}
+        aria-label={lifted ? 'Lower tracing paper' : 'Lift tracing paper to reveal what is written beneath'}
+        aria-expanded={lifted}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLifted(v => !v); } }}
       >
-        {/* Background atmosphere layers */}
-        <Moon />
-        <StarField
-          count={55}
-          specialIndex={SPECIAL_STAR_INDEX}
-          onSpecialClick={handleSpecialStar}
-          shotFired={shotFired}
-        />
-        <DriftingClouds />
-        <Rain count={32} />
-        <FloatingNotes />
-
-        {/* Ink texture overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.04] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-0 min-h-full">
-
-          {/* ═══════════ LEFT PAGE ═══════════ */}
-          <div className="flex-1 lg:border-r lg:border-hope/8 lg:pr-10 flex flex-col gap-6 pb-8 lg:pb-0">
-
-            {/* Chapter header */}
-            <motion.div
-              className="pt-6"
-              initial={{ opacity: 0, y: -14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1.4, ease: 'easeOut' }}
-            >
-              <p className="font-sans text-xs tracking-[0.38em] uppercase text-hope/30 mb-1">
-                {chapter6Data.chapterNumber}
-              </p>
-              <h2 className="font-display text-4xl md:text-5xl text-moonlight leading-tight font-light">
-                {chapter6Data.title}
-              </h2>
-              {/* Moonlit drawn line */}
-              <motion.svg className="w-56 h-5 mt-1" viewBox="0 0 230 14" aria-hidden="true">
-                <motion.path
-                  d="M 0 9 C 46 4, 92 13, 138 7 S 200 11, 230 8"
-                  fill="none"
-                  stroke="#B8C9E1"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  opacity={0.4}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, delay: 0.9, ease: 'easeOut' }}
-                />
-              </motion.svg>
-            </motion.div>
-
-            {/* Introduction */}
-            <motion.p
-              className="font-quote text-xl text-moonlight/60 leading-relaxed max-w-md"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 1.5 }}
-            >
-              {chapter6Data.intro}
-            </motion.p>
-
-            {/* Annotation */}
-            <motion.p
-              className="font-handwriting text-lg text-hope/40 italic -mt-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 1 }}
-            >
-              {chapter6Data.annotation}
-            </motion.p>
-
-            {/* Decorative postage stamp */}
-            <motion.div
-              className="self-start relative pointer-events-none select-none"
-              initial={{ opacity: 0, rotate: -6 }}
-              animate={{ opacity: 0.28, rotate: -6 }}
-              transition={{ delay: 1.8, duration: 1.4 }}
-              aria-hidden="true"
-            >
-              <svg width="64" height="78" viewBox="0 0 64 78">
-                <defs>
-                  <pattern id="perforation" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-                    <circle cx="3" cy="3" r="2.2" fill="#111A27" />
-                  </pattern>
-                  <mask id="stampMask">
-                    <rect width="64" height="78" fill="white" />
-                    <rect x="0" y="0" width="64" height="6" fill="url(#perforation)" />
-                    <rect x="0" y="72" width="64" height="6" fill="url(#perforation)" />
-                    <rect x="0" y="0" width="6" height="78" fill="url(#perforation)" />
-                    <rect x="58" y="0" width="6" height="78" fill="url(#perforation)" />
-                  </mask>
-                </defs>
-                <rect width="64" height="78" fill="#1B2D42" mask="url(#stampMask)" />
-                <rect x="7" y="7" width="50" height="64" fill="#0D1B2A" />
-                <text x="32" y="30" textAnchor="middle" fill="#B8C9E1" fontSize="18" opacity="0.6">✦</text>
-                <text x="32" y="52" textAnchor="middle" fill="#B8C9E1" fontSize="7" fontFamily="serif" letterSpacing="1" opacity="0.45">AIRMAIL</text>
-                <text x="32" y="64" textAnchor="middle" fill="#B8C9E1" fontSize="6" fontFamily="serif" opacity="0.3">∼ 2024 ∼</text>
-              </svg>
-            </motion.div>
-
-            {/* ── Letters ── */}
-            <div className="flex flex-col gap-5">
-              {letters.map((letter, i) => (
-                <LetterCard key={letter.id} letter={letter} index={i} />
-              ))}
-            </div>
-
-            {/* Star found message */}
-            <AnimatePresence>
-              {starFound && (
-                <motion.p
-                  className="font-handwriting text-xl text-hope/60 italic"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  {moonMessage}
-                </motion.p>
-              )}
-            </AnimatePresence>
-
-            {/* Pull quote */}
-            <motion.blockquote
-              className="mt-auto border-l-2 border-hope/20 pl-5 py-1 max-w-sm"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 1.4 }}
-            >
-              <p className="font-quote text-base text-moonlight/45 italic leading-relaxed">
-                {pullQuote}
-              </p>
-              <footer className="font-handwriting text-sm text-hope/35 mt-2">{attribution}</footer>
-            </motion.blockquote>
-
-            {/* Navigation */}
-            <div className="flex gap-4 pt-2 pb-2">
-              <button
-                onClick={onPrev}
-                className="font-handwriting text-xl text-hope/45 hover:text-moonlight transition-colors duration-500 underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hope focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-                aria-label="Previous chapter"
-              >
-                ← back
-              </button>
-              <button
-                onClick={onNext}
-                className="font-handwriting text-xl text-hope/70 hover:text-moonlight transition-colors duration-500 underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hope focus-visible:ring-offset-2 focus-visible:ring-offset-navy ml-auto"
-                aria-label="Next chapter"
-              >
-                next chapter →
-              </button>
-            </div>
-          </div>
-
-          {/* Gutter */}
-          <div className="hidden lg:flex flex-col items-center px-3 py-8 gap-1.5" aria-hidden="true">
-            {[...Array(18)].map((_, i) => (
-              <div key={i} className="w-px h-3 bg-hope/6" />
-            ))}
-          </div>
-
-          {/* ═══════════ RIGHT PAGE — Moonlit scene ═══════════ */}
-          <div className="flex-1 lg:pl-8 flex flex-col pb-8">
-
-            <motion.div
-              className="pt-6 mb-4 flex items-center justify-between"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1.2 }}
-            >
-              <p className="font-handwriting text-2xl text-hope/40 italic">the night watch</p>
-              <p className="font-sans text-[10px] tracking-widest text-hope/22 uppercase">
-                {starFound ? 'you found the star ✦' : 'find the golden star'}
-              </p>
-            </motion.div>
-
-            {/* Night sky panel */}
-            <motion.div
-              className="relative flex-1 min-h-[320px] md:min-h-[420px] border border-hope/8 overflow-hidden"
-              style={{ backgroundColor: '#111A27' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 1.8 }}
-            >
-              {/* Horizon gradient */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-                style={{
-                  background:
-                    'linear-gradient(to top, rgba(26,39,68,0.9) 0%, transparent 100%)',
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Moon glow reflection */}
-              <div
-                className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at 80% 10%, rgba(240,238,228,0.08) 0%, transparent 65%)',
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Scene label */}
-              <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3 z-10">
-                <motion.p
-                  className="font-handwriting text-xl text-moonlight/30 italic"
-                  animate={{ opacity: [0.3, 0.5, 0.3] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  somewhere past midnight
-                </motion.p>
-
-                {/* Ink-drawn ground line */}
-                <svg className="w-3/4 h-4" viewBox="0 0 300 12" aria-hidden="true">
-                  <motion.path
-                    d="M 4 8 Q 75 5 150 9 Q 225 12 296 7"
-                    fill="none"
-                    stroke="#B8C9E1"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    opacity={0.18}
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
-                  />
-                </svg>
-              </div>
-
-              {/* Silhouette cityline */}
-              <svg
-                className="absolute bottom-8 left-0 right-0 w-full pointer-events-none"
-                height="80"
-                viewBox="0 0 600 80"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M0,80 L0,50 L30,50 L30,30 L40,30 L40,50 L60,50 L60,20 L75,20 L75,50 L100,50 L100,40 L115,40 L115,50 L140,50 L140,35 L150,35 L150,50 L180,50 L180,45 L200,45 L200,50 L230,50 L230,25 L245,25 L245,50 L270,50 L270,42 L285,42 L285,50 L310,50 L310,30 L325,30 L325,50 L360,50 L360,38 L375,38 L375,50 L400,50 L400,22 L415,22 L415,50 L440,50 L440,48 L470,48 L470,35 L485,35 L485,50 L510,50 L510,40 L525,40 L525,50 L560,50 L560,28 L575,28 L575,50 L600,50 L600,80 Z"
-                  fill="rgba(17,26,39,0.9)"
-                />
-                {/* Windows */}
-                {[45, 105, 160, 235, 295, 370, 420, 490, 565].map((x, i) => (
-                  <rect
-                    key={i}
-                    x={x}
-                    y={sr(i * 7) < 0.5 ? 36 : 26}
-                    width="4"
-                    height="5"
-                    fill="rgba(184,201,225,0.12)"
-                  />
-                ))}
-              </svg>
-            </motion.div>
-
-            {/* Bottom annotation */}
-            <motion.p
-              className="font-letter text-base text-hope/25 italic text-center mt-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1.2 }}
-            >
-              the golden star is somewhere in the sky ↑
-            </motion.p>
-          </div>
+        <div className="p-3">
+          <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-[#3A5C82]/18 mb-1.5">Route Sketch</p>
+          <svg width="156" height="68" viewBox="0 0 156 68" aria-hidden="true">
+            <path d="M 8 58 C 30 52, 52 44, 72 34 C 92 24, 112 18, 134 20 C 148 21, 152 30, 150 42"
+              fill="none" stroke="#3A5C82" strokeWidth="1" strokeLinecap="round"
+              strokeDasharray="3 2.5" opacity="0.12" />
+          </svg>
+          <p className="font-handwriting text-[7.5px] text-[#3A5C82]/18 italic mt-1">lift ↑ to reveal</p>
         </div>
       </motion.div>
 
-      {/* ── Shooting star ── */}
-      <AnimatePresence>
-        {shotFired && !showSecret && (
-          <ShootingStar onDone={() => setShowSecret(true)} />
-        )}
-      </AnimatePresence>
+      {!lifted && (
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: delay + 1.8, duration: 1 }}
+          className="absolute -bottom-5 right-1 font-handwriting text-[7px] text-charcoal/16 italic pointer-events-none select-none"
+        >
+          lift ↑
+        </motion.p>
+      )}
+    </motion.div>
+  );
+}
 
-      {/* ── Secret letter modal ── */}
-      <AnimatePresence>
-        {showSecret && (
-          <SecretLetterModal onClose={() => setShowSecret(false)} />
-        )}
-      </AnimatePresence>
-    </>
+// ─── SDC ID card — flip interaction 3 ────────────────────────────────────────
+function SDCIdCard({ delay }: { delay: number }) {
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 1 }}
+      className="relative cursor-pointer select-none"
+      style={{ width: 150, height: 96, perspective: 800, rotate: '2deg' }}
+      onClick={() => setFlipped(v => !v)}
+      role="button" tabIndex={0}
+      aria-label={flipped ? 'Flip SDC ID back to front' : 'Flip SDC ID card to see the back'}
+      aria-pressed={flipped}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(v => !v); } }}
+    >
+      <motion.div
+        className="w-full h-full relative"
+        style={{ transformStyle: 'preserve-3d' }}
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        {/* Front */}
+        <div
+          className="absolute inset-0 bg-[#1A3A5C] shadow-md overflow-hidden p-2.5"
+          style={{ backfaceVisibility: 'hidden', borderRadius: 3 }}
+        >
+          <div className="bg-[#C9A84C]/18 h-4 rounded-sm flex items-center px-2 mb-2">
+            <p className="font-sans text-[5.5px] tracking-[0.32em] uppercase text-[#C9A84C]/65">Student Design Council</p>
+          </div>
+          <div className="flex gap-2">
+            <div className="bg-white/8 border border-white/10 flex items-center justify-center" style={{ width: 28, height: 36 }}>
+              <p className="text-[10px] text-white/28" aria-hidden="true">👤</p>
+            </div>
+            <div>
+              <p className="font-handwriting text-[8px] text-white/32 mt-0.5">Member</p>
+              <p className="font-letter text-[14px] text-white/52 leading-tight mt-0.5">SDC</p>
+              <p className="font-sans text-[5px] text-white/18 tracking-wider mt-1">2025–2026</p>
+            </div>
+          </div>
+          <p className="absolute bottom-2 right-2 font-handwriting text-[6.5px] text-white/14 italic">flip →</p>
+        </div>
+
+        {/* Back */}
+        <div
+          className="absolute inset-0 bg-[#FDFCF8] shadow-md flex flex-col items-center justify-center p-3"
+          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', borderRadius: 3, border: '1px solid rgba(60,40,20,0.08)' }}
+        >
+          <p className="font-letter text-[19px] text-charcoal/62 text-center leading-snug">
+            Welcome to SDC ❤️🔥
+          </p>
+          <div className="mt-2 h-px w-14 bg-charcoal/10" />
+          <p className="font-handwriting text-[7.5px] text-charcoal/26 italic mt-1.5">both of us. together.</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── IELTS vocabulary paper ───────────────────────────────────────────────────
+function IELTSNotes({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 166, rotate: '-1.5deg' }}
+      className="bg-white border border-charcoal/10 shadow-sm overflow-hidden"
+    >
+      <div className="bg-[#E4EAF3] px-3 py-1.5 border-b border-charcoal/8">
+        <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-[#3A5C82]/40">IELTS Vocabulary</p>
+      </div>
+      <div className="px-3 pt-2 pb-2.5">
+        {[
+          { word: 'ambiguous', def: 'unclear in meaning' },
+          { word: 'perseverance', def: 'keep going no matter what' },
+          { word: 'abroad', def: '→ one day. soon.' },
+          { word: 'aspire', def: 'to dream + work for it' },
+        ].map(({ word, def }, i) => (
+          <div key={i} className="flex gap-1.5 border-b border-charcoal/6 py-0.5 last:border-b-0">
+            <p className="font-letter text-[10px] text-[#3A5C82]/52 w-20 flex-shrink-0">{word}</p>
+            <p className="font-handwriting text-[8px] text-charcoal/32 italic">{def}</p>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Veloura logo sketch ──────────────────────────────────────────────────────
+function VelouraSketch({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 118, rotate: '3deg' }}
+      className="bg-[#FFFEF8] border border-charcoal/10 shadow-sm p-3"
+    >
+      <p className="font-sans text-[5.5px] tracking-[0.28em] uppercase text-charcoal/18 mb-1.5">logo sketch</p>
+      <svg width="94" height="46" viewBox="0 0 94 46" aria-label="Veloura logo sketch">
+        <ellipse cx="47" cy="22" rx="38" ry="14" fill="none" stroke="#2D2D2D" strokeWidth="0.7"
+          opacity="0.16" strokeDasharray="2 1.5" />
+        <text x="47" y="26" textAnchor="middle" fontSize="11" fill="#2D2D2D" opacity="0.44"
+          fontFamily="'Playfair Display', serif" fontStyle="italic">Veloura</text>
+        <path d="M 10 36 L 84 36" stroke="#2D2D2D" strokeWidth="0.4" opacity="0.08" />
+        <text x="47" y="43" textAnchor="middle" fontSize="4.5" fill="#2D2D2D" opacity="0.18"
+          fontFamily="sans-serif">v2 (?)</text>
+      </svg>
+    </motion.div>
+  );
+}
+
+// ─── Planning notebook — "Zara Zara" hidden in margin ────────────────────────
+function NotebookFragment({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 190, rotate: '0.5deg' }}
+      className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
+    >
+      {/* Spiral holes */}
+      <div className="absolute top-0 bottom-0 left-0 w-5 bg-[#EDE8DF] border-r border-charcoal/8 flex flex-col justify-around items-center py-3">
+        {Array.from({ length: 5 }, (_, i) => (
+          <div key={i} className="w-2 h-2 rounded-full bg-[#D9D2C8] border border-charcoal/10" />
+        ))}
+      </div>
+      {/* Margin line */}
+      <div className="absolute top-0 bottom-0 left-8 border-l border-[#E8B4B4]/25" />
+
+      <div className="pl-10 pr-3 pt-2 pb-3">
+        {[
+          { text: 'June goals —', opacity: 42 },
+          { text: 'NIC campaign draft', opacity: 28 },
+          { text: 'Inscribe collab?', opacity: 24, italic: true },
+          { text: '', opacity: 0 },
+          { text: 'SDC project list', opacity: 26 },
+          { text: 'Veloura brand deck', opacity: 20, italic: true },
+          { text: '', opacity: 0 },
+        ].map((line, i) => (
+          <div key={i} className="h-5 border-b border-[#B0C4D8]/12 flex items-center">
+            {line.text ? (
+              <p className={`font-handwriting text-[9px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}>
+                {line.text}
+              </p>
+            ) : null}
+          </div>
+        ))}
+      </div>
+
+      {/* "zara zara" — hidden in the outer margin, tiny, rotated, barely there */}
+      <motion.p
+        className="absolute font-handwriting text-[6px] text-[#3A5C82]/16 pointer-events-none select-none"
+        style={{ left: 0, top: '50%', transform: 'rotate(-90deg)', transformOrigin: 'left center', whiteSpace: 'nowrap' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 3, duration: 2.2 }}
+        aria-hidden="true"
+      >
+        zara zara...
+      </motion.p>
+    </motion.div>
+  );
+}
+
+// ─── Calendar page — June 2026 ────────────────────────────────────────────────
+function CalendarPage({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1 }}
+      style={{ width: 106, rotate: '-2.5deg' }}
+      className="bg-white border border-charcoal/10 shadow-sm overflow-hidden"
+    >
+      <div className="bg-[#3A5C82] px-3 py-1.5 text-center">
+        <p className="font-sans text-[7px] tracking-[0.28em] uppercase text-white/55">June 2026</p>
+      </div>
+      <div className="p-2">
+        <div className="grid grid-cols-7 gap-0 mb-0.5">
+          {['M','T','W','T','F','S','S'].map((d, i) => (
+            <p key={i} className="font-sans text-[5px] text-charcoal/22 text-center">{d}</p>
+          ))}
+        </div>
+        {[
+          [null, null, null, 1, 2, 3, 4],
+          [5, 6, 7, 8, 9, 10, 11],
+          [12, 13, 14, 15, 16, 17, 18],
+          [19, 20, 21, 22, 23, 24, 25],
+          [26, 27, 28, 29, 30, null, null],
+        ].map((week, wi) => (
+          <div key={wi} className="grid grid-cols-7 gap-0">
+            {week.map((day, di) => (
+              <div key={di} className="h-4 flex items-center justify-center relative">
+                {day ? (
+                  <p className={`font-sans text-[5.5px] leading-none ${
+                    day === 15 ? 'text-[#C9A84C]' :
+                    day === 28 ? 'text-[#3A5C82]' :
+                    'text-charcoal/28'
+                  }`}>{day}</p>
+                ) : null}
+                {day === 15 && (
+                  <div className="absolute inset-0 rounded-full border border-[#C9A84C]/30 scale-90" />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Chapter Six ──────────────────────────────────────────────────────────────
+export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
+  const slideVariants = {
+    initial: { x: '100%', opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: '-100%', opacity: 0 },
+  };
+
+  return (
+    <motion.div
+      className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden"
+      style={{ backgroundColor: '#F6F8FA' }}
+      variants={slideVariants}
+      initial="initial" animate="animate" exit="exit"
+      transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+      aria-label="Chapter Six: The Dreams We Started Building"
+    >
+      {/* Subtle notebook-paper grid texture */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(90deg, rgba(58,92,130,0.025) 1px, transparent 1px), linear-gradient(rgba(58,92,130,0.025) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+        }}
+        aria-hidden="true"
+      />
+      <MorningSunlight />
+
+      <div className="relative z-10 max-w-6xl mx-auto min-h-full p-6 md:p-12 flex flex-col md:flex-row gap-0">
+
+        {/* ═══════════ LEFT PAGE — planning notebook ═══════════ */}
+        <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-10 py-8 z-10 relative flex flex-col">
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
+            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#3A5C82]/38 mb-1">Chapter Six · June 2026</p>
+            <h2 className="font-display text-3xl md:text-4xl text-[#1A3A5C] leading-tight">
+              The Dreams We<br />Started Building
+            </h2>
+            <motion.svg className="w-44 h-4 mt-1.5" viewBox="0 0 180 12" aria-hidden="true">
+              <motion.path
+                d="M0 7 Q45 3 90 7 Q135 11 180 6"
+                fill="none" stroke="#3A5C82" strokeWidth="1.5" strokeLinecap="round" opacity={0.28}
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                transition={{ duration: 1.4, delay: 0.7 }}
+              />
+            </motion.svg>
+          </motion.div>
+
+          <div className="relative flex-1 mt-6" style={{ minHeight: 460 }}>
+
+            {/* Bucket list */}
+            <div className="absolute top-0 left-0">
+              <BucketList delay={0.7} />
+            </div>
+
+            {/* Passport photo */}
+            <div className="absolute top-4 right-4">
+              <PassportPhoto delay={0.9} />
+            </div>
+
+            {/* Calendar */}
+            <div className="absolute" style={{ top: 234, right: 0 }}>
+              <CalendarPage delay={1.5} />
+            </div>
+
+            {/* "deal is deal." sticky */}
+            <div className="absolute" style={{ top: 286, left: 18 }}>
+              <DealSticky delay={1.8} />
+            </div>
+
+          </div>
+
+          <div className="flex gap-4 pt-6 mt-auto">
+            <button
+              onClick={onPrev}
+              className="font-handwriting text-xl text-[#1A3A5C]/38 hover:text-[#1A3A5C] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A5C82]/50 focus-visible:ring-offset-2"
+              aria-label="Previous chapter"
+            >← back</button>
+            <button
+              onClick={onNext}
+              className="font-handwriting text-xl text-[#3A5C82]/60 hover:text-[#1A3A5C] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A5C82]/50 focus-visible:ring-offset-2 ml-auto"
+              aria-label="Next chapter"
+            >next chapter →</button>
+          </div>
+        </div>
+
+        {/* ═══════════ RIGHT PAGE — planning board ═══════════ */}
+        <div className="flex-1 md:pl-10 py-8 z-10">
+          <div className="relative" style={{ minHeight: 660 }}>
+
+            {/* IELTS notes — top left */}
+            <div className="absolute top-0 left-0">
+              <IELTSNotes delay={0.8} />
+            </div>
+
+            {/* Passport folder — top right */}
+            <div className="absolute top-2 right-0">
+              <PassportFolder delay={1.0} />
+            </div>
+
+            {/* SDC ID card — mid left */}
+            <div className="absolute" style={{ top: 204, left: 0 }}>
+              <SDCIdCard delay={1.2} />
+            </div>
+
+            {/* Bike sketch — mid right */}
+            <div className="absolute" style={{ top: 212, right: 0 }}>
+              <BikeSketch delay={1.4} />
+            </div>
+
+            {/* Veloura sketch — lower left */}
+            <div className="absolute" style={{ top: 376, left: 2 }}>
+              <VelouraSketch delay={1.7} />
+            </div>
+
+            {/* Notebook fragment with hidden "zara zara" — lower right */}
+            <div className="absolute" style={{ top: 384, right: 0 }}>
+              <NotebookFragment delay={1.6} />
+            </div>
+
+            {/* Ending — quiet fade */}
+            <motion.div
+              className="absolute left-0 right-0 text-center"
+              style={{ bottom: 6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 4.4, duration: 2.6 }}
+            >
+              <p className="font-quote text-sm text-charcoal/25 italic leading-relaxed">
+                The future<br />
+                <span className="text-charcoal/19">was no longer</span><br />
+                <span className="text-charcoal/15 text-xs">something we imagined.</span>
+              </p>
+              <p className="font-quote text-xs text-charcoal/12 italic mt-2">
+                It had started.
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+
+      </div>
+    </motion.div>
   );
 }

@@ -29,7 +29,7 @@ const chapters = [
   { id: 'ch3',        component: ChapterThree,     isDark: false },
   { id: 'ch4',        component: ChapterFour,      isDark: false },
   { id: 'ch5',        component: ChapterFive,      isDark: false },
-  { id: 'ch6',        component: ChapterSix,       isDark: true  },
+  { id: 'ch6',        component: ChapterSix,       isDark: false },
   { id: 'ch7',        component: ChapterSeven,     isDark: false },
   { id: 'epilogue',   component: ChapterEpilogue,  isDark: false },
 ];
