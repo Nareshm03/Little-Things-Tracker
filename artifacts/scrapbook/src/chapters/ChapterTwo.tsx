@@ -46,7 +46,7 @@ function EnvelopeCard({ delay }: { delay: number }) {
         {/* Flap */}
         <motion.div
           className="w-full origin-top pointer-events-none"
-          animate={{ scaleY: opened ? 0, opacity: opened ? 0 : 1 } as any}
+          animate={{ scaleY: opened ? 0 : 1, opacity: opened ? 0 : 1 } as any}
           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         >
           <svg viewBox="0 0 220 52" width="100%" className="block">
