@@ -1,0 +1,383 @@
+# Sprint — Rebuild Chapter 2 Using Real Memories (Do NOT Build New Features)
+
+You are continuing the existing scrapbook project.
+
+## CRITICAL
+
+Do NOT redesign the UI.
+
+Do NOT modify the Story Engine.
+
+Do NOT change the animation system.
+
+Do NOT modify the Cover.
+
+Do NOT modify Chapter 1.
+
+Do NOT create new components unless absolutely necessary.
+
+Only rebuild the CONTENT of Chapter Two.
+
+The project is no longer using fictional memories.
+
+From this point forward every chapter must be built ONLY from the real memories supplied below.
+
+---
+
+CHAPTER TITLE
+
+February 2026
+
+The Days We Couldn't Stop Smiling
+
+---
+
+PURPOSE
+
+Chapter One ended with the first outing.
+
+Chapter Two tells the story of how two people slowly became inseparable.
+
+The chapter should feel playful, warm, shy and exciting.
+
+Not dramatic.
+
+Not sad.
+
+This chapter should make the reader smile.
+
+---
+
+TIMELINE
+
+Present the memories chronologically.
+
+Do not rearrange them.
+
+14 February 2026
+
+First Kiss
+
+↓
+
+15 February
+
+Dark Chocolate Conversation
+
+↓
+
+Kitchen Dream
+
+↓
+
+16 February
+
+Come to canteen entrance
+
+↓
+
+20 February
+
+"I think I'll stop using my brain when I'm with you 😂"
+
+↓
+
+23 February
+
+Sikkina Unde
+
+↓
+
+Bangara nickname begins
+
+↓
+
+26 February
+
+"The kiss was so good good good good good"
+
+↓
+
+27 February
+
+"You missed something while going."
+
+↓
+
+Forgot Hug
+
+---
+
+LAYOUT
+
+LEFT PAGE
+
+Small date dividers.
+
+Large white space.
+
+Very little text.
+
+Every memory should breathe.
+
+RIGHT PAGE
+
+Interactive scrapbook objects.
+
+Nothing should feel like a web app.
+
+Everything should feel physically attached to paper.
+
+---
+
+MEMORY 1
+
+FIRST KISS
+
+Date:
+
+14 February 2026
+
+Create a folded paper envelope.
+
+When clicked
+
+the envelope opens slowly.
+
+Inside
+
+display ONLY the actual conversation related to the first kiss.
+
+Do not invent dialogue.
+
+Add a tiny lipstick mark.
+
+Animation:
+
+Paper unfolds.
+
+---
+
+MEMORY 2
+
+DARK CHOCOLATE
+
+Create a taped chocolate wrapper.
+
+Hover:
+
+wrapper lifts.
+
+Click:
+
+opens like a chocolate bar.
+
+Inside reveal the real conversation:
+
+"I think dark chocolate... you?"
+
+No additional writing.
+
+---
+
+MEMORY 3
+
+KITCHEN DREAM
+
+Create a handwritten recipe card.
+
+Ingredients should humorously read:
+
+Love
+
+Giggles
+
+Cooking
+
+Cuddles
+
+At the bottom reveal the REAL message:
+
+"We both in kitchen cuddling giggling and cooking..."
+
+Animation:
+
+Recipe card flips.
+
+---
+
+MEMORY 4
+
+COME TO CANTEEN ENTRANCE
+
+Create a tiny hand-drawn campus map.
+
+One dashed path.
+
+One location marker.
+
+Label:
+
+"Canteen Entrance"
+
+Clicking the marker opens the real conversation from that day.
+
+No fake map.
+
+Minimal illustration only.
+
+---
+
+MEMORY 5
+
+STOP USING MY BRAIN
+
+Create a comic sticky note.
+
+Display only her real quote.
+
+"I think I'll stop using my brain when I'm with you 😂"
+
+Nothing else.
+
+---
+
+MEMORY 6
+
+SIKKINA UNDE
+
+This is the emotional centre of the chapter.
+
+Create a tiny sweet wrapped in paper.
+
+Click:
+
+unwraps.
+
+Shows:
+
+What Sikkina Unde means.
+
+Below it:
+
+Handwritten note:
+
+"From that day...
+
+you became Bangara."
+
+No extra dialogue.
+
+---
+
+MEMORY 7
+
+FORGOT THE HUG
+
+This is the ending.
+
+Reader reaches the bottom.
+
+There is only
+
+an empty page.
+
+Nothing.
+
+After 2 seconds
+
+small handwriting appears.
+
+"You forgot something..."
+
+Click.
+
+A hug illustration fades in.
+
+Then reveal the real conversation where she said:
+
+"You missed something while going."
+
+Do not exaggerate.
+
+Let silence do the work.
+
+---
+
+BACKGROUND DETAILS
+
+Very subtle.
+
+One bus ticket.
+
+One coffee stain.
+
+One tiny flower.
+
+One paper clip.
+
+No clutter.
+
+---
+
+ANIMATIONS
+
+Everything must remain slow.
+
+Paper unfolds.
+
+Cards flip.
+
+Tape lifts slightly.
+
+Handwriting draws.
+
+Nothing should bounce aggressively.
+
+---
+
+ACCESSIBILITY
+
+Keyboard support
+
+Reduced motion
+
+ARIA labels
+
+Focus states
+
+Zero TypeScript errors
+
+---
+
+IMPORTANT RULE
+
+Do not summarize memories.
+
+Do not rewrite conversations.
+
+Do not generate romantic paragraphs.
+
+Whenever a real conversation exists,
+
+use the real conversation.
+
+If the archive contains a real message,
+
+that message is the source of truth.
+
+---
+
+END OF CHAPTER
+
+After the Hug interaction,
+
+show only this sentence.
+
+"February was over.
+
+Somehow,
+
+it already felt like home."
+
+Then continue to Chapter Three.
