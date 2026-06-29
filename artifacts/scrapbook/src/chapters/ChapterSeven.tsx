@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion, type Transition } from 'framer-motion';
 import { ChapterProps } from '../App';
+import usPhoto from '@assets/00003349-PHOTO-2026-03-11-20-20-02_1782729987549.jpg';
 
 // ─── Tiny objects — each one a memory ─────────────────────────────────────────
 
@@ -48,32 +49,6 @@ function ChocolateWrapper() {
           className="h-1.5"
           style={{ background: 'linear-gradient(90deg, #C9A84C44, #FFF3CD55, #C9A84C44)' }}
         />
-      </div>
-    </div>
-  );
-}
-
-function MovieTicket() {
-  return (
-    <div style={{ width: 110, rotate: '-1.5deg' }}>
-      <div
-        className="bg-[#FDFAF4] border border-charcoal/12 shadow-sm overflow-hidden"
-        style={{ borderRadius: 2 }}
-      >
-        <div className="bg-[#1A3A5C] px-3 py-1.5">
-          <p className="font-sans text-[6px] tracking-[0.28em] uppercase text-white/45 text-center">Cinema</p>
-        </div>
-        {/* Perforation */}
-        <div className="relative flex items-center px-0 py-0">
-          <div className="w-2 h-2 rounded-full bg-[#F6F8FA] border-r border-charcoal/10 -ml-1" />
-          <div className="flex-1 border-t border-dashed border-charcoal/10 mx-1" />
-          <div className="w-2 h-2 rounded-full bg-[#F6F8FA] border-l border-charcoal/10 -mr-1" />
-        </div>
-        <div className="px-3 py-2">
-          <p className="font-letter text-[10px] text-charcoal/48 italic leading-snug">Good movie.</p>
-          <p className="font-handwriting text-[8px] text-charcoal/28 mt-0.5">with you.</p>
-          <p className="font-sans text-[5px] tracking-[0.2em] text-charcoal/18 mt-1.5 uppercase">Row D · Seat 4 &amp; 5</p>
-        </div>
       </div>
     </div>
   );
@@ -154,6 +129,28 @@ function TempleReceipt() {
   );
 }
 
+// ─── Real photo — tucked into the last page ───────────────────────────────────
+function RealPhoto() {
+  return (
+    <div
+      className="bg-white shadow-md"
+      style={{
+        padding: '4px 4px 18px 4px',
+        width: 110,
+        rotate: '-2.5deg',
+        boxShadow: '0 3px 12px rgba(0,0,0,0.10)',
+      }}
+      aria-label="A candid photo of the two of us"
+    >
+      <img
+        src={usPhoto}
+        alt="Naresh and Meghana — a natural moment together"
+        style={{ width: '100%', height: 96, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
+      />
+    </div>
+  );
+}
+
 function TinyBucketList() {
   return (
     <div
@@ -181,11 +178,11 @@ function TinyBucketList() {
 const OBJECTS: Array<{ el: React.ReactNode; delay: number; label: string }> = [
   { el: <BreakfastSticky />,  delay: 1.4,  label: 'Breakfast sticky — Had breakfast?' },
   { el: <ChocolateWrapper />, delay: 2.8,  label: 'Chocolate wrapper' },
-  { el: <MovieTicket />,      delay: 4.2,  label: 'Movie ticket' },
-  { el: <TinyRose />,         delay: 5.6,  label: 'Pressed rose' },
-  { el: <TobbyPhoto />,       delay: 7.0,  label: 'Tobby photo' },
-  { el: <TempleReceipt />,    delay: 8.4,  label: 'Temple receipt from Tirupati' },
-  { el: <TinyBucketList />,   delay: 9.8,  label: 'Tiny bucket list' },
+  { el: <TinyRose />,         delay: 4.2,  label: 'Pressed rose' },
+  { el: <TobbyPhoto />,       delay: 5.6,  label: 'Tobby photo' },
+  { el: <TempleReceipt />,    delay: 7.0,  label: 'Temple receipt from Tirupati' },
+  { el: <TinyBucketList />,   delay: 8.4,  label: 'Tiny bucket list' },
+  { el: <RealPhoto />,        delay: 9.8,  label: 'A photo of the two of us' },
 ];
 
 // ─── Right page — reflections ─────────────────────────────────────────────────
@@ -214,13 +211,22 @@ const REFLECTIONS: ReflectionLine[] = [
   { text: 'had breakfast.', font: 'handwriting', delay: 8.4 },
   { text: 'good night.', font: 'handwriting', delay: 9.0 },
   { text: 'see you tomorrow.', font: 'handwriting', delay: 9.6 },
-  { pause: true, text: '', font: 'letter', delay: 10.0 },
-  { text: 'Love', font: 'display', delay: 11.0 },
-  { text: 'was never', font: 'letter', delay: 11.6 },
-  { text: 'one big moment.', font: 'letter', delay: 12.0, dim: true },
-  { pause: true, text: '', font: 'letter', delay: 12.4 },
-  { text: 'It was', font: 'letter', delay: 13.0 },
-  { text: 'thousands of tiny ones.', font: 'display', delay: 13.6 },
+  { pause: true, text: '', font: 'letter', delay: 10.2 },
+  { text: 'If someone asked me', font: 'letter', delay: 11.0 },
+  { text: 'what I remember most...', font: 'letter', delay: 11.5 },
+  { pause: true, text: '', font: 'letter', delay: 11.9 },
+  { text: 'it wouldn\'t be', font: 'letter', delay: 12.5, dim: true },
+  { text: 'the special days.', font: 'letter', delay: 12.9, dim: true },
+  { pause: true, text: '', font: 'letter', delay: 13.3 },
+  { text: 'It would be', font: 'letter', delay: 14.0 },
+  { text: 'the ordinary ones.', font: 'handwriting', delay: 14.5 },
+  { pause: true, text: '', font: 'letter', delay: 15.0 },
+  { text: 'Love', font: 'display', delay: 16.0 },
+  { text: 'was never', font: 'letter', delay: 16.5 },
+  { text: 'one big moment.', font: 'letter', delay: 16.9, dim: true },
+  { pause: true, text: '', font: 'letter', delay: 17.3 },
+  { text: 'It was', font: 'letter', delay: 17.9 },
+  { text: 'thousands of tiny ones.', font: 'display', delay: 18.5 },
 ];
 
 // ─── Chapter Seven ────────────────────────────────────────────────────────────
@@ -354,7 +360,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
           {/* Final line — before the turn */}
           <motion.div
-            {...fadeIn(15.5, 3.0)}
+            {...fadeIn(20.0, 3.0)}
             className="max-w-xs"
           >
             <div className="w-16 border-t border-charcoal/12 mb-5" aria-hidden="true" />
@@ -372,22 +378,23 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             </p>
           </motion.div>
 
-          {/* Hidden interaction — almost invisible, very bottom */}
+          {/* Hidden interaction — almost invisible, personal, very bottom */}
           <motion.div
-            {...fadeIn(18.0, 3.5)}
+            {...fadeIn(22.5, 3.5)}
             className="mt-12 mb-2"
           >
             <button
               onClick={onNext}
-              className="font-handwriting text-[13px] text-charcoal/18 hover:text-charcoal/42 transition-colors duration-700 tracking-wide focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              className="font-handwriting text-[14px] text-charcoal/16 hover:text-charcoal/40 transition-colors duration-700 tracking-wide leading-relaxed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
               aria-label="Turn one last page to the epilogue"
             >
-              turn one last page →
+              I think there's<br />
+              one last page...
             </button>
           </motion.div>
 
           {/* Back — barely visible */}
-          <motion.div {...fadeIn(18.5, 2.0)}>
+          <motion.div {...fadeIn(23.0, 2.0)}>
             <button
               onClick={onPrev}
               className="font-sans text-[9px] tracking-widest uppercase text-charcoal/14 hover:text-charcoal/32 transition-colors duration-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden"
