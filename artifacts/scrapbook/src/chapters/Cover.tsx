@@ -95,6 +95,27 @@ export default function Cover({ onNext }: ChapterProps) {
           {/* Leather texture overlay */}
           <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.015\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
+          {/* Leather sheen highlight — slow drift */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none mix-blend-overlay"
+            style={{
+              background: 'linear-gradient(130deg, rgba(255,255,255,0.09) 0%, transparent 38%, rgba(255,255,255,0.05) 68%, transparent 100%)',
+            }}
+            animate={{ x: ['-6%', '6%', '-6%'], y: ['-4%', '4%', '-4%'] }}
+            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+            aria-hidden="true"
+          />
+          {/* Secondary warm highlight */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 55% 40% at 70% 25%, rgba(232,184,109,0.08) 0%, transparent 70%)',
+            }}
+            animate={{ x: ['0%', '8%', '0%'], y: ['0%', '6%', '0%'] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+            aria-hidden="true"
+          />
+
           {/* Golden foil border */}
           <div className="absolute inset-4 border border-golden/40 rounded-r-2xl pointer-events-none" />
           <div className="absolute inset-6 border border-golden/20 rounded-r-xl pointer-events-none" />
