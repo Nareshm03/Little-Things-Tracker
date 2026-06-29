@@ -19,77 +19,73 @@ function DateDivider({ date, delay = 0 }: { date: string; delay?: number }) {
   );
 }
 
-// ─── 1. Envelope — First Kiss ─────────────────────────────────────────────────
+// ─── INTERACTIVE 1: Envelope — First Kiss ─────────────────────────────────────
+// Only the date. Trust the memory.
 
 function EnvelopeCard({ delay }: { delay: number }) {
   const [opened, setOpened] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, rotate: -2 }}
-      animate={{ opacity: 1, y: 0, rotate: -2 }}
-      transition={{ delay, duration: 0.9 }}
-      className="relative inline-block"
+      initial={{ opacity: 0, rotate: -2 }}
+      animate={{ opacity: 1, rotate: -2 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 220 }}
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
 
-      {/* Envelope shell */}
       <div
-        className="relative w-60 bg-[#FDF6E8] border border-[#D4C4A8]/60 shadow-md overflow-hidden cursor-pointer"
+        className="bg-[#FDF6E8] border border-[#D4C4A8]/60 shadow-md overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/30"
         onClick={() => setOpened(v => !v)}
         role="button"
         tabIndex={0}
-        aria-label={opened ? 'Close envelope' : 'Open envelope — First Kiss'}
+        aria-label={opened ? 'Close envelope' : 'Open envelope'}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
         {/* Flap */}
         <motion.div
           className="w-full origin-top pointer-events-none"
-          animate={{ scaleY: opened ? 0 : 1, opacity: opened ? 0 : 1 }}
-          transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+          animate={{ scaleY: opened ? 0, opacity: opened ? 0 : 1 } as any}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         >
-          <svg viewBox="0 0 240 56" width="100%" className="block">
-            <polygon points="0,0 120,50 240,0" fill="#F0E6CC" />
-            <line x1="0" y1="0" x2="120" y2="50" stroke="#D4C4A8" strokeWidth="0.8" opacity="0.6" />
-            <line x1="240" y1="0" x2="120" y2="50" stroke="#D4C4A8" strokeWidth="0.8" opacity="0.6" />
+          <svg viewBox="0 0 220 52" width="100%" className="block">
+            <polygon points="0,0 110,47 220,0" fill="#F0E6CC" />
+            <line x1="0" y1="0" x2="110" y2="47" stroke="#D4C4A8" strokeWidth="0.7" opacity="0.5" />
+            <line x1="220" y1="0" x2="110" y2="47" stroke="#D4C4A8" strokeWidth="0.7" opacity="0.5" />
           </svg>
         </motion.div>
 
         {/* Body */}
-        <div className="px-5 py-4 min-h-[72px] relative">
-          {/* V-fold lines on sides */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 240 80">
-            <line x1="0" y1="80" x2="120" y2="0" stroke="#D4C4A8" strokeWidth="0.6" opacity="0.4" />
-            <line x1="240" y1="80" x2="120" y2="0" stroke="#D4C4A8" strokeWidth="0.6" opacity="0.4" />
+        <div className="px-5 py-4 min-h-[80px] flex items-center justify-center">
+          {/* V-fold lines */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+            <line x1="0" y1="100%" x2="50%" y2="52" stroke="#D4C4A8" strokeWidth="0.5" opacity="0.35" />
+            <line x1="100%" y1="100%" x2="50%" y2="52" stroke="#D4C4A8" strokeWidth="0.5" opacity="0.35" />
           </svg>
 
           <AnimatePresence mode="wait">
             {!opened ? (
-              <motion.p
-                key="hint"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="font-handwriting text-sm text-charcoal/35 text-center pt-2"
-              >
-                tap to open ↑
+              <motion.p key="hint" exit={{ opacity: 0 }}
+                className="font-handwriting text-xs text-charcoal/30 text-center">
+                tap to open
               </motion.p>
             ) : (
               <motion.div
                 key="content"
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.7 }}
-                className="relative text-center"
+                transition={{ delay: 0.35, duration: 0.8 }}
+                className="w-full flex flex-col items-center gap-3"
               >
-                {/* Lipstick mark */}
-                <span className="absolute -top-1 right-0 text-xl" style={{ transform: 'rotate(15deg)' }} aria-hidden="true">💋</span>
-                <p className="font-handwriting text-xs text-charcoal/40 mb-1">14 February 2026</p>
-                <p className="font-quote text-sm text-charcoal/70 italic leading-snug">
-                  The first one.
-                </p>
-                <p className="font-handwriting text-xs text-charcoal/38 mt-2 italic">
-                  ...and the memory of it lasted for days.
-                </p>
+                {/* Polaroid — just the frame, no image needed */}
+                <div className="bg-white p-2 pb-7 shadow-sm border border-gray-100/80 relative"
+                  style={{ width: 110, transform: 'rotate(1deg)' }}>
+                  <div className="w-full bg-[#EDE3D8]" style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span className="text-2xl opacity-30" aria-hidden="true">💋</span>
+                  </div>
+                </div>
+                <p className="font-handwriting text-xs text-charcoal/45">14 February 2026</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -99,326 +95,226 @@ function EnvelopeCard({ delay }: { delay: number }) {
   );
 }
 
-// ─── 2. Chocolate Wrapper ─────────────────────────────────────────────────────
+// ─── STATIC: Chocolate with Chat Beneath ──────────────────────────────────────
+// The wrapper is already half-open. The conversation is already visible under it.
+// No click needed. Just discovery.
 
-function ChocolateWrapper({ delay }: { delay: number }) {
-  const [opened, setOpened] = useState(false);
-
+function ChocolateArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, rotate: 2 }}
-      animate={{ opacity: 1, y: 0, rotate: 2 }}
-      transition={{ delay, duration: 0.9 }}
-      className="relative inline-block"
+      initial={{ opacity: 0, rotate: 3 }}
+      animate={{ opacity: 1, rotate: 3 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 200 }}
     >
-      <div className="absolute -top-3 right-4 w-12 h-5 washi-tape -rotate-[3deg]" />
+      <div className="absolute -top-3 right-3 w-12 h-5 washi-tape -rotate-[3deg]" />
 
-      <motion.div
-        whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.14)' }}
-        className="w-52 cursor-pointer"
-        onClick={() => setOpened(v => !v)}
-        role="button"
-        tabIndex={0}
-        aria-label={opened ? 'Close chocolate wrapper' : 'Open chocolate wrapper'}
-        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
-      >
-        {/* Wrapper */}
-        <AnimatePresence mode="wait">
-          {!opened ? (
-            <motion.div
-              key="wrapper"
-              initial={{ scaleY: 1 }}
-              exit={{ scaleY: 0, opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#4A2C0A] px-4 py-3 rounded-sm shadow-md"
-              style={{ boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.12), 0 3px 10px rgba(0,0,0,0.18)' }}
-            >
-              <div className="border border-[#C8924A]/40 px-3 py-2.5">
-                <p className="font-sans text-[11px] tracking-[0.25em] uppercase text-[#C8924A]/80 text-center mb-0.5">Dark</p>
-                <p className="font-display text-base text-[#F0D08A] text-center">Chocolate</p>
-                <p className="font-handwriting text-[10px] text-[#C8924A]/50 text-center mt-1">15 February 2026</p>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="opened"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-[#F9F6F0] border border-charcoal/10 px-4 py-4 shadow-sm"
-            >
-              <p className="font-handwriting text-xs text-charcoal/38 mb-2 text-center">15 Feb — real conversation</p>
-              <p className="font-quote text-sm text-charcoal/75 italic leading-relaxed text-center">
-                "I think dark chocolate... you?"
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+      {/* Chat printed on paper — shows below the wrapper */}
+      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm">
+        {/* Wrapper — takes up top portion, leaves bottom open */}
+        <div className="bg-[#4A2C0A] px-4 py-3" style={{ borderRadius: '2px 2px 0 0' }}>
+          <div className="border border-[#C8924A]/35 px-3 py-2">
+            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[#C8924A]/70 text-center leading-none mb-0.5">Dark</p>
+            <p className="font-display text-sm text-[#F0D08A] text-center">Chocolate</p>
+          </div>
+          {/* Lifted corner effect */}
+          <div className="flex justify-end mt-1">
+            <div className="w-8 h-px bg-[#C8924A]/20" />
+          </div>
+        </div>
+
+        {/* Chat showing beneath */}
+        <div className="px-3 py-3" style={{ fontFamily: 'system-ui, sans-serif' }}>
+          <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-2 font-sans">15 February 2026</p>
+          <div className="flex justify-end">
+            <div className="bg-[#DCF8C6] px-2 py-1 rounded-lg rounded-tr-sm text-[11px] text-[#111] max-w-[80%]">
+              I think dark chocolate... you?
+              <span className="ml-1 text-[8px] text-green-600/50">✓✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 }
 
-// ─── 3. Recipe Card (flip) ────────────────────────────────────────────────────
+// ─── STATIC: Recipe Card ──────────────────────────────────────────────────────
+// Just sits there. No flip. You read it and feel it.
 
-function RecipeCard({ delay }: { delay: number }) {
-  const [flipped, setFlipped] = useState(false);
-
+function RecipeArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, rotate: -1.5 }}
-      animate={{ opacity: 1, y: 0, rotate: -1.5 }}
-      transition={{ delay, duration: 0.9 }}
+      initial={{ opacity: 0, rotate: -1.5 }}
+      animate={{ opacity: 1, rotate: -1.5 }}
+      transition={{ delay, duration: 1 }}
       className="relative"
-      style={{ perspective: 700 }}
+      style={{ width: 172 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-5 washi-tape rotate-[2deg]" />
-
-      <motion.div
-        className="relative w-52 cursor-pointer"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
-        onClick={() => setFlipped(v => !v)}
-        role="button"
-        tabIndex={0}
-        aria-label={flipped ? 'Flip recipe card back' : 'Flip recipe card'}
-        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(v => !v); } }}
-      >
-        {/* Front */}
-        <div
-          className="bg-[#FEFCE8] border border-[#D4C89A]/50 px-5 py-5 shadow-sm"
-          style={{ backfaceVisibility: 'hidden' }}
-        >
-          <p className="font-handwriting text-base text-coffee/70 text-center mb-3 border-b border-charcoal/10 pb-2">
-            Recipe for Us
-          </p>
-          <ul className="space-y-1.5">
-            {['Love', 'Giggles', 'Cooking', 'Cuddles'].map(i => (
-              <li key={i} className="font-letter text-sm text-charcoal/70 flex items-center gap-2">
-                <span className="text-golden/60">✦</span> {i}
-              </li>
-            ))}
-          </ul>
-          <p className="font-handwriting text-[10px] text-charcoal/30 text-right mt-3 italic">flip →</p>
-        </div>
-
-        {/* Back */}
-        <div
-          className="absolute inset-0 bg-[#FEFCE8] border border-[#D4C89A]/50 px-5 py-5 shadow-sm flex flex-col justify-center"
-          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-        >
-          <p className="font-quote text-sm text-charcoal/75 italic leading-relaxed text-center">
-            "We both in kitchen cuddling giggling and cooking..."
-          </p>
-          <p className="font-handwriting text-[10px] text-charcoal/35 text-right mt-3">— her message</p>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-// ─── 4. Campus Map — Canteen Entrance ─────────────────────────────────────────
-
-function CampusMap({ delay }: { delay: number }) {
-  const [markerClicked, setMarkerClicked] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, rotate: 1 }}
-      animate={{ opacity: 1, y: 0, rotate: 1 }}
-      transition={{ delay, duration: 0.9 }}
-      className="relative"
-    >
-      <div className="absolute -top-3 left-3 w-14 h-5 washi-tape -rotate-[1deg]" />
-
-      <div className="bg-[#F5F0E8] border border-charcoal/12 p-3 shadow-sm w-52">
-        <p className="font-handwriting text-[10px] text-charcoal/35 mb-2 text-center tracking-wide">16 February 2026</p>
-
-        {/* Hand-drawn map SVG */}
-        <svg viewBox="0 0 200 130" width="100%" className="block">
-          {/* Grid lines — faint pencil look */}
-          {[30, 60, 90, 120].map(y => (
-            <line key={y} x1="0" y1={y} x2="200" y2={y} stroke="#B8A88A" strokeWidth="0.4" opacity="0.4" strokeDasharray="4 6" />
+      <div className="bg-[#FEFCE8] border border-[#D4C89A]/50 px-5 py-4 shadow-sm">
+        <p className="font-handwriting text-sm text-coffee/65 text-center mb-2 border-b border-charcoal/10 pb-2">
+          Recipe for Us
+        </p>
+        <ul className="space-y-1">
+          {['Love', 'Giggles', 'Cooking', 'Cuddles'].map(i => (
+            <li key={i} className="font-letter text-xs text-charcoal/65 flex items-center gap-1.5">
+              <span className="text-golden/50 text-xs">✦</span> {i}
+            </li>
           ))}
-          {[40, 80, 120, 160].map(x => (
-            <line key={x} x1={x} y1="0" x2={x} y2="130" stroke="#B8A88A" strokeWidth="0.4" opacity="0.4" strokeDasharray="4 6" />
-          ))}
-
-          {/* Buildings */}
-          <rect x="10" y="15" width="50" height="35" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
-          <text x="35" y="37" textAnchor="middle" fontSize="7" fill="#7C6A4F" fontFamily="Georgia, serif">College</text>
-
-          <rect x="130" y="70" width="55" height="40" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
-          <text x="157" y="94" textAnchor="middle" fontSize="7" fill="#7C6A4F" fontFamily="Georgia, serif">Canteen</text>
-
-          {/* Dashed path */}
-          <motion.path
-            d="M 35 50 Q 60 80 100 85 Q 120 88 140 85"
-            fill="none"
-            stroke="#D4844A"
-            strokeWidth="1.5"
-            strokeDasharray="5 4"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ delay: delay + 0.5, duration: 1.5, ease: 'easeOut' }}
-          />
-
-          {/* Canteen Entrance marker */}
-          <motion.g
-            style={{ cursor: 'pointer' }}
-            whileHover={{ scale: 1.15 }}
-            onClick={() => setMarkerClicked(v => !v)}
-            role="button"
-            aria-label="Open canteen entrance memory"
-          >
-            <circle cx="140" cy="80" r="7" fill="#D4844A" opacity="0.85" />
-            <circle cx="140" cy="80" r="3" fill="white" />
-            <text x="140" y="102" textAnchor="middle" fontSize="6" fill="#7C6A4F" fontFamily="Georgia, serif">Entrance</text>
-          </motion.g>
-        </svg>
-
-        {/* Revealed conversation */}
-        <AnimatePresence>
-          {markerClicked && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mt-2 pt-2 border-t border-charcoal/10 overflow-hidden"
-            >
-              <p className="font-handwriting text-xs text-charcoal/35 mb-1">4:30 PM</p>
-              <p className="font-quote text-xs text-charcoal/65 italic leading-snug">
-                "Come to canteen entrance."
-              </p>
-              <p className="font-handwriting text-[10px] text-charcoal/30 mt-1 italic">
-                And you came.
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </ul>
+        <p className="font-quote text-[10px] text-charcoal/45 italic mt-3 leading-snug">
+          "We both in kitchen cuddling giggling and cooking..."
+        </p>
       </div>
     </motion.div>
   );
 }
 
-// ─── 5. Brain Sticky Note ─────────────────────────────────────────────────────
+// ─── STATIC: Sticky Note ──────────────────────────────────────────────────────
 
-function BrainStickyNote({ delay }: { delay: number }) {
+function StickyArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -3, y: 8 }}
-      animate={{ opacity: 1, rotate: -3, y: 0 }}
-      transition={{ delay, duration: 0.8 }}
-      className="inline-block"
+      initial={{ opacity: 0, rotate: 4 }}
+      animate={{ opacity: 1, rotate: 4 }}
+      transition={{ delay, duration: 0.9 }}
+      style={{ width: 176 }}
     >
-      <div className="bg-[#FEF08A] px-5 py-4 shadow-md max-w-[220px]">
-        <p className="font-handwriting text-[10px] text-charcoal/35 mb-2">20 February 2026</p>
-        <p className="font-letter text-sm text-charcoal/85 leading-snug">
+      <div className="bg-[#FEF08A] px-4 py-4 shadow-md">
+        <p className="font-handwriting text-[10px] text-charcoal/35 mb-1.5">20 February 2026</p>
+        <p className="font-letter text-xs text-charcoal/80 leading-snug">
           "I think I'll stop using my brain when I'm with you 😂"
         </p>
-        <p className="font-handwriting text-xs text-charcoal/38 mt-2 text-right italic">
-          — Meghana
+        <p className="font-handwriting text-[10px] text-charcoal/38 mt-2 text-right">— Meghana</p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── STATIC: Campus Doodle ────────────────────────────────────────────────────
+
+function CampusDoodle({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 1 }}
+      animate={{ opacity: 1, rotate: 1 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 160 }}
+    >
+      <div className="absolute -top-3 left-3 w-12 h-5 washi-tape -rotate-[1deg]" />
+      <div className="bg-[#F5F0E8] border border-charcoal/12 p-2 shadow-sm">
+        <p className="font-handwriting text-[9px] text-charcoal/35 text-center mb-1">16 February 2026</p>
+        <svg viewBox="0 0 150 90" width="100%" className="block">
+          {/* faint grid */}
+          {[20, 45, 70].map(y => (
+            <line key={y} x1="0" y1={y} x2="150" y2={y} stroke="#B8A88A" strokeWidth="0.4" opacity="0.35" strokeDasharray="3 5" />
+          ))}
+          {/* Buildings */}
+          <rect x="5" y="10" width="38" height="28" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
+          <text x="24" y="28" textAnchor="middle" fontSize="6" fill="#7C6A4F" fontFamily="Georgia,serif">College</text>
+          <rect x="95" y="50" width="48" height="32" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
+          <text x="119" y="70" textAnchor="middle" fontSize="6" fill="#7C6A4F" fontFamily="Georgia,serif">Canteen</text>
+          {/* Path */}
+          <motion.path
+            d="M 24 38 Q 55 60 80 68 Q 90 72 100 66"
+            fill="none" stroke="#D4844A" strokeWidth="1.5" strokeDasharray="4 3" strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ delay: delay + 0.6, duration: 1.4, ease: 'easeOut' }}
+          />
+          {/* Marker */}
+          <circle cx="100" cy="66" r="4.5" fill="#D4844A" opacity="0.8" />
+          <circle cx="100" cy="66" r="2" fill="white" />
+          <text x="100" y="84" textAnchor="middle" fontSize="5.5" fill="#7C6A4F" fontFamily="Georgia,serif">Entrance</text>
+        </svg>
+        <p className="font-handwriting text-[9px] text-charcoal/38 text-center mt-1 italic">
+          "Come to canteen entrance."
         </p>
       </div>
     </motion.div>
   );
 }
 
-// ─── 6. Sikkina Unde + Bangara ────────────────────────────────────────────────
+// ─── INTERACTIVE 2: Sikkina Unde ─────────────────────────────────────────────
+// Already slightly opened. Tap to pull the paper back.
 
 function SikkinaUnde({ delay }: { delay: number }) {
-  const [unwrapped, setUnwrapped] = useState(false);
+  const [pulled, setPulled] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, rotate: 2 }}
-      animate={{ opacity: 1, y: 0, rotate: 2 }}
-      transition={{ delay, duration: 0.9 }}
+      initial={{ opacity: 0, rotate: -2 }}
+      animate={{ opacity: 1, rotate: -2 }}
+      transition={{ delay, duration: 1 }}
       className="relative"
+      style={{ width: 192 }}
     >
-      <div className="absolute -top-3 left-6 w-14 h-5 washi-tape rotate-[1deg]" />
+      <div className="absolute -top-3 left-5 w-14 h-5 washi-tape rotate-[1deg]" />
+      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm overflow-hidden">
+        <p className="font-handwriting text-[9px] text-charcoal/32 text-center pt-3 pb-1">23 February 2026</p>
 
-      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm p-4 w-52">
-        <p className="font-handwriting text-[10px] text-charcoal/35 mb-3 text-center">23 February 2026</p>
-
-        {/* Candy wrapper */}
+        {/* The slightly-open candy wrapper */}
         <div
-          className="flex justify-center mb-3 cursor-pointer"
-          onClick={() => setUnwrapped(v => !v)}
+          className="relative mx-auto my-2 cursor-pointer"
+          style={{ width: 120, height: 80 }}
+          onClick={() => setPulled(v => !v)}
           role="button"
           tabIndex={0}
-          aria-label={unwrapped ? 'Wrap sweet' : 'Unwrap Sikkina Unde'}
-          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setUnwrapped(v => !v); } }}
+          aria-label={pulled ? 'Close sweet wrapper' : 'Pull open sweet wrapper'}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPulled(v => !v); } }}
         >
-          <AnimatePresence mode="wait">
-            {!unwrapped ? (
-              <motion.div
-                key="wrapped"
-                initial={{ scale: 1 }}
-                exit={{ scale: 0, rotate: 20, opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="relative"
-              >
-                {/* Sweet SVG */}
-                <svg viewBox="0 0 80 50" width="80" height="50">
-                  {/* Twist ends */}
-                  <ellipse cx="8" cy="25" rx="8" ry="5" fill="#C8924A" opacity="0.7" />
-                  <ellipse cx="72" cy="25" rx="8" ry="5" fill="#C8924A" opacity="0.7" />
-                  {/* Body */}
-                  <rect x="14" y="10" width="52" height="30" rx="8" fill="#E8A84A" />
-                  <rect x="18" y="14" width="44" height="22" rx="6" fill="#F0B84A" />
-                  {/* Shine */}
-                  <ellipse cx="32" cy="18" rx="8" ry="3" fill="white" opacity="0.25" />
-                  {/* Label */}
-                  <text x="40" y="28" textAnchor="middle" fontSize="6.5" fill="#7C4A0A" fontFamily="Georgia, serif">tap ↑</text>
-                </svg>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="unwrapped"
-                initial={{ scale: 0.6, rotate: -15, opacity: 0 }}
-                animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-              >
-                <svg viewBox="0 0 60 60" width="60" height="60">
-                  {/* Sweet ball */}
-                  <circle cx="30" cy="30" r="26" fill="#E8A84A" />
-                  <circle cx="30" cy="30" r="20" fill="#F0B84A" />
-                  <ellipse cx="22" cy="22" rx="8" ry="5" fill="white" opacity="0.2" />
-                  <text x="30" y="34" textAnchor="middle" fontSize="16">🍬</text>
-                </svg>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Note beneath (always visible, partially covered) */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FEFCE8] border border-[#D4C89A]/40 px-3 py-2">
+            <AnimatePresence>
+              {pulled && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="text-center"
+                >
+                  <p className="font-handwriting text-xs text-coffee/70 leading-snug">
+                    "From this day...<br />you became Bangara."
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Wrapper on top — peels back */}
+          <motion.div
+            className="absolute inset-0 origin-bottom"
+            animate={{ scaleY: pulled ? 0.08 : 0.72 }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <svg viewBox="0 0 120 80" width="120" height="80">
+              {/* Twist ends */}
+              <ellipse cx="7" cy="40" rx="7" ry="14" fill="#C8924A" opacity="0.6" />
+              <ellipse cx="113" cy="40" rx="7" ry="14" fill="#C8924A" opacity="0.6" />
+              {/* Body */}
+              <rect x="12" y="12" width="96" height="56" rx="12" fill="#E8A84A" />
+              <rect x="18" y="18" width="84" height="44" rx="10" fill="#F0B84A" />
+              {/* Shine */}
+              <ellipse cx="50" cy="26" rx="18" ry="6" fill="white" opacity="0.2" />
+              {/* Label */}
+              <text x="60" y="44" textAnchor="middle" fontSize="10" fill="#7C4A0A" fontFamily="Georgia,serif">Sikkina Unde</text>
+              {/* Hint text — visible only when not pulled */}
+              <text x="60" y="58" textAnchor="middle" fontSize="7" fill="#7C4A0A" fontFamily="Georgia,serif" opacity="0.5">pull ↑</text>
+            </svg>
+          </motion.div>
         </div>
 
         <AnimatePresence>
-          {unwrapped && (
-            <motion.div
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-center"
-            >
-              <p className="font-sans text-[10px] tracking-widest uppercase text-charcoal/30 mb-1">Sikkina Unde</p>
-              <p className="font-quote text-xs text-charcoal/60 italic leading-snug mb-2">
-                A small sweet. A big nickname.
-              </p>
-              <p className="font-handwriting text-sm text-coffee/70 leading-snug">
-                "From that day...<br />you became Bangara."
-              </p>
-            </motion.div>
-          )}
-          {!unwrapped && (
+          {pulled && (
             <motion.p
-              key="label"
-              exit={{ opacity: 0 }}
-              className="font-handwriting text-xs text-charcoal/35 text-center italic"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="font-sans text-[9px] tracking-widest uppercase text-charcoal/28 text-center pb-3"
             >
-              Sikkina Unde
+              A small sweet. A big nickname.
             </motion.p>
           )}
         </AnimatePresence>
@@ -427,38 +323,60 @@ function SikkinaUnde({ delay }: { delay: number }) {
   );
 }
 
-// ─── 7. Forgot the Hug ────────────────────────────────────────────────────────
+// ─── STATIC: 26 Feb Note ─────────────────────────────────────────────────────
 
-function ForgotHug({ delay }: { delay: number }) {
-  const [textVisible, setTextVisible] = useState(false);
-  const [hugVisible, setHugVisible] = useState(false);
+function FebQuoteNote({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 3.5 }}
+      animate={{ opacity: 1, rotate: 3.5 }}
+      transition={{ delay, duration: 0.9 }}
+      style={{ width: 168 }}
+    >
+      <div className="absolute -top-3 right-3 w-12 h-5 washi-tape -rotate-[2deg]" />
+      <div className="bg-[#F9F6F0] border border-charcoal/10 px-4 py-3 shadow-sm">
+        <p className="font-handwriting text-[9px] text-charcoal/32 mb-2">26 February 2026</p>
+        <p className="font-quote text-xs text-charcoal/65 italic leading-relaxed">
+          "The kiss was so good good good good good"
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── INTERACTIVE 3: Forgot the Hug ───────────────────────────────────────────
+// Empty. Silence. Then a whisper. Then the hug.
+
+function ForgotHug() {
+  const [phase, setPhase] = useState<'empty' | 'whisper' | 'hug'>('empty');
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!isInView) return;
-    const t = setTimeout(() => setTextVisible(true), shouldReduceMotion ? 100 : 2000);
+    const t = setTimeout(() => setPhase('whisper'), shouldReduceMotion ? 100 : 2000);
     return () => clearTimeout(t);
   }, [isInView, shouldReduceMotion]);
 
   return (
-    <div ref={ref} className="w-full">
-      {/* Empty space — silence does the work */}
-      <div className="h-8" />
+    <div ref={ref} className="text-center py-6">
+      {/* Silent space */}
+      <div className="h-6" />
 
       <AnimatePresence>
-        {textVisible && (
+        {(phase === 'whisper' || phase === 'hug') && (
           <motion.div
+            key="whisper"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.8 }}
-            className="text-center"
+            transition={{ duration: 2 }}
           >
             <button
-              onClick={() => setHugVisible(v => !v)}
-              className="font-handwriting text-base text-charcoal/40 hover:text-charcoal/60 transition-colors cursor-pointer bg-transparent border-none p-0"
-              aria-label="Reveal the forgot hug memory"
+              onClick={() => setPhase('hug')}
+              disabled={phase === 'hug'}
+              className="font-handwriting text-sm text-charcoal/38 hover:text-charcoal/55 transition-colors cursor-pointer bg-transparent border-none p-0 disabled:cursor-default"
+              aria-label="Reveal the forgotten hug"
             >
               "You forgot something..."
             </button>
@@ -467,74 +385,41 @@ function ForgotHug({ delay }: { delay: number }) {
       </AnimatePresence>
 
       <AnimatePresence>
-        {hugVisible && (
+        {phase === 'hug' && (
           <motion.div
+            key="hug"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2 }}
-            className="mt-5 text-center"
+            transition={{ duration: 1.4 }}
+            className="mt-5"
           >
             {/* Hug illustration */}
-            <svg viewBox="0 0 120 70" width="120" height="70" className="mx-auto mb-3" aria-label="Two figures hugging">
-              {/* Figure 1 (her) */}
-              <circle cx="40" cy="18" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.5" />
-              <path d="M40 27 L40 50" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M40 38 Q30 34 26 38" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              <path d="M40 38 Q52 32 60 38" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              <path d="M32 50 Q40 60 48 50" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-
-              {/* Figure 2 (him) */}
-              <circle cx="80" cy="18" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.5" />
-              <path d="M80 27 L80 50" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M80 38 Q68 32 60 38" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              <path d="M80 38 Q90 34 94 38" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              <path d="M72 50 Q80 60 88 50" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-
-              {/* Heart between them */}
-              <text x="60" y="43" textAnchor="middle" fontSize="10" fill="#C87070" opacity="0.7">♥</text>
+            <svg viewBox="0 0 130 75" width="130" height="75" className="mx-auto mb-3"
+              aria-label="Two figures hugging">
+              {/* Her */}
+              <circle cx="42" cy="17" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.4" />
+              <path d="M42 26 L42 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M42 37 Q32 33 28 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              <path d="M42 37 Q55 31 65 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              <path d="M34 50 Q42 62 50 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              {/* Him */}
+              <circle cx="88" cy="17" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.4" />
+              <path d="M88 26 L88 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M88 37 Q75 31 65 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              <path d="M88 37 Q98 33 102 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              <path d="M80 50 Q88 62 96 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+              {/* Heart */}
+              <text x="65" y="42" textAnchor="middle" fontSize="11" fill="#C87070" opacity="0.6">♥</text>
             </svg>
 
-            <p className="font-quote text-sm text-charcoal/65 italic leading-snug">
+            <p className="font-quote text-sm text-charcoal/60 italic">
               "You missed something while going."
             </p>
-            <p className="font-handwriting text-xs text-charcoal/35 mt-1 italic">
-              — 27 February 2026
-            </p>
+            <p className="font-handwriting text-xs text-charcoal/32 mt-1">— 27 February 2026</p>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-// ─── Background Decorations ───────────────────────────────────────────────────
-
-function BackgroundDecorations() {
-  return (
-    <>
-      {/* Coffee stain ring */}
-      <div
-        className="absolute top-28 left-4 w-14 h-14 rounded-full border-2 border-[#C8924A]/14 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 0 4px rgba(200,146,74,0.06)' }}
-        aria-hidden="true"
-      />
-      {/* Paper clip */}
-      <svg className="absolute top-52 left-2 opacity-20 pointer-events-none" width="16" height="40" viewBox="0 0 16 40" aria-hidden="true">
-        <path d="M8 2 Q14 2 14 8 L14 32 Q14 38 8 38 Q2 38 2 32 L2 10 Q2 6 5 6 Q8 6 8 10 L8 30 Q8 34 6 34" fill="none" stroke="#7C6A4F" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-      {/* Tiny flower */}
-      <div className="absolute bottom-40 left-3 text-lg opacity-20 pointer-events-none" aria-hidden="true">🌸</div>
-      {/* Bus ticket */}
-      <div
-        className="absolute bottom-20 left-1 w-8 h-16 bg-[#E8DDD0] border border-[#C8B8A8]/30 opacity-15 pointer-events-none"
-        style={{ rotate: '4deg' }}
-        aria-hidden="true"
-      >
-        <div className="w-full h-3 bg-[#C8924A]/20 mt-2" />
-        <div className="w-3/4 h-px bg-charcoal/10 mt-1 mx-auto" />
-        <div className="w-3/4 h-px bg-charcoal/10 mt-1 mx-auto" />
-      </div>
-    </>
   );
 }
 
@@ -556,155 +441,147 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
       exit="exit"
       transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
     >
-      {/* Ambient warm light */}
       <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-[#FFF6EC]/50 to-transparent pointer-events-none" />
 
       <div className="max-w-6xl mx-auto min-h-full p-6 md:p-12 flex flex-col md:flex-row gap-0">
 
         {/* ═══════════ LEFT PAGE ═══════════ */}
         <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-12 flex flex-col py-8 z-10 relative">
-          <BackgroundDecorations />
+
+          {/* Background: coffee stain */}
+          <div
+            className="absolute top-24 left-2 w-16 h-16 rounded-full border-2 border-[#C8924A]/12 pointer-events-none"
+            style={{ boxShadow: 'inset 0 0 0 5px rgba(200,146,74,0.05)' }}
+            aria-hidden="true"
+          />
+          {/* Paper clip */}
+          <svg className="absolute top-56 left-1 opacity-18 pointer-events-none" width="14" height="38" viewBox="0 0 14 38" aria-hidden="true">
+            <path d="M7 2 Q13 2 13 8 L13 30 Q13 36 7 36 Q1 36 1 30 L1 10 Q1 6 4 6 Q7 6 7 10 L7 28 Q7 32 5 32" fill="none" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          {/* Flower */}
+          <div className="absolute bottom-44 left-2 text-base opacity-18 pointer-events-none" aria-hidden="true">🌸</div>
+          {/* Bus ticket stub */}
+          <div className="absolute bottom-24 left-0 w-7 h-14 bg-[#E8DDD0] border border-[#C8B8A8]/25 opacity-14 pointer-events-none"
+            style={{ rotate: '5deg' }} aria-hidden="true">
+            <div className="w-full h-2.5 bg-[#C8924A]/20 mt-2" />
+          </div>
 
           {/* Chapter header */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 1 }}
-            className="mb-8"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="mb-8">
             <p className="font-sans text-xs tracking-[0.38em] uppercase text-brown/38 mb-2">Chapter Two</p>
-            <p className="font-handwriting text-xl text-coffee/50 mb-1">February 2026</p>
+            <p className="font-handwriting text-xl text-coffee/48 mb-1">February 2026</p>
             <h2 className="font-display text-3xl md:text-4xl text-coffee font-light leading-snug">
               The Days We Couldn't<br />Stop Smiling
             </h2>
-            <motion.svg className="w-44 h-4 mt-2" viewBox="0 0 180 12" aria-hidden="true">
-              <motion.path
-                d="M 0 8 C 40 3, 90 11, 130 6 S 165 9, 180 7"
-                fill="none" stroke="#C9A84C" strokeWidth="1.6" strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.8, delay: 0.8, ease: 'easeOut' }}
-              />
+            <motion.svg className="w-40 h-4 mt-2" viewBox="0 0 160 12" aria-hidden="true">
+              <motion.path d="M 0 8 C 35 3, 80 11, 120 6 S 150 9, 160 7"
+                fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                transition={{ duration: 1.8, delay: 0.8, ease: 'easeOut' }} />
             </motion.svg>
           </motion.div>
 
-          {/* Timeline — dates with tiny notes */}
-          <div className="space-y-1 flex-1">
-
+          {/* Date timeline — minimal */}
+          <div className="space-y-0.5 flex-1">
             <DateDivider date="14 February 2026" delay={0.8} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/45 pl-2 mb-2">
-              The first one.
-            </motion.p>
+              className="font-handwriting text-sm text-charcoal/42 pl-2 pb-3">The first one.</motion.p>
 
             <DateDivider date="15 February 2026" delay={1.4} />
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7, duration: 1 }}
-              className="pl-2 mb-2 space-y-0.5">
-              <p className="font-handwriting text-sm text-charcoal/40">She said dark chocolate.</p>
-              <p className="font-handwriting text-sm text-charcoal/35 italic">Then she dreamed of a kitchen.</p>
+              className="pl-2 pb-3 space-y-0.5">
+              <p className="font-handwriting text-sm text-charcoal/38">She said dark chocolate.</p>
+              <p className="font-handwriting text-sm text-charcoal/32 italic">Then she dreamed of a kitchen.</p>
             </motion.div>
 
             <DateDivider date="16 February 2026" delay={2.0} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.3, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/40 pl-2 mb-2">
-              4:30 PM at the canteen entrance.
-            </motion.p>
+              className="font-handwriting text-sm text-charcoal/38 pl-2 pb-3">4:30 PM at the canteen entrance.</motion.p>
 
             <DateDivider date="20 February 2026" delay={2.6} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.9, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/38 pl-2 mb-2 italic">
-              She stopped using her brain. It's fine. Same.
-            </motion.p>
+              className="font-handwriting text-sm text-charcoal/35 pl-2 pb-3 italic">She stopped using her brain.<br />It's fine. Same.</motion.p>
 
             <DateDivider date="23 February 2026" delay={3.2} />
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5, duration: 1 }}
-              className="pl-2 mb-2 space-y-0.5">
-              <p className="font-handwriting text-sm text-charcoal/40">Sikkina Unde.</p>
+              className="pl-2 pb-3">
+              <p className="font-handwriting text-sm text-charcoal/38">Sikkina Unde.</p>
               <p className="font-handwriting text-sm text-coffee/55">Bangara.</p>
             </motion.div>
 
             <DateDivider date="26 February 2026" delay={3.8} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4.1, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/38 pl-2 mb-2 italic">
-              "...so good good good good good."
-            </motion.p>
+              className="font-handwriting text-sm text-charcoal/35 pl-2 pb-3 italic">"...so good good good good good."</motion.p>
 
             <DateDivider date="27 February 2026" delay={4.4} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4.7, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/35 pl-2 italic">
-              Something was forgotten.
-            </motion.p>
+              className="font-handwriting text-sm text-charcoal/30 pl-2 italic">Something was forgotten.</motion.p>
           </div>
 
-          {/* Closing line */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 5.5, duration: 2 }}
-            className="mt-10 border-t border-charcoal/10 pt-6"
-          >
-            <p className="font-quote text-base text-charcoal/55 leading-loose italic">
-              February was over.<br />
-              Somehow,<br />
-              it already felt like home.
+          {/* Closing */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 5.5, duration: 2 }}
+            className="mt-10 border-t border-charcoal/10 pt-6">
+            <p className="font-quote text-base text-charcoal/52 leading-loose italic">
+              February was over.<br />Somehow,<br />it already felt like home.
             </p>
           </motion.div>
 
           {/* Navigation */}
           <div className="flex items-center justify-between pt-6 mt-4">
-            <button onClick={onPrev} className="font-sans text-xs text-charcoal/35 hover:text-coffee transition-colors tracking-widest uppercase">
-              ← Chapter One
-            </button>
-            <button onClick={onNext} className="font-sans text-xs text-charcoal/45 hover:text-coffee transition-colors tracking-widest uppercase">
-              Next →
-            </button>
+            <button onClick={onPrev} className="font-sans text-xs text-charcoal/35 hover:text-coffee transition-colors tracking-widest uppercase">← Chapter One</button>
+            <button onClick={onNext} className="font-sans text-xs text-charcoal/45 hover:text-coffee transition-colors tracking-widest uppercase">Next →</button>
           </div>
         </div>
 
-        {/* ═══════════ RIGHT PAGE ═══════════ */}
-        <div className="flex-1 md:pl-12 flex flex-col py-8 gap-7">
+        {/* ═══════════ RIGHT PAGE — organic scrapbook spread ════════════ */}
+        <div className="flex-1 md:pl-12 py-8">
 
-          {/* Row 1 */}
-          <div className="flex flex-wrap gap-5 items-start">
-            <EnvelopeCard delay={1.0} />
+          {/* Desktop: organic scatter layout */}
+          <div className="hidden md:block relative" style={{ minHeight: 740 }}>
+            {/* Envelope — top left */}
+            <div style={{ position: 'absolute', top: 0, left: 0 }}>
+              <EnvelopeCard delay={0.9} />
+            </div>
+            {/* Chocolate — top right, overlapping slightly */}
+            <div style={{ position: 'absolute', top: 12, left: 230 }}>
+              <ChocolateArtifact delay={1.3} />
+            </div>
+            {/* Recipe card — left, mid */}
+            <div style={{ position: 'absolute', top: 200, left: 10 }}>
+              <RecipeArtifact delay={1.8} />
+            </div>
+            {/* Sticky note — right, mid-high */}
+            <div style={{ position: 'absolute', top: 160, left: 230 }}>
+              <StickyArtifact delay={2.2} />
+            </div>
+            {/* Campus doodle — left lower */}
+            <div style={{ position: 'absolute', top: 390, left: 20 }}>
+              <CampusDoodle delay={2.6} />
+            </div>
+            {/* Sikkina Unde — right lower */}
+            <div style={{ position: 'absolute', top: 350, left: 200 }}>
+              <SikkinaUnde delay={3.0} />
+            </div>
+            {/* 26 Feb quote — overlapping lower right */}
+            <div style={{ position: 'absolute', top: 555, left: 190 }} className="relative">
+              <FebQuoteNote delay={3.6} />
+            </div>
+            {/* Forgot Hug — bottom center */}
+            <div style={{ position: 'absolute', top: 560, left: 0, right: 0 }}>
+              <ForgotHug />
+            </div>
           </div>
 
-          {/* Row 2 */}
-          <div className="flex flex-wrap gap-5 items-start">
-            <ChocolateWrapper delay={1.6} />
-            <RecipeCard delay={2.0} />
-          </div>
-
-          {/* Row 3 */}
-          <div className="flex flex-wrap gap-5 items-start">
-            <CampusMap delay={2.4} />
-            <BrainStickyNote delay={2.8} />
-          </div>
-
-          {/* Row 4 */}
-          <div className="flex flex-wrap gap-5 items-start">
-            <SikkinaUnde delay={3.4} />
-
-            {/* 26 Feb quote card */}
-            <motion.div
-              initial={{ opacity: 0, rotate: 1.5, y: 8 }}
-              animate={{ opacity: 1, rotate: 1.5, y: 0 }}
-              transition={{ delay: 3.8, duration: 0.9 }}
-              className="relative max-w-[200px]"
-            >
-              <div className="absolute -top-3 left-4 w-12 h-5 washi-tape -rotate-[2deg]" />
-              <div className="bg-[#F9F6F0] border border-charcoal/10 px-4 py-4 shadow-sm">
-                <p className="font-handwriting text-[10px] text-charcoal/35 mb-2">26 Feb</p>
-                <p className="font-quote text-sm text-charcoal/70 italic leading-relaxed">
-                  "The kiss was so good good good good good"
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Row 5 — Forgot the Hug */}
-          <div className="border-t border-charcoal/8 pt-6">
-            <ForgotHug delay={4.5} />
+          {/* Mobile: natural flow */}
+          <div className="flex flex-col gap-7 md:hidden">
+            <EnvelopeCard delay={0.9} />
+            <ChocolateArtifact delay={1.2} />
+            <RecipeArtifact delay={1.5} />
+            <StickyArtifact delay={1.8} />
+            <CampusDoodle delay={2.1} />
+            <SikkinaUnde delay={2.4} />
+            <FebQuoteNote delay={2.7} />
+            <ForgotHug />
           </div>
 
         </div>
