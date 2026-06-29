@@ -1,0 +1,125 @@
+# Sprint 8 — Build Chapter Six: "The Nights We Never Forgot"
+
+Continue the scrapbook project.
+
+The Story Engine is complete.
+
+The Component Library is complete.
+
+Maintain the handcrafted scrapbook experience.
+
+TITLE
+
+Chapter Six
+
+The Nights We Never Forgot
+
+GOAL
+
+Create the most cinematic and emotionally intimate chapter in the scrapbook.
+
+The chapter should feel like quietly reading letters written late at night.
+
+Do NOT create a generic dark mode.
+
+Create a moonlit scrapbook.
+
+## LEFT PAGE
+
+Include:
+
+* Chapter header
+* Reflective introduction
+* Folded handwritten letters
+* Wax seal illustration
+* Small paper clips
+* Pull quote
+
+Letters should be interactive.
+
+Clicking a wax seal should:
+
+* Break the seal
+* Unfold the paper
+* Reveal a chat snippet
+* Reveal a handwritten memory
+* Close elegantly
+
+## RIGHT PAGE
+
+Create a moonlit paper scene.
+
+Include:
+
+* Night sky illustration
+* Soft moon glow
+* Twinkling stars
+* Floating paper notes
+* Subtle rain
+* Gentle ink texture
+
+## ANIMATIONS
+
+Use the existing motion token system.
+
+Include:
+
+* Moon glow pulse
+* Star twinkles
+* Slow drifting clouds
+* Light rain
+* Letter unfolding
+* Ink reveal
+* Gentle page fade
+
+No energetic motion.
+
+No bounce effects.
+
+## HIDDEN INTERACTION
+
+Hide one special star.
+
+When clicked:
+
+Trigger a short shooting-star animation.
+
+Reveal a secret handwritten letter with a meaningful message.
+
+## DATA
+
+All content must come from:
+
+data/chapters/chapter6.ts
+
+No hardcoded story content.
+
+## ACCESSIBILITY
+
+* Keyboard navigation
+* Reduced motion
+* Responsive layout
+* ARIA labels
+* Zero TypeScript errors
+
+## CONSTRAINTS
+
+Do not redesign previous chapters.
+
+Do not add global navigation.
+
+Do not build Chapter Seven.
+
+Maintain visual consistency with the scrapbook.
+
+## DELIVERABLES
+
+* Complete Chapter Six
+* Fully populated chapter6.ts
+* Interactive letters
+* Moonlit scrapbook
+* Hidden shooting-star interaction
+* Responsive implementation
+* Zero TypeScript errors
+
+Stop after Chapter Six and wait for review.
