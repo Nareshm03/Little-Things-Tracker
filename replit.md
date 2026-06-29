@@ -1,44 +1,46 @@
-# [Project name]
+# The Little Things We Never Want To Forget
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A premium cinematic digital scrapbook made for Meghana — a handmade book experience built on the web.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/scrapbook run dev` — run the scrapbook (port auto-assigned by workflow)
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Framer Motion + Tailwind CSS v4
+- Fonts: Playfair Display, Dancing Script, Cormorant, Caveat, Inter (Google Fonts)
+- No backend — purely frontend, all content hardcoded
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/scrapbook/src/App.tsx` — chapter state machine, keyboard navigation
+- `artifacts/scrapbook/src/chapters/` — one file per chapter (Cover, Dedication, BeforeWeBegin, ChapterOne–Seven, Ending)
+- `artifacts/scrapbook/src/components/NavigationBookmarks.tsx` — bookmark sidebar nav
+- `artifacts/scrapbook/src/index.css` — full color system, Google Fonts, keyframe animations
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Single-page state machine (no router) — chapter index drives which component renders inside AnimatePresence
+- Each chapter is an isolated component receiving `onNext` / `onPrev` props
+- Dark mode toggled by adding `.dark` class to `<html>` when Chapter Six is active
+- All animations use Framer Motion for page transitions; CSS keyframes for micro-interactions (steam, stars, petals)
+- `prefers-reduced-motion` media query collapses all animations for accessibility
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+A cinematic digital scrapbook with 11 chapters: Cover → Dedication → Before We Begin → 7 chapters of shared memories → Ending. Every chapter has unique interactions, atmosphere, and animated transitions designed to feel like a real handmade book.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+_Populate as you build._
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- `vite.config.ts` throws if `PORT` or `BASE_PATH` are missing — only run via workflow, not bare `pnpm dev`
+- Generated polaroid images live in `attached_assets/generated_images/`; import via `@assets/generated_images/<file>`
 
 ## Pointers
 

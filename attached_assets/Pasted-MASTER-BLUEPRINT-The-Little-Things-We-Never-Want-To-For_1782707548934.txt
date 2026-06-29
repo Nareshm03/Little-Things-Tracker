@@ -1,0 +1,804 @@
+MASTER BLUEPRINT
+
+The Little Things We Never Want To Forget
+
+Version
+
+v1.0 – Premium Cinematic Digital Scrapbook
+
+Goal
+
+When Meghana opens this website, she should feel like she’s holding a real handmade scrapbook.
+
+Not a webpage.
+
+Not an app.
+
+A memory.
+
+⸻
+
+DESIGN PHILOSOPHY
+
+Three words define the entire project:
+
+Warm. Personal. Timeless.
+
+Every design decision must answer one question:
+
+“Would this exist inside a handmade scrapbook?”
+
+If not,
+
+don’t add it.
+
+⸻
+
+VISUAL LANGUAGE
+
+Materials
+
+* Handmade paper
+* Aged cream paper
+* Leather
+* Gold foil
+* Torn paper
+* Washi tape
+* Pressed flowers
+* Ink
+* Polaroids
+* Handwritten notes
+* Paper clips
+* Stamps
+
+Never use
+
+❌ Glassmorphism
+
+❌ Neon
+
+❌ Heavy gradients
+
+❌ Modern dashboards
+
+⸻
+
+COLOR SYSTEM
+
+Morning
+
+Cream
+
+Soft Beige
+
+Warm White
+
+Afternoon
+
+Brown
+
+Wood
+
+Coffee
+
+Evening
+
+Golden
+
+Orange
+
+Sunlight
+
+Night
+
+Deep Navy
+
+Charcoal
+
+Moonlight
+
+Temple
+
+Sandstone
+
+Marigold
+
+Saffron
+
+Future
+
+White
+
+Soft Gold
+
+Hope
+
+⸻
+
+TYPOGRAPHY
+
+Title
+
+Playfair Display
+
+Emotion
+
+Handwritten
+
+Dancing Script
+
+Body
+
+Inter
+
+Quotes
+
+Cormorant Italic
+
+Letters
+
+Caveat
+
+Dates
+
+Small caps
+
+Never use bold unnecessarily.
+
+Use typography to create emotion.
+
+⸻
+
+STORY STRUCTURE
+
+Opening
+
+Cover
+
+↓
+
+Book opens
+
+↓
+
+Dedication
+
+↓
+
+Before We Begin
+
+↓
+
+Chapter One
+
+↓
+
+Chapter Two
+
+↓
+
+Chapter Three
+
+↓
+
+Chapter Four
+
+↓
+
+Chapter Five
+
+↓
+
+Chapter Six
+
+↓
+
+Chapter Seven
+
+↓
+
+Ending
+
+↓
+
+Future
+
+↓
+
+Book closes
+
+⸻
+
+COVER
+
+Animation
+
+Dust
+
+Ribbon moves
+
+Sunlight shifts
+
+Book breathes slightly
+
+Pressed flower shadow changes
+
+Hover
+
+Paper note lifts
+
+Book shadow increases
+
+Click
+
+Paper disappears
+
+Book lifts
+
+Golden glow
+
+Cover rotates
+
+Pages fan
+
+Camera zoom
+
+Dedication fades
+
+Duration
+
+3–4 seconds
+
+No rushing.
+
+⸻
+
+DEDICATION
+
+Animation
+
+Paper fades in
+
+Ink writes
+
+Signature appears
+
+Tiny paper movement
+
+Everything should feel calm.
+
+No dramatic movement.
+
+⸻
+
+BEFORE WE BEGIN
+
+Slow fade
+
+Flower appears
+
+Text fades line by line
+
+Ready tab lifts
+
+Click
+
+Paper fades
+
+Ink line draws
+
+Blank paper
+
+Then
+
+Chapter One
+
+⸻
+
+CHAPTER DESIGN
+
+Every chapter should have
+
+Title
+
+Illustration
+
+Main interaction
+
+Memory
+
+Photo
+
+Quote
+
+Hidden interaction
+
+Ending transition
+
+Each chapter must feel unique.
+
+⸻
+
+CHAPTER ONE
+
+Language of Care
+
+Atmosphere
+
+Morning
+
+Coffee
+
+Sunlight
+
+Soft paper
+
+Animation
+
+Sticky notes fall
+
+Coffee steams
+
+Chat bubbles appear
+
+Cursor writes
+
+Speech bubbles pop
+
+Photo slightly tilts
+
+Ending
+
+Coffee stain expands
+
+Next page appears
+
+⸻
+
+CHAPTER TWO
+
+Where We Kept Meeting
+
+Interactive map
+
+Places
+
+College
+
+Hope Farm
+
+Temple
+
+Metro
+
+PG
+
+Classroom
+
+Animations
+
+Pins drop
+
+Dashed path draws
+
+Stamp animation
+
+Location card opens
+
+Background birds move
+
+Clouds drift
+
+Ending
+
+Paper folds
+
+Map closes
+
+⸻
+
+CHAPTER THREE
+
+The Way We Made Each Other Laugh
+
+Comic book
+
+Speech bubbles
+
+Emoji bounce
+
+Reaction stickers
+
+Cards rotate
+
+Handwritten doodles animate
+
+Laugh counter
+
+Tiny sound effect
+
+Ending
+
+Comic page flips
+
+⸻
+
+CHAPTER FOUR
+
+Little Moments We Captured
+
+Polaroids
+
+Tape
+
+Paper
+
+Camera flash
+
+Photos develop
+
+Lightbox
+
+Film strip
+
+Handwritten captions
+
+Hover
+
+Photo lifts
+
+Shadow increases
+
+Rotate 1°
+
+Click
+
+Photo enlarges
+
+Background blurs
+
+Story appears
+
+⸻
+
+CHAPTER FIVE
+
+Days That Felt Peaceful
+
+Temple bells
+
+Flowers
+
+Minimal UI
+
+Sunlight
+
+Particles
+
+Very slow motion
+
+Almost silent
+
+Animation
+
+Flower petals
+
+Light rays
+
+Floating pollen
+
+No large movement
+
+⸻
+
+CHAPTER SIX
+
+The Nights We Never Forgot
+
+Dark mode
+
+Stars
+
+Moon
+
+Letters
+
+Rain
+
+Animation
+
+Stars twinkle
+
+Moon glow
+
+Letters unfold
+
+Typing animation
+
+Soft breathing background
+
+⸻
+
+CHAPTER SEVEN
+
+Growing Together
+
+Cards
+
+Dreams
+
+Projects
+
+Future
+
+Timeline
+
+Progress bars
+
+Achievement stamps
+
+Milestones
+
+Animation
+
+Road draws
+
+Checkmarks
+
+Paper stamps
+
+⸻
+
+ENDING
+
+Blank scrapbook
+
+Future pages
+
+Question marks
+
+Envelope
+
+Letter
+
+Heart
+
+Book closes
+
+Dust settles
+
+Music fades
+
+Black screen
+
+⸻
+
+MICRO ANIMATIONS
+
+Buttons
+
+Lift 2px
+
+Paper
+
+Curl slightly
+
+Tape
+
+Moves 1°
+
+Flowers
+
+Rotate 1°
+
+Bookmark
+
+Swing slowly
+
+Polaroid
+
+Tilt
+
+Coffee
+
+Steam
+
+Stars
+
+Twinkle
+
+Letters
+
+Write
+
+Ink
+
+Spread
+
+Pins
+
+Drop
+
+Stamp
+
+Bounce once
+
+Nothing should ever bounce repeatedly.
+
+⸻
+
+PAGE TRANSITIONS
+
+Never
+
+Fade
+
+↓
+
+Fade
+
+↓
+
+Fade
+
+Instead
+
+Paper slide
+
+Book flip
+
+Ink reveal
+
+Page curl
+
+Photo develop
+
+Map unfold
+
+Letter unfold
+
+Envelope open
+
+Film strip
+
+Each transition must relate to the content.
+
+⸻
+
+AUDIO
+
+Optional.
+
+Muted until interaction.
+
+Paper
+
+Rustle
+
+Book
+
+Open
+
+Coffee
+
+Pour
+
+Temple
+
+Bell
+
+Night
+
+Crickets
+
+Rain
+
+Film
+
+Camera shutter
+
+Never autoplay music.
+
+⸻
+
+INTERACTIONS
+
+Every chapter needs one.
+
+Examples
+
+Open envelope
+
+Scratch paper
+
+Reveal hidden note
+
+Flip Polaroid
+
+Move bookmark
+
+Rotate flower
+
+Press wax seal
+
+Open drawer
+
+Find hidden heart
+
+Random memory
+
+These make the scrapbook feel alive.
+
+⸻
+
+PERFORMANCE TARGETS
+
+Lighthouse
+
+Performance ≥95
+
+Accessibility 100
+
+Best Practices 100
+
+SEO ≥95
+
+60 FPS
+
+Lazy-loaded images
+
+Optimized animations
+
+⸻
+
+ACCESSIBILITY
+
+Keyboard navigation
+
+Reduced motion
+
+Semantic HTML
+
+ARIA labels
+
+Focus states
+
+Readable contrast
+
+Alt text for every meaningful image
+
+Interactive elements reachable without a mouse
+
+⸻
+
+MOBILE EXPERIENCE
+
+Design mobile-first.
+
+The scrapbook should still feel like a book on a phone, not a squeezed desktop layout.
+
+Increase touch targets.
+
+Avoid hover-only interactions.
+
+Test on common phone widths.
+
+⸻
+
+VERSION CONTROL
+
+Every milestone gets its own commit.
+
+Every chapter should be independently testable.
+
+Never mix refactoring with new features in the same commit.
+
+⸻
+
+FINAL EMOTIONAL GOAL
+
+When Meghana reaches the last page, she shouldn’t feel like she “finished a website.”
+
+She should feel like she closed a book filled with moments the two of you actually lived.
+
+If you achieve that feeling, the project has succeeded.

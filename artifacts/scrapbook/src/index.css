@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant:ital,wght@0,300..700;1,300..700&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-cream: #F5F0E8;
+  --color-soft-beige: #E8DDD0;
+  --color-warm-white: #FAF7F2;
+  --color-brown: #8B6F47;
+  --color-wood: #A0785A;
+  --color-coffee: #6F4E37;
+  --color-golden: #C9A84C;
+  --color-orange: #D4844A;
+  --color-sunlight: #E8B86D;
+  --color-navy: #1A2744;
+  --color-charcoal: #2D2D2D;
+  --color-moonlight: #F0EEE4;
+  --color-sandstone: #C4A882;
+  --color-marigold: #FF8C00;
+  --color-saffron: #FF6B35;
+  --color-soft-gold: #D4AF37;
+  --color-hope: #B8C9E1;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --font-handwriting: 'Dancing Script', cursive;
+  --font-quote: 'Cormorant', serif;
+  --font-letter: 'Caveat', cursive;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 40 40% 93%; /* #F5F0E8 Cream */
+  --foreground: 0 0% 18%; /* #2D2D2D Charcoal */
+  --border: 33 30% 86%; /* #E8DDD0 Soft Beige */
+  --input: 33 30% 86%;
+  --ring: 44 54% 54%; /* #C9A84C Golden */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 221 44% 18%; /* #1A2744 Deep Navy */
+  --foreground: 51 31% 92%; /* #F0EEE4 Moonlight */
+  --border: 221 40% 25%;
+  --input: 221 40% 25%;
+  --ring: 213 41% 80%; /* #B8C9E1 Hope */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground transition-colors duration-1000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+}
+
+.font-display { font-family: var(--font-display); }
+.font-handwriting { font-family: var(--font-handwriting); }
+.font-quote { font-family: var(--font-quote); font-style: italic; }
+.font-letter { font-family: var(--font-letter); }
+
+.washi-tape {
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  backdrop-filter: blur(2px);
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L100,0 L100,20 L0,20 Z' opacity='0.8'/%3E%3Cpath d='M-2,2 C10,5 20,-2 30,3 C40,8 50,0 60,4 C70,8 80,1 90,5 C100,9 102,0 102,0 L102,20 L-2,20 Z' fill='black'/%3E%3Cpath d='M-2,18 C10,15 20,22 30,17 C40,12 50,20 60,16 C70,12 80,19 90,15 C100,11 102,20 102,20 L102,0 L-2,0 Z' fill='black'/%3E%3C/svg%3E");
+}
+
+.polaroid-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.paper-texture {
+  background-color: #F5F0E8;
+  background-image: 
+    linear-gradient(90deg, rgba(201, 168, 76, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(201, 168, 76, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Animations */
+@keyframes steam {
+  0% { transform: translateY(0) scaleX(1); opacity: 0; }
+  15% { opacity: 0.5; }
+  50% { transform: translateY(-15px) scaleX(1.2); opacity: 0.3; }
+  100% { transform: translateY(-30px) scaleX(1.5); opacity: 0; }
+}
+.animate-steam { animation: steam 3s infinite ease-out; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+.animate-twinkle { animation: twinkle 4s infinite ease-in-out; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+.animate-float { animation: float 6s infinite ease-in-out; }
+
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-slow-spin { animation: slow-spin 30s infinite linear; }
+
+/* SVG path animation */
+.path-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 3s ease forwards;
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* No scrollbar for clean scrapbook feel */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Reduced motion — honour OS preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
