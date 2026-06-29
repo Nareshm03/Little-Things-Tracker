@@ -1,0 +1,1 @@
+- [Real Content Rule](real-content-rule.md) — all chapter content must come from real Naresh–Meghana memories; no invented lines, quotes, or events.
