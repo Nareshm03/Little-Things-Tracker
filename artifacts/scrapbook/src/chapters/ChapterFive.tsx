@@ -23,7 +23,6 @@ function CoffeeMug() {
   const shouldReduceMotion = useReducedMotion();
   return (
     <div className="relative" style={{ width: 80, height: 96 }}>
-      {/* Ring stain on paper */}
       <div
         className="absolute bottom-0 left-1/2"
         style={{
@@ -35,7 +34,6 @@ function CoffeeMug() {
         }}
         aria-hidden="true"
       />
-      {/* Steam lines */}
       {!shouldReduceMotion && (
         <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 0, width: 36, height: 30 }}>
           {[0, 1, 2].map(i => (
@@ -56,7 +54,6 @@ function CoffeeMug() {
           ))}
         </div>
       )}
-      {/* Mug SVG */}
       <svg
         width="52" height="52"
         viewBox="0 0 52 52"
@@ -85,7 +82,6 @@ function ChocolateWrapper({ delay }: { delay: number }) {
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
     >
-      {/* Text revealed beneath wrapper */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" aria-hidden={!peeled}>
         <p className="font-letter text-[12px] text-charcoal/52 italic text-center leading-snug">
           I think dark chocolate...<br />
@@ -93,7 +89,6 @@ function ChocolateWrapper({ delay }: { delay: number }) {
         </p>
       </div>
 
-      {/* Wrapper — peels open from the top */}
       <motion.div
         className="absolute inset-0 z-10 cursor-pointer"
         style={{ transformOrigin: 'top center', transformPerspective: 600 }}
@@ -146,7 +141,6 @@ function RecipeCard({ delay }: { delay: number }) {
       aria-label={flipped ? 'Flip recipe card back' : 'Flip recipe card to see memory'}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(v => !v); } }}
     >
-      {/* Washi tape */}
       <div
         className="absolute -top-2.5 left-1/2 z-20 h-4 w-12"
         style={{ backgroundColor: 'rgba(201,168,76,0.40)', transform: 'translateX(-50%) rotate(1deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.07)' }}
@@ -159,7 +153,6 @@ function RecipeCard({ delay }: { delay: number }) {
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.88, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {/* Front */}
         <div
           className="absolute inset-0 bg-[#FFFEF5] border border-[#C9A84C]/18 shadow-sm p-3 overflow-hidden"
           style={{ backfaceVisibility: 'hidden' }}
@@ -174,7 +167,6 @@ function RecipeCard({ delay }: { delay: number }) {
           <p className="absolute bottom-2 right-3 font-handwriting text-[7px] text-charcoal/16 italic">flip →</p>
         </div>
 
-        {/* Back */}
         <div
           className="absolute inset-0 bg-[#FFFEF5] border border-[#C9A84C]/18 shadow-sm flex flex-col items-center justify-center p-4"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
@@ -214,36 +206,39 @@ function StickyNote({
   );
 }
 
-// ─── Grocery note (torn paper scrap) ─────────────────────────────────────────
+// ─── Grocery note — handwritten checklist on torn paper ───────────────────────
 function GroceryNote({ delay }: { delay: number }) {
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
       className="relative"
-      style={{ width: 128, rotate: '2.5deg' }}
+      style={{ width: 136, rotate: '2.5deg' }}
     >
-      <svg width="128" height="10" viewBox="0 0 128 10" className="w-full block" aria-hidden="true">
-        <path d="M0,8 C11,2 22,9 34,5 C46,1 58,8 70,4 C82,1 94,7 106,3 C118,0 123,6 128,4 L128,10 L0,10 Z"
-          fill="#FDF6ED" />
+      {/* torn top edge */}
+      <svg width="136" height="12" viewBox="0 0 136 12" className="w-full block" aria-hidden="true">
+        <path d="M0,9 C8,3 18,10 30,6 C42,2 54,9 66,5 C78,1 90,8 102,4 C114,0 126,7 136,5 L136,12 L0,12 Z"
+          fill="#FDFAF3" />
       </svg>
-      <div className="bg-[#FDFAF3] border border-charcoal/10 shadow-sm px-3 pb-3 pt-1.5">
-        <p className="font-handwriting text-[7.5px] text-charcoal/28 mb-1.5 tracking-wider uppercase">this week</p>
-        <div className="space-y-0.5">
+      <div className="bg-[#FDFAF3] border-x border-b border-charcoal/10 shadow-sm px-3 pb-4 pt-2">
+        <p className="font-handwriting text-[8px] text-charcoal/30 mb-2 tracking-wider">this week —</p>
+        <div className="space-y-1">
           {[
             { text: 'fish curry 🐟', checked: true },
             { text: 'coconut sambar', checked: true },
             { text: 'paratha', checked: true },
             { text: 'curd rice', checked: false },
-            { text: 'kulfi 🍦', checked: true },
           ].map(({ text, checked }, i) => (
-            <p key={i} className="font-handwriting text-[9px] text-charcoal/48 leading-relaxed">
-              <span className="text-charcoal/32">{checked ? '☑' : '☐'}</span> {text}
+            <p key={i} className="font-handwriting text-[11px] text-charcoal/55 leading-relaxed flex items-center gap-1.5">
+              <span className="text-charcoal/38 text-[13px]">{checked ? '☑' : '☐'}</span>
+              <span style={{ textDecoration: checked ? 'line-through' : 'none', textDecorationColor: 'rgba(60,40,20,0.25)' }}>{text}</span>
             </p>
           ))}
-          <div className="flex items-baseline gap-1 mt-0.5">
-            <p className="font-handwriting text-[9px] text-charcoal/42">☐ momos 🥟</p>
-            <p className="font-handwriting text-[7px] text-charcoal/25 italic">(after exams!!)</p>
+          <div className="flex items-baseline gap-1.5 pt-0.5">
+            <p className="font-handwriting text-[11px] text-charcoal/50 flex items-center gap-1.5">
+              <span className="text-[13px]">☐</span> momos 🥟
+            </p>
+            <p className="font-handwriting text-[8px] text-[#C9A84C]/70 italic">(after exams!!)</p>
           </div>
         </div>
       </div>
@@ -251,7 +246,7 @@ function GroceryNote({ delay }: { delay: number }) {
   );
 }
 
-// ─── Math notebook with hidden margin detail ──────────────────────────────────
+// ─── Math notebook — with "delulu" doodled in the margin ─────────────────────
 function MathNotebook({ delay }: { delay: number }) {
   return (
     <motion.div
@@ -292,7 +287,7 @@ function MathNotebook({ delay }: { delay: number }) {
         </div>
       </div>
 
-      {/* Hidden margin detail — "drink water." barely visible, rotated in margin */}
+      {/* "drink water." — faint, rotated vertically in the outer margin */}
       <p
         className="absolute font-handwriting text-[6px] text-charcoal/10 pointer-events-none select-none"
         style={{ left: 1, top: '36%', transform: 'rotate(-90deg)', transformOrigin: 'left center', whiteSpace: 'nowrap' }}
@@ -300,54 +295,77 @@ function MathNotebook({ delay }: { delay: number }) {
       >
         drink water.
       </p>
+
+      {/* "delulu 😂" — doodled in margin corner, like an idle scribble */}
+      <motion.p
+        className="absolute font-handwriting text-[8.5px] text-charcoal/22 pointer-events-none select-none"
+        style={{ left: 28, bottom: 10, rotate: '-8deg', transformOrigin: 'left bottom' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 2.2, duration: 1.4 }}
+        aria-hidden="true"
+      >
+        delulu 😂
+      </motion.p>
     </motion.div>
   );
 }
 
-// ─── WhatsApp-style chat strips ───────────────────────────────────────────────
-const chatLines = [
-  { text: 'had breakfast? 🥺', fromMe: true },
-  { text: 'haan haan 😅', fromMe: false },
-  { text: 'drink water.', fromMe: true },
-  { text: 'ok ok', fromMe: false },
-  { text: 'ride safe 🙏', fromMe: true },
-  { text: 'reached PG ✓', fromMe: false },
-  { text: 'good girl 🥺', fromMe: true },
-  { text: 'good boy 🥺', fromMe: false },
-];
-
-function ChatStrips({ delay }: { delay: number }) {
+// ─── Printed message slip — looks like a paper strip cut from a printer ───────
+function PrintedSlip({
+  text, rotate = 0, delay = 0,
+}: {
+  text: string; rotate?: number; delay?: number;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
-      className="relative"
-      style={{ width: 204, rotate: '-1deg' }}
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.9 }}
+      style={{
+        rotate: `${rotate}deg`,
+        backgroundColor: '#FEFEFE',
+        border: '1px solid rgba(60,40,20,0.09)',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)',
+        padding: '5px 10px 6px 10px',
+        display: 'inline-block',
+        // subtle printer-paper dot texture via outline
+      }}
     >
-      <div className="bg-[#EBE5DC]/35 border border-charcoal/8 shadow-sm px-3 py-3">
-        <p className="font-sans text-[6.5px] tracking-[0.28em] uppercase text-charcoal/18 text-center mb-2.5">every day</p>
-        <div className="space-y-1.5">
-          {chatLines.map((line, i) => (
-            <motion.div
-              key={i}
-              className={`flex ${line.fromMe ? 'justify-end' : 'justify-start'}`}
-              initial={{ opacity: 0, x: line.fromMe ? 8 : -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: delay + 0.15 + i * 0.14, duration: 0.45 }}
-            >
-              <div
-                className="px-2.5 py-1 max-w-[80%]"
-                style={{
-                  backgroundColor: line.fromMe ? '#DCF8C6' : '#FFFFFF',
-                  borderRadius: line.fromMe ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
-                }}
-              >
-                <p className="font-letter text-[10.5px] text-charcoal/68 leading-tight">{line.text}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <p className="font-letter text-[11px] text-charcoal/60 leading-tight whitespace-nowrap">{text}</p>
+    </motion.div>
+  );
+}
+
+// ─── Tiny torn sticky note for good boy / good girl ───────────────────────────
+function TinyTornNote({
+  text, color = '#FFFDE7', rotate = 0, delay = 0,
+}: {
+  text: string; color?: string; rotate?: number; delay?: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1.4 }}
+      className="relative"
+      style={{ rotate: `${rotate}deg`, display: 'inline-block' }}
+    >
+      {/* torn top */}
+      <svg width="70" height="7" viewBox="0 0 70 7" style={{ display: 'block' }} aria-hidden="true">
+        <path
+          d="M0,5 C5,1 12,6 20,3 C28,0 35,5 43,3 C51,1 58,5 70,4 L70,7 L0,7 Z"
+          fill={color}
+        />
+      </svg>
+      <div
+        style={{
+          backgroundColor: color,
+          padding: '2px 8px 6px 8px',
+          boxShadow: '0 1px 5px rgba(0,0,0,0.08)',
+        }}
+      >
+        <p className="font-handwriting text-[10px] text-charcoal/55 leading-tight">{text}</p>
       </div>
     </motion.div>
   );
@@ -365,7 +383,6 @@ function TobbyPhoto({ delay }: { delay: number }) {
       className="relative"
       style={{ width: 96 }}
     >
-      {/* Revealed text */}
       <div className="absolute bottom-7 left-0 right-0 flex justify-center pointer-events-none" aria-hidden={!lifted}>
         <AnimatePresence>
           {lifted && (
@@ -380,7 +397,6 @@ function TobbyPhoto({ delay }: { delay: number }) {
         </AnimatePresence>
       </div>
 
-      {/* Photo frame — paper-lift physics */}
       <motion.div
         className="bg-white border border-charcoal/5 cursor-pointer"
         style={{ padding: '5px 5px 24px 5px', transformOrigin: 'top center', transformPerspective: 600 }}
@@ -467,31 +483,19 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
           {/* Scattered table objects */}
           <div className="relative flex-1 mt-4" style={{ minHeight: 480 }}>
 
-            {/* Coffee mug + ring stain + steam */}
+            {/* Coffee mug */}
             <div className="absolute top-0 left-4">
               <CoffeeMug />
             </div>
 
-            {/* "Had breakfast?" sticky — top right */}
-            <div className="absolute top-4 right-6">
-              <StickyNote color="#FFF9C4" rotate={-3} delay={0.8} width={112}>
-                <p className="font-handwriting text-[11px] text-charcoal/62 leading-snug">
-                  had breakfast?<br />
-                  <span className="text-[9px] text-charcoal/38">🥺</span>
-                </p>
-              </StickyNote>
+            {/* "Had breakfast?" — printed slip, left side */}
+            <div className="absolute top-6 right-10">
+              <PrintedSlip text="had breakfast? 🥺" rotate={-2.5} delay={0.8} />
             </div>
 
-            {/* "Drink water." — small, floats near top */}
-            <div className="absolute top-[88px] right-12">
-              <motion.p
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, duration: 1 }}
-                className="font-handwriting text-[9px] text-charcoal/28 italic select-none pointer-events-none"
-                style={{ rotate: '3deg' }}
-              >
-                drink water.
-              </motion.p>
+            {/* "drink water." — printed slip, slightly lower */}
+            <div className="absolute top-[78px] right-4">
+              <PrintedSlip text="drink water." rotate={1.5} delay={1.0} />
             </div>
 
             {/* Chocolate wrapper */}
@@ -507,6 +511,11 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
             {/* Grocery note */}
             <div className="absolute left-0" style={{ top: 336 }}>
               <GroceryNote delay={1.4} />
+            </div>
+
+            {/* "good girl 🥺" — tiny torn sticky, tucked near grocery list */}
+            <div className="absolute" style={{ top: 338, right: 8 }}>
+              <TinyTornNote text="good girl 🥺" color="#FFF9C4" rotate={3.5} delay={2.6} />
             </div>
 
           </div>
@@ -528,12 +537,12 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:pl-10 py-8 z-10">
           <div className="relative" style={{ minHeight: 660 }}>
 
-            {/* Math notebook */}
+            {/* Math notebook — now has "delulu" doodled in margin */}
             <div className="absolute top-0 left-0">
               <MathNotebook delay={0.7} />
             </div>
 
-            {/* Tobby photo — top right, lifts to reveal */}
+            {/* Tobby photo */}
             <div className="absolute top-6 right-8">
               <TobbyPhoto delay={1} />
             </div>
@@ -550,9 +559,18 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               </StickyNote>
             </div>
 
-            {/* Chat strips */}
+            {/* ── Printed message slips — scattered, not grouped ── */}
             <div className="absolute" style={{ top: 242, left: 0 }}>
-              <ChatStrips delay={1.3} />
+              <PrintedSlip text="ok ok" rotate={-3} delay={1.3} />
+            </div>
+            <div className="absolute" style={{ top: 282, left: 24 }}>
+              <PrintedSlip text="haan haan 😅" rotate={2} delay={1.5} />
+            </div>
+            <div className="absolute" style={{ top: 316, left: 4 }}>
+              <PrintedSlip text="ride safe 🙏" rotate={-1.5} delay={1.7} />
+            </div>
+            <div className="absolute" style={{ top: 356, left: 18 }}>
+              <PrintedSlip text="reached PG ✓" rotate={2.5} delay={1.9} />
             </div>
 
             {/* Exam alarm sticky */}
@@ -565,37 +583,38 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               </StickyNote>
             </div>
 
-            {/* Tiny floating inside-jokes — barely there */}
+            {/* "good boy 🥺" — tiny torn sticky, discovered quietly */}
+            <div className="absolute" style={{ top: 470, right: 14 }}>
+              <TinyTornNote text="good boy 🥺" color="#FFF9C4" rotate={-4} delay={3.0} />
+            </div>
+
+            {/* Other inside-jokes, barely there */}
             <motion.div
               className="absolute pointer-events-none select-none"
-              style={{ top: 500, left: 16 }}
+              style={{ top: 510, left: 6 }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 2.8, duration: 1.8 }}
+              transition={{ delay: 3.4, duration: 1.8 }}
             >
-              <p className="font-handwriting text-[8px] text-charcoal/20 italic" style={{ rotate: '1.5deg' }}>delulu 😂</p>
-              <p className="font-handwriting text-[8px] text-charcoal/15 italic mt-1" style={{ rotate: '-1.5deg' }}>kundapur mental 😂</p>
+              <p className="font-handwriting text-[7.5px] text-charcoal/14 italic" style={{ rotate: '-1.5deg' }}>kundapur mental 😂</p>
+              <p className="font-handwriting text-[7px] text-charcoal/10 italic mt-1" style={{ rotate: '1deg' }}>witch magic ✨</p>
             </motion.div>
 
-            <motion.div
-              className="absolute pointer-events-none select-none"
-              style={{ top: 500, right: 16 }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 3.2, duration: 1.8 }}
-            >
-              <p className="font-handwriting text-[8px] text-charcoal/15 italic" style={{ rotate: '-2deg' }}>witch magic ✨</p>
-              <p className="font-handwriting text-[8px] text-charcoal/12 italic mt-1" style={{ rotate: '1deg' }}>idk idk idk 😂</p>
-            </motion.div>
-
-            {/* Ending */}
+            {/* Ending — quieter, more poetic */}
             <motion.div
               className="absolute left-0 right-0 text-center"
               style={{ bottom: 6 }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 4, duration: 2.2 }}
+              transition={{ delay: 4, duration: 2.4 }}
             >
-              <p className="font-quote text-sm text-charcoal/26 italic">Somehow, this became normal.</p>
-              <p className="font-quote text-xs text-charcoal/17 italic mt-0.5">
-                And that's why it became unforgettable.
+              <p className="font-quote text-sm text-charcoal/28 italic leading-relaxed">
+                One day...<br />
+                <span className="text-charcoal/22">we stopped noticing</span><br />
+                <span className="text-charcoal/18 text-xs">these little things.</span>
+              </p>
+              <p className="font-quote text-xs text-charcoal/16 italic mt-3 leading-relaxed">
+                Years later...<br />
+                <span className="text-charcoal/13">they became</span><br />
+                <span className="text-charcoal/11">our favourite memories.</span>
               </p>
             </motion.div>
 
