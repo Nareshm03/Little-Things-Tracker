@@ -64,10 +64,10 @@ function PhotoSlot({
       className="relative"
       style={{ width }}
     >
-      {/* Hidden text behind photo */}
+      {/* Hidden text behind photo — sits at the bottom, revealed as bottom edge lifts */}
       {liftReveal && liftText && (
         <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none"
           aria-hidden={!lifted}
         >
           <AnimatePresence>
@@ -76,7 +76,7 @@ function PhotoSlot({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ delay: 0.25, duration: 0.7 }}
                 className="text-center"
               >
                 {liftText}
@@ -86,22 +86,33 @@ function PhotoSlot({
         </div>
       )}
 
-      {/* Photo frame */}
+      {/* Photo frame — paper-lift physics */}
       <motion.div
-        className={`bg-white shadow-md border border-charcoal/5 ${liftReveal ? 'cursor-pointer' : ''}`}
+        className={`bg-white border border-charcoal/5 ${liftReveal ? 'cursor-pointer' : ''}`}
         style={{
           padding: '8px 8px 32px 8px',
-          rotate: `${rotate}deg`,
-          boxShadow: lifted
-            ? '0 24px 40px rgba(0,0,0,0.20)'
-            : '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)',
+          transformOrigin: 'top center',
+          transformPerspective: 700,
         }}
+        initial={{ rotateZ: rotate, rotateX: 0, y: 0, boxShadow: '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)' }}
         animate={
           liftReveal && !shouldReduceMotion
-            ? { y: lifted ? -28 : 0, rotate: lifted ? rotate + 3 : rotate, zIndex: lifted ? 30 : 1 }
-            : { y: 0, rotate }
+            ? {
+                rotateZ: lifted ? rotate + 1.5 : rotate,
+                rotateX: lifted ? 9 : 0,
+                y: lifted ? -16 : 0,
+                zIndex: lifted ? 30 : 1,
+                boxShadow: lifted
+                  ? '0 32px 52px rgba(0,0,0,0.22), 0 10px 20px rgba(0,0,0,0.10)'
+                  : '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)',
+              }
+            : { rotateZ: rotate, rotateX: 0, y: 0, boxShadow: '0 4px 14px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.07)' }
         }
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        transition={
+          lifted
+            ? { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }
+            : { type: 'spring', stiffness: 60, damping: 14 }
+        }
         onClick={liftReveal ? () => setLifted(v => !v) : undefined}
         role={liftReveal ? 'button' : undefined}
         tabIndex={liftReveal ? 0 : undefined}
@@ -297,6 +308,16 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
           {/* HERO PHOTO — temple, with lift interaction */}
           {/* When real photo is ready: src="@assets/..." */}
           <div className="relative">
+            {/* Ghost annotation — almost invisible, no explanation */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.8, duration: 2.5 }}
+              className="absolute -top-5 right-2 font-handwriting text-[9px] text-charcoal/18 italic pointer-events-none select-none rotate-[2deg] z-10"
+              aria-hidden="true"
+            >
+              our peaceful day.
+            </motion.p>
             <PhotoSlot
               alt="First temple together"
               width={260}
