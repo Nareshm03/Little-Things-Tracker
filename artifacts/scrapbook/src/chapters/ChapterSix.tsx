@@ -163,9 +163,9 @@ function PassportFolder({ delay }: { delay: number }) {
             >
               <p className="font-sans text-[6px] tracking-[0.32em] uppercase text-charcoal/28 mb-2">Destination</p>
               <p className="font-letter text-[22px] text-charcoal/55 leading-tight">Unknown.</p>
-              <p className="font-letter text-[20px] text-[#3A5C82]/58 mt-1">Together.</p>
+              <p className="font-letter text-[20px] text-charcoal/40 mt-0.5">Still planning.</p>
               <div className="mt-3 pt-2 border-t border-charcoal/8">
-                <p className="font-handwriting text-[8.5px] text-charcoal/24 italic">wherever it is, we go.</p>
+                <p className="font-handwriting text-[10px] text-[#3A5C82]/45 italic">hopefully together ❤️</p>
               </div>
             </motion.div>
           )}
@@ -343,31 +343,64 @@ function IELTSNotes({ delay }: { delay: number }) {
             <p className="font-handwriting text-[8px] text-charcoal/32 italic">{def}</p>
           </div>
         ))}
+        {/* Tiny uncertainty note — scribbled at the bottom */}
+        <p className="font-handwriting text-[8px] text-charcoal/22 italic mt-2 pt-1 border-t border-charcoal/6">
+          one step at a time...
+        </p>
       </div>
     </motion.div>
   );
 }
 
-// ─── Veloura logo sketch ──────────────────────────────────────────────────────
+// ─── Veloura logo sketch + brainstorm sticky ─────────────────────────────────
 function VelouraSketch({ delay }: { delay: number }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 118, rotate: '3deg' }}
-      className="bg-[#FFFEF8] border border-charcoal/10 shadow-sm p-3"
+      className="relative"
+      style={{ width: 160 }}
     >
-      <p className="font-sans text-[5.5px] tracking-[0.28em] uppercase text-charcoal/18 mb-1.5">logo sketch</p>
-      <svg width="94" height="46" viewBox="0 0 94 46" aria-label="Veloura logo sketch">
-        <ellipse cx="47" cy="22" rx="38" ry="14" fill="none" stroke="#2D2D2D" strokeWidth="0.7"
-          opacity="0.16" strokeDasharray="2 1.5" />
-        <text x="47" y="26" textAnchor="middle" fontSize="11" fill="#2D2D2D" opacity="0.44"
-          fontFamily="'Playfair Display', serif" fontStyle="italic">Veloura</text>
-        <path d="M 10 36 L 84 36" stroke="#2D2D2D" strokeWidth="0.4" opacity="0.08" />
-        <text x="47" y="43" textAnchor="middle" fontSize="4.5" fill="#2D2D2D" opacity="0.18"
-          fontFamily="sans-serif">v2 (?)</text>
-      </svg>
+      {/* Logo sketch paper */}
+      <div
+        className="bg-[#FFFEF8] border border-charcoal/10 shadow-sm p-3"
+        style={{ rotate: '3deg', width: 118 }}
+      >
+        <p className="font-sans text-[5.5px] tracking-[0.28em] uppercase text-charcoal/18 mb-1.5">logo sketch</p>
+        <svg width="94" height="46" viewBox="0 0 94 46" aria-label="Veloura logo sketch">
+          {/* crossed-out v1 attempt */}
+          <ellipse cx="47" cy="18" rx="34" ry="11" fill="none" stroke="#2D2D2D" strokeWidth="0.6"
+            opacity="0.10" strokeDasharray="2 1.5" />
+          <line x1="10" y1="8" x2="84" y2="28" stroke="#2D2D2D" strokeWidth="0.6" opacity="0.12" />
+          {/* v2 attempt — the current one */}
+          <ellipse cx="47" cy="22" rx="38" ry="14" fill="none" stroke="#2D2D2D" strokeWidth="0.7"
+            opacity="0.18" strokeDasharray="2 1.5" />
+          <text x="47" y="26" textAnchor="middle" fontSize="11" fill="#2D2D2D" opacity="0.44"
+            fontFamily="'Playfair Display', serif" fontStyle="italic">Veloura</text>
+          <path d="M 10 36 L 84 36" stroke="#2D2D2D" strokeWidth="0.4" opacity="0.08" />
+          <text x="47" y="43" textAnchor="middle" fontSize="4.5" fill="#2D2D2D" opacity="0.20"
+            fontFamily="sans-serif">v2 — better?</text>
+        </svg>
+      </div>
+      {/* Tiny brainstorm sticky — overlapping, rotated opposite way */}
+      <div
+        className="absolute"
+        style={{
+          top: 8, right: 0,
+          backgroundColor: '#E8F4E8',
+          width: 62,
+          rotate: '-5deg',
+          padding: '6px 7px 10px 7px',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+        }}
+      >
+        <p className="font-handwriting text-[8.5px] text-charcoal/45 leading-relaxed">
+          v1 ❌<br />
+          v2 ✓?<br />
+          v3?
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -392,23 +425,34 @@ function NotebookFragment({ delay }: { delay: number }) {
       <div className="absolute top-0 bottom-0 left-8 border-l border-[#E8B4B4]/25" />
 
       <div className="pl-10 pr-3 pt-2 pb-3">
-        {[
-          { text: 'June goals —', opacity: 42 },
-          { text: 'NIC campaign draft', opacity: 28 },
-          { text: 'Inscribe collab?', opacity: 24, italic: true },
-          { text: '', opacity: 0 },
-          { text: 'SDC project list', opacity: 26 },
-          { text: 'Veloura brand deck', opacity: 20, italic: true },
-          { text: '', opacity: 0 },
-        ].map((line, i) => (
-          <div key={i} className="h-5 border-b border-[#B0C4D8]/12 flex items-center">
-            {line.text ? (
-              <p className={`font-handwriting text-[9px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}>
-                {line.text}
-              </p>
-            ) : null}
-          </div>
-        ))}
+        {/* Line 1: June goals */}
+        <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center">
+          <p className="font-handwriting text-[9px] text-charcoal/42">June goals —</p>
+        </div>
+        {/* Line 2: NIC draft — crossed out, rewritten */}
+        <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
+          <p className="font-handwriting text-[9px] text-charcoal/20 line-through">NIC ideas</p>
+          <p className="font-handwriting text-[9px] text-charcoal/30">NIC campaign draft →</p>
+        </div>
+        {/* Line 3: Inscribe */}
+        <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1">
+          <p className="font-handwriting text-[9px] text-charcoal/26 italic">Inscribe collab?</p>
+          <p className="font-handwriting text-[7px] text-charcoal/18 italic">(ask her)</p>
+        </div>
+        {/* Line 4: blank */}
+        <div className="h-5 border-b border-[#B0C4D8]/12" />
+        {/* Line 5: SDC — with question mark annotation */}
+        <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
+          <p className="font-handwriting text-[9px] text-charcoal/28">SDC project list</p>
+          <p className="font-handwriting text-[7px] text-charcoal/18">← due when??</p>
+        </div>
+        {/* Line 6: Veloura — crossed out first version */}
+        <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
+          <p className="font-handwriting text-[9px] text-charcoal/16 italic line-through">Veloura logo</p>
+          <p className="font-handwriting text-[9px] text-charcoal/22 italic">brand deck</p>
+        </div>
+        {/* Line 7: blank */}
+        <div className="h-5 border-b border-[#B0C4D8]/12" />
       </div>
 
       {/* "zara zara" — hidden in the outer margin, tiny, rotated, barely there */}
@@ -458,17 +502,25 @@ function CalendarPage({ delay }: { delay: number }) {
                 {day ? (
                   <p className={`font-sans text-[5.5px] leading-none ${
                     day === 15 ? 'text-[#C9A84C]' :
-                    day === 28 ? 'text-[#3A5C82]' :
+                    day === 22 ? 'text-[#3A5C82]' :
                     'text-charcoal/28'
                   }`}>{day}</p>
                 ) : null}
                 {day === 15 && (
                   <div className="absolute inset-0 rounded-full border border-[#C9A84C]/30 scale-90" />
                 )}
+                {day === 22 && (
+                  <div className="absolute inset-0 rounded-full border border-[#3A5C82]/22 scale-90" />
+                )}
               </div>
             ))}
           </div>
         ))}
+        {/* Handwritten arrows tucked below grid */}
+        <div className="mt-1 pt-1 border-t border-charcoal/6 relative">
+          <p className="font-handwriting text-[6px] text-charcoal/25 italic">← meeting</p>
+          <p className="font-handwriting text-[6px] text-[#3A5C82]/28 italic">↑ call?</p>
+        </div>
       </div>
     </motion.div>
   );
