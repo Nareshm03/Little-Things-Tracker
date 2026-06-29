@@ -1,0 +1,421 @@
+🌸 CHAPTER 4
+April 2026
+Where We Found Peace
+
+Forget everything Replit built before.
+
+No Polaroid wall.
+
+No photo gallery.
+
+No journal stack.
+
+No generic scrapbook.
+
+This chapter should feel like opening a page that still smells like sandalwood and temple flowers.
+
+🎭 Emotion
+
+After the emotional weight of March...
+
+April is the month where both of you finally breathe.
+
+This chapter isn't about romance.
+
+It's about peace.
+
+Real Memories We Already Have
+
+From everything you've already shared:
+
+5 April
+
+🛕 First temple together
+
+Near Hosakote
+
+12–13 April
+
+Halasuru Temple
+
+Saree
+
+Dhoti
+
+Vibhuti
+
+Temple bells
+
+Photos together
+
+Quiet prayers
+
+End of April
+
+Swayam Fest
+
+Walking together
+
+Photos
+
+Conversations
+
+Visual Identity
+
+This chapter should feel completely different.
+
+Imagine opening an old temple diary.
+
+The page contains:
+
+📸 Temple photographs
+
+🌼 Pressed jasmine flower
+
+🛕
+
+Temple receipt
+
+🔔 Tiny bell illustration
+
+🧧 Kumkum stain
+
+🤍 Vibhuti fingerprint
+
+📿 Prayer thread
+
+Everything attached naturally.
+
+Layout
+LEFT PAGE
+
+Very little text.
+
+One large temple photo.
+
+Below it
+
+handwriting
+
+Some places
+become special
+
+because of
+who stood beside you.
+
+Under that
+
+a pressed flower
+
+with tiny handwriting
+
+still smells the same.
+
+Bottom corner
+
+Temple receipt
+
+Date
+
+5 April 2026
+
+RIGHT PAGE
+
+Everything scattered.
+
+Temple photos.
+
+One tiny map.
+
+One prayer note.
+
+One folded receipt.
+
+Nothing aligned.
+
+Story Flow
+
+Instead of
+
+Scene 1
+
+Scene 2
+
+Scene 3
+
+Just let the eye wander.
+
+First
+
+Temple photo.
+
+↓
+
+Saree photo.
+
+↓
+
+Dhoti.
+
+↓
+
+Vibhuti.
+
+↓
+
+Prayer note.
+
+↓
+
+Festival photo.
+
+↓
+
+Tiny ending.
+
+Interactions
+
+Only two.
+
+Interaction 1
+
+Temple Bell
+
+Small brass bell.
+
+Tap.
+
+Very gently swings.
+
+If global audio is enabled
+
+play one tiny temple bell.
+
+If muted
+
+silent animation only.
+
+No looping.
+
+Interaction 2
+
+Folded Prayer
+
+Small folded paper.
+
+Open.
+
+Inside.
+
+Not AI.
+
+A real promise.
+
+Maybe
+
+Tirupati.
+
+Maybe
+
+"Deal is deal."
+
+If that belongs later,
+
+use another real message from April.
+
+Photos
+
+NO placeholders.
+
+Use real photos.
+
+Especially:
+
+Temple.
+
+Saree.
+
+Dhoti.
+
+Festival.
+
+Vibhuti.
+
+These are the soul of the chapter.
+
+Hidden Detail
+
+Tiny kumkum thumbprint.
+
+Tap.
+
+Shows
+
+12 April
+
+Halasuru Temple
+
+Nothing else.
+
+Animation
+
+The calmest chapter.
+
+Sunlight.
+
+Dust.
+
+Paper.
+
+Nothing floating everywhere.
+
+No confetti.
+
+No exaggerated particles.
+
+Colors
+
+Warm cream.
+
+Temple stone.
+
+Soft saffron.
+
+Muted maroon.
+
+Brass gold.
+
+Off white.
+
+Ending
+
+Bottom right.
+
+Very small.
+
+Some memories
+
+never needed words.
+
+Or, if your April chats contain a better real message,
+
+use that instead.
+
+🔥 Copy this into Replit
+
+Sprint 8 — Rebuild Chapter Four Using Real April Memories
+
+Continue the existing scrapbook project.
+
+IMPORTANT
+
+Do NOT redesign the project.
+
+Do NOT modify Chapters 1–3.
+
+Only replace Chapter Four.
+
+The previous Polaroid wall implementation must be completely removed.
+
+Chapter Four is no longer about "Little Moments We Captured."
+
+It is now about April 2026 and the peace both people found together.
+
+Use ONLY the real April memories already documented for this project.
+
+Known memories include:
+
+First temple visit (5 April)
+Halasuru Temple (12–13 April)
+Saree and Dhoti
+Vibhuti on both foreheads
+Temple bells
+Quiet prayers
+Temple photographs
+Swayam Fest (28–29 April)
+Visual Direction
+
+Build one continuous handcrafted scrapbook spread.
+
+No grids.
+
+No gallery.
+
+No Polaroid wall.
+
+Everything should look physically attached to handmade paper.
+
+Artifacts
+
+Include:
+
+Large temple photograph
+Saree & Dhoti photograph
+Small temple receipt
+Pressed jasmine flower
+Prayer thread
+Kumkum thumbprint
+Vibhuti fingerprint
+Festival photograph
+Small handwritten annotations
+Coffee stain
+Washi tape
+Interactions
+
+Maximum two.
+
+Temple Bell
+
+A small brass bell swings once when tapped.
+
+If global sound is enabled, play one soft bell.
+
+Otherwise animate silently.
+
+Folded Prayer
+
+A folded handwritten prayer note.
+
+Open gently.
+
+Inside display a real April promise or message from the project archive.
+
+Do not invent text.
+
+Animations
+
+Very slow.
+
+Paper movement.
+
+Sunlight drift.
+
+Dust.
+
+No dramatic motion.
+
+No bouncing.
+
+Accessibility
+
+Maintain keyboard support.
+
+Reduced motion.
+
+ARIA labels.
+
+Responsive.
+
+Zero TypeScript errors.
+
+Ending
+
+Fade in one quiet sentence.
+
+If a real April message fits, use it.
+
+Otherwise:
+
+"Some memories never needed words."
+
+Stop after completing Chapter Four.

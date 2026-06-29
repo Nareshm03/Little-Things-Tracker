@@ -1,793 +1,518 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChapterProps } from '../App';
-import { chapter4Data, Polaroid } from '../data/chapters/chapter4';
 
-import polaroid1 from '@assets/generated_images/polaroid-1.jpg';
-import polaroid2 from '@assets/generated_images/polaroid-2.jpg';
-import polaroid3 from '@assets/generated_images/polaroid-3.jpg';
-import polaroid4 from '@assets/generated_images/polaroid-4.jpg';
-import pressedFlower from '@assets/generated_images/pressed-flower.png';
-
-const assetMap: Record<string, string> = {
-  'polaroid-1': polaroid1,
-  'polaroid-2': polaroid2,
-  'polaroid-3': polaroid3,
-  'polaroid-4': polaroid4,
-};
-
-// ─── Page transition: gentle bloom from centre ──────────────────────────────
-const pageVariants = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, filter: 'blur(6px)', scale: 1.02 },
-};
-
-// ─── Sunlight drift overlay ──────────────────────────────────────────────────
+// ─── Sunlight drift ──────────────────────────────────────────────────────────
 function SunlightDrift() {
   return (
-    <motion.div
-      className="absolute inset-0 pointer-events-none"
-      aria-hidden="true"
-    >
+    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
       <motion.div
-        className="absolute top-0 left-0 w-[60%] h-full"
-        style={{
-          background:
-            'radial-gradient(ellipse at 20% 30%, rgba(232,184,109,0.13) 0%, transparent 65%)',
-        }}
-        animate={{ x: [0, 18, 0], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-0 left-0 w-[55%] h-full"
+        style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(232,184,109,0.16) 0%, transparent 60%)' }}
+        animate={{ x: [0, 14, 0], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute top-0 right-0 w-[40%] h-full"
-        style={{
-          background:
-            'radial-gradient(ellipse at 80% 60%, rgba(201,168,76,0.08) 0%, transparent 60%)',
-        }}
-        animate={{ x: [0, -12, 0], opacity: [0.5, 0.9, 0.5] }}
-        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        className="absolute top-0 right-0 w-[45%] h-full"
+        style={{ background: 'radial-gradient(ellipse at 85% 65%, rgba(200,146,74,0.09) 0%, transparent 55%)' }}
+        animate={{ x: [0, -10, 0], opacity: [0.5, 0.85, 0.5] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
       />
-    </motion.div>
+    </div>
   );
 }
 
-// ─── Film strip ──────────────────────────────────────────────────────────────
-function FilmStrip({ labels }: { labels: string[] }) {
+// ─── Handwriting annotation ───────────────────────────────────────────────────
+function Note({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  return (
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1.2 }}
+      className={`font-handwriting text-[9px] text-[#8B2020]/45 pointer-events-none select-none ${className}`}
+    >
+      {children}
+    </motion.p>
+  );
+}
+
+// ─── Temple Receipt ───────────────────────────────────────────────────────────
+function TempleReceipt({ delay }: { delay: number }) {
   return (
     <motion.div
-      className="flex items-center gap-0 overflow-hidden select-none"
-      animate={{ x: [0, -80, 0] }}
-      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      aria-hidden="true"
+      initial={{ opacity: 0, rotate: -2 }}
+      animate={{ opacity: 1, rotate: -2 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 148 }}
     >
-      {[...labels, ...labels].map((label, i) => (
-        <div
-          key={i}
-          className="flex-shrink-0 w-16 h-10 bg-charcoal border border-charcoal/60 relative flex items-center justify-center"
-          style={{ borderRight: '2px solid #1a1a1a' }}
-        >
-          {/* Sprocket holes */}
-          <div className="absolute top-0.5 left-1 w-1.5 h-1.5 rounded-sm bg-amber-100/20" />
-          <div className="absolute top-0.5 right-1 w-1.5 h-1.5 rounded-sm bg-amber-100/20" />
-          <div className="absolute bottom-0.5 left-1 w-1.5 h-1.5 rounded-sm bg-amber-100/20" />
-          <div className="absolute bottom-0.5 right-1 w-1.5 h-1.5 rounded-sm bg-amber-100/20" />
-          <p className="font-letter text-[7px] text-amber-100/30 text-center leading-tight px-1 truncate">
-            {label}
-          </p>
+      <Note delay={delay + 0.8} className="absolute -right-3 -top-5 rotate-[5deg]">kept this.</Note>
+      <div className="bg-[#FFFEF8] border border-[#C9A84C]/30 shadow-sm overflow-hidden">
+        <div className="bg-[#C9A84C]/12 px-3 py-1.5 border-b border-[#C9A84C]/18 text-center">
+          <p className="font-sans text-[7px] tracking-[0.3em] uppercase text-[#8B6020]/55">Sri Anjaneya Temple</p>
+          <p className="font-sans text-[6px] tracking-wide text-[#8B6020]/35">Hosakote</p>
         </div>
-      ))}
+        <div className="px-3 py-2.5 space-y-1.5">
+          <div className="flex justify-between items-baseline">
+            <p className="font-sans text-[8px] text-charcoal/45">Prasad</p>
+            <p className="font-sans text-[8px] text-charcoal/55">₹ 10</p>
+          </div>
+          <div className="flex justify-between items-baseline">
+            <p className="font-sans text-[8px] text-charcoal/45">Archana</p>
+            <p className="font-sans text-[8px] text-charcoal/55">₹ 25</p>
+          </div>
+          <div className="h-px border-t border-dashed border-[#C9A84C]/20 my-0.5" />
+          <div className="flex justify-between items-baseline">
+            <p className="font-sans text-[7px] text-charcoal/35 italic">Two</p>
+            <p className="font-sans text-[8px] text-charcoal/50 font-medium">₹ 35</p>
+          </div>
+        </div>
+        <div className="border-t border-dashed border-[#C9A84C]/15 mx-2 mb-1" />
+        <p className="font-handwriting text-[8px] text-charcoal/22 text-center pb-1.5">5 April 2026</p>
+      </div>
     </motion.div>
   );
 }
 
-// ─── Coffee stain ─────────────────────────────────────────────────────────────
-function CoffeeStain({ className = '' }: { className?: string }) {
+// ─── Pressed Jasmine ──────────────────────────────────────────────────────────
+function PressedJasmine({ delay }: { delay: number }) {
   return (
-    <svg
-      className={`pointer-events-none opacity-20 ${className}`}
-      width="80"
-      height="80"
-      viewBox="0 0 80 80"
-      aria-hidden="true"
+    <motion.div
+      initial={{ opacity: 0, rotate: 6 }}
+      animate={{ opacity: 1, rotate: 6 }}
+      transition={{ delay, duration: 1.3 }}
+      className="relative"
+      style={{ width: 80 }}
     >
-      <defs>
-        <radialGradient id="cs" cx="50%" cy="50%" r="50%">
-          <stop offset="60%" stopColor="#6F4E37" stopOpacity="0.6" />
-          <stop offset="80%" stopColor="#6F4E37" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#6F4E37" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="40" cy="40" rx="36" ry="32" fill="url(#cs)" />
-      <ellipse cx="40" cy="40" rx="32" ry="28" fill="none" stroke="#6F4E37" strokeWidth="1.5" strokeOpacity="0.3" />
-    </svg>
+      <Note delay={delay + 1} className="absolute -bottom-5 -right-8 -rotate-[4deg] whitespace-nowrap">still smells the same.</Note>
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-4 washi-tape rotate-[2deg]" />
+      <svg viewBox="0 0 80 88" width="80" height="88" aria-label="Pressed jasmine flower" role="img">
+        <ellipse cx="40" cy="55" rx="26" ry="20" fill="#E8E0CC" opacity="0.6" />
+        {[0,51,103,154,205,257,308].map((angle, i) => (
+          <g key={i} transform={`rotate(${angle} 40 44)`}>
+            <ellipse cx="40" cy="26" rx="6" ry="11" fill="#F5F0E4" opacity="0.85" />
+          </g>
+        ))}
+        <circle cx="40" cy="44" r="6" fill="#E8D4A8" opacity="0.9" />
+        <circle cx="40" cy="44" r="3" fill="#C9A84C" opacity="0.55" />
+      </svg>
+    </motion.div>
   );
 }
 
-// ─── Washi tape strip ────────────────────────────────────────────────────────
-function WashiTape({
-  color,
-  rotate,
-  className = '',
-}: {
-  color: string;
-  rotate: number;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`absolute ${className}`}
-      style={{
-        transform: `rotate(${rotate}deg)`,
-        backgroundColor: color,
-        height: '18px',
-        width: '52px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.10)',
-        backdropFilter: 'blur(2px)',
-        maskImage:
-          "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L100,0 L100,20 L0,20 Z' opacity='0.8'/%3E%3Cpath d='M-2,2 C10,5 20,-2 30,3 C40,8 50,0 60,4 C70,8 80,1 90,5 C100,9 102,0 102,0 L102,20 L-2,20 Z' fill='black'/%3E%3Cpath d='M-2,18 C10,15 20,22 30,17 C40,12 50,20 60,16 C70,12 80,19 90,15 C100,11 102,20 102,20 L102,0 L-2,0 Z' fill='black'/%3E%3C/svg%3E\")",
-      }}
-      aria-hidden="true"
-    />
-  );
-}
-
-// ─── Polaroid card ───────────────────────────────────────────────────────────
-function PolaroidCard({
-  polaroid,
-  index,
-  onOpen,
-  onNoteReveal,
-  noteRevealed,
-}: {
-  polaroid: Polaroid;
-  index: number;
-  onOpen: (p: Polaroid) => void;
-  onNoteReveal: () => void;
-  noteRevealed: boolean;
-}) {
+// ─── Vibhuti / Kumkum Thumbprint ──────────────────────────────────────────────
+function VibhutiPrint({ delay }: { delay: number }) {
+  const [tapped, setTapped] = useState(false);
   const shouldReduceMotion = useReducedMotion();
-  const src = polaroid.assetKey ? assetMap[polaroid.assetKey] : null;
-  const [imgError, setImgError] = useState(false);
-
-  const slideDelay = 0.25 + index * 0.17;
 
   return (
     <motion.div
-      className="relative group"
-      initial={shouldReduceMotion ? false : { y: 80, opacity: 0, rotate: polaroid.rotate * 2 }}
-      whileInView={{ y: 0, opacity: 1, rotate: polaroid.rotate }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ delay: slideDelay, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {/* Tape — settles with a small spring */}
-      <motion.div
-        initial={shouldReduceMotion ? false : { rotate: polaroid.tapeAngle * 2, y: -8, opacity: 0 }}
-        whileInView={{ rotate: polaroid.tapeAngle, y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: slideDelay + 0.25, type: 'spring', bounce: 0.4 }}
-        className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10"
-      >
-        <WashiTape color={polaroid.tapeColor} rotate={0} />
-      </motion.div>
-
-      {/* Hidden note edge — only on the designated polaroid */}
-      {polaroid.hasHiddenNote && !noteRevealed && (
-        <motion.button
-          className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-5 h-16 bg-[#FFFDE7] border border-golden/30 cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
-          style={{ borderRadius: '0 4px 4px 0', boxShadow: '2px 0 6px rgba(0,0,0,0.1)' }}
-          onClick={(e) => { e.stopPropagation(); onNoteReveal(); }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onNoteReveal(); }
-          }}
-          aria-label="Peek behind this polaroid"
-          whileHover={{ x: 2 }}
-          title="Something's tucked behind here…"
-        >
-          <span className="font-handwriting text-[9px] text-golden/60 -rotate-90 whitespace-nowrap">peek</span>
-        </motion.button>
-      )}
-
-      {/* Polaroid frame */}
-      <motion.div
-        className="bg-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-        style={{ padding: '10px 10px 40px 10px', boxShadow: '0 4px 12px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)' }}
-        whileHover={shouldReduceMotion ? {} : { scale: 1.04, zIndex: 40, boxShadow: '0 12px 28px rgba(0,0,0,0.18)' }}
-        transition={{ duration: 0.2 }}
-        onClick={() => onOpen(polaroid)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(polaroid); } }}
-        aria-label={`Open photo: ${polaroid.caption}`}
-      >
-        {/* Photo area with develop animation */}
-        <div className="w-[130px] h-[130px] sm:w-[148px] sm:h-[148px] bg-soft-beige overflow-hidden relative">
-          {/* Develop effect */}
-          <motion.div
-            className="absolute inset-0 bg-warm-white pointer-events-none z-10"
-            initial={{ opacity: 1 }}
-            whileInView={{ opacity: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 2.2, delay: slideDelay + 0.4, ease: 'easeOut' }}
-          />
-          {/* Sepia fade-in */}
-          {src && !imgError ? (
-            <motion.img
-              src={src}
-              alt={polaroid.caption}
-              className="w-full h-full object-cover"
-              initial={{ filter: 'brightness(2.2) contrast(0.3) saturate(0) blur(3px)', opacity: 0.2 }}
-              whileInView={{
-                filter: [
-                  'brightness(2.2) contrast(0.3) saturate(0) blur(3px)',
-                  'brightness(1.6) contrast(0.5) saturate(0.2) blur(1.5px) sepia(0.9)',
-                  'brightness(1.15) contrast(0.85) saturate(0.75) blur(0px) sepia(0.45)',
-                  'brightness(1) contrast(1.05) saturate(1) blur(0px) sepia(0.15)',
-                ],
-                opacity: [0.2, 0.5, 0.85, 1],
-              }}
-              viewport={{ once: true }}
-              transition={{ duration: 3, delay: slideDelay + 0.5, times: [0, 0.25, 0.62, 1], ease: 'easeOut' }}
-              onError={() => setImgError(true)}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <motion.div
-                className="text-center"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: slideDelay + 1.5 }}
-              >
-                <span className="text-2xl opacity-30">📷</span>
-                <p className="font-handwriting text-xs text-coffee/30 mt-1 leading-tight px-2">
-                  {polaroid.assetKey ? 'film loading…' : 'still developing…'}
-                </p>
-              </motion.div>
-            </div>
-          )}
-        </div>
-
-        {/* Caption writes itself */}
-        <motion.p
-          className="font-handwriting text-base text-navy text-center mt-2 leading-snug"
-          style={{ minHeight: '1.4em' }}
-          initial={{ opacity: 0, y: 4 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: slideDelay + 1.8, duration: 0.6 }}
-        >
-          {polaroid.caption}
-        </motion.p>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-// ─── Lightbox modal ──────────────────────────────────────────────────────────
-function LightboxModal({
-  polaroid,
-  onClose,
-}: {
-  polaroid: Polaroid;
-  onClose: () => void;
-}) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const src = polaroid.assetKey ? assetMap[polaroid.assetKey] : null;
-  const [imgError, setImgError] = useState(false);
-
-  useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Memory: ${polaroid.caption}`}
+      transition={{ delay, duration: 1 }}
+      className="relative"
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-charcoal/50 backdrop-blur-md" />
-
-      {/* Polaroid enlarged */}
-      <motion.div
-        className="relative bg-white max-w-sm w-full"
-        style={{ padding: '16px 16px 56px 16px', boxShadow: '0 24px 60px rgba(0,0,0,0.28)' }}
-        initial={{ scale: 0.75, opacity: 0, rotate: -6 }}
-        animate={{ scale: 1, opacity: 1, rotate: 0 }}
-        exit={{ scale: 0.85, opacity: 0, rotate: 4 }}
-        transition={{ type: 'spring', bounce: 0.3, duration: 0.55 }}
-        onClick={(e) => e.stopPropagation()}
+      <motion.button
+        className="relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B2020]/40 focus-visible:ring-offset-2 rounded-full"
+        onClick={() => setTapped(v => !v)}
+        aria-label={tapped ? 'Hide date' : 'Tap the kumkum mark'}
+        whileTap={shouldReduceMotion ? {} : { scale: 0.94 }}
       >
-        {/* Washi tape on lightbox */}
-        <WashiTape
-          color={polaroid.tapeColor}
-          rotate={polaroid.tapeAngle}
-          className="-top-2.5 left-1/2 -translate-x-1/2 z-10"
-        />
-
-        {/* Photo */}
-        <div className="w-full aspect-square bg-soft-beige overflow-hidden relative">
-          {src && !imgError ? (
-            <img
-              src={src}
-              alt={polaroid.caption}
-              className="w-full h-full object-cover"
-              style={{ filter: 'sepia(0.12) contrast(1.05)' }}
-              onError={() => setImgError(true)}
+        <svg viewBox="0 0 52 56" width="52" height="56" aria-hidden="true">
+          <defs>
+            <radialGradient id="kum" cx="45%" cy="40%" r="55%">
+              <stop offset="0%" stopColor="#C8283C" stopOpacity="0.55" />
+              <stop offset="60%" stopColor="#A01828" stopOpacity="0.30" />
+              <stop offset="100%" stopColor="#A01828" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="26" cy="30" rx="18" ry="22" fill="url(#kum)" />
+          <path d="M18 18 Q22 12 26 11 Q30 12 34 18 Q38 26 36 34 Q32 42 26 44 Q20 42 16 34 Q14 26 18 18Z" fill="#B01828" opacity="0.18" />
+          {[...Array(8)].map((_, i) => (
+            <ellipse key={i}
+              cx={26 + Math.sin(i * 0.9) * 11}
+              cy={30 + Math.cos(i * 0.9) * 14}
+              rx="1.5" ry="3.5"
+              transform={`rotate(${i * 45} ${26 + Math.sin(i * 0.9) * 11} ${30 + Math.cos(i * 0.9) * 14})`}
+              fill="#A01828" opacity="0.12"
             />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-              <span className="text-4xl opacity-25">📷</span>
-              <p className="font-handwriting text-sm text-coffee/30">still developing…</p>
-            </div>
-          )}
-          {/* Subtle vignette */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.12) 100%)' }}
-          />
-        </div>
-
-        {/* Date */}
-        <motion.p
-          className="font-sans text-[10px] tracking-widest uppercase text-coffee/40 mt-3 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          {polaroid.date}
-        </motion.p>
-
-        {/* Caption */}
-        <p className="font-handwriting text-xl text-navy text-center mt-0.5">{polaroid.caption}</p>
-
-        {/* Chat snippet */}
-        <motion.div
-          className="mt-4 space-y-1.5"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          role="log"
-          aria-label="Chat snippet"
-        >
-          {polaroid.chatSnippet.map((line, i) => (
-            <motion.div
-              key={i}
-              className={`flex ${line.speaker === 'me' ? 'justify-end' : 'justify-start'}`}
-              initial={{ opacity: 0, x: line.speaker === 'me' ? 12 : -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.45 + i * 0.1, duration: 0.3 }}
-            >
-              <div
-                className={`px-3 py-1.5 max-w-[80%] text-charcoal border border-charcoal/10 ${
-                  line.speaker === 'me'
-                    ? 'bg-orange/10 rounded-2xl rounded-tr-sm'
-                    : 'bg-white rounded-2xl rounded-tl-sm shadow-sm'
-                }`}
-              >
-                <p className="font-letter text-lg leading-snug">{line.text}</p>
-              </div>
-            </motion.div>
           ))}
-        </motion.div>
+        </svg>
+        <Note delay={delay + 0.6} className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap !text-[8px]">tap ↑</Note>
+      </motion.button>
 
-        {/* Handwritten memory */}
-        <motion.div
-          className="mt-4 pt-3 border-t border-charcoal/8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
-          {/* Drawn line */}
-          <svg className="w-full h-4 mb-1" viewBox="0 0 260 12" aria-hidden="true">
-            <motion.path
-              d="M 4 8 Q 65 3 130 8 Q 195 13 256 6"
-              fill="none"
-              stroke="#C9A84C"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            />
-          </svg>
-          <p className="font-letter text-lg text-coffee/80 italic leading-snug text-center">
-            "{polaroid.memory}"
-          </p>
-        </motion.div>
-
-        {/* Close */}
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-2 right-2 w-7 h-7 bg-soft-beige text-coffee/60 flex items-center justify-center rounded-full text-sm hover:bg-orange hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-          aria-label="Close photo"
-        >
-          ✕
-        </button>
-      </motion.div>
+      <AnimatePresence>
+        {tapped && (
+          <motion.div
+            initial={{ opacity: 0, y: 4, scale: 0.92 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.92 }}
+            transition={{ duration: 0.5 }}
+            className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#FFFEF8] border border-[#C9A84C]/30 shadow-md px-3 py-1.5 text-center whitespace-nowrap z-20"
+            style={{ borderRadius: 2 }}
+          >
+            <p className="font-handwriting text-[10px] text-[#8B2020]/65">12 April</p>
+            <p className="font-sans text-[8px] tracking-widest uppercase text-charcoal/35">Halasuru Temple</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
 
-// ─── Hidden note card ────────────────────────────────────────────────────────
-function HiddenNoteCard({ onClose }: { onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const { hiddenNote } = chapter4Data;
+// ─── INTERACTION 1: Temple Bell ────────────────────────────────────────────────
+function TempleBell({ delay }: { delay: number }) {
+  const [swinging, setSwinging] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
+  function handleTap() {
+    if (swinging) return;
+    setSwinging(true);
+    setTimeout(() => setSwinging(false), 1400);
+  }
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Hidden note"
+      transition={{ delay, duration: 1 }}
+      className="relative flex flex-col items-center"
+      style={{ width: 64 }}
     >
-      <div className="absolute inset-0 bg-navy/40 backdrop-blur-sm" />
-
-      <motion.div
-        className="relative max-w-sm w-full"
-        initial={{ scaleY: 0.1, opacity: 0, originY: 0 }}
-        animate={{ scaleY: 1, opacity: 1 }}
-        exit={{ scaleY: 0.1, opacity: 0 }}
-        transition={{ type: 'spring', bounce: 0.25, duration: 0.6 }}
-        onClick={(e) => e.stopPropagation()}
+      <Note delay={delay + 0.7} className="absolute -right-10 top-0 rotate-[3deg] whitespace-nowrap">ring once.</Note>
+      <div className="w-px h-6 bg-[#C9A84C]/40" />
+      <motion.button
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2 rounded-full"
+        onClick={handleTap}
+        aria-label="Ring the temple bell"
+        animate={swinging && !shouldReduceMotion ? { rotate: [0, 18, -16, 12, -8, 4, 0] } : { rotate: 0 }}
+        transition={{ duration: 1.2, ease: 'easeInOut' }}
         style={{ transformOrigin: 'top center' }}
       >
-        {/* Fold crease top */}
-        <div
-          className="w-full h-4 bg-[#FFFDE7] border-t-2 border-x-2 border-golden/25"
-          style={{ borderRadius: '4px 4px 0 0' }}
-          aria-hidden="true"
-        />
-
-        {/* Note body */}
-        <div
-          className="bg-[#FFFDE7] border-x-2 border-b-2 border-golden/25 p-8"
-          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
+        <svg viewBox="0 0 48 56" width="48" height="56" aria-hidden="true">
+          <defs>
+            <radialGradient id="brass" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stopColor="#E8C84A" />
+              <stop offset="50%" stopColor="#C9A84C" />
+              <stop offset="100%" stopColor="#8B7020" />
+            </radialGradient>
+          </defs>
+          <path d="M24 6 Q34 8 38 18 L40 40 Q40 44 24 44 Q8 44 8 40 L10 18 Q14 8 24 6Z" fill="url(#brass)" />
+          <ellipse cx="24" cy="44" rx="16" ry="4" fill="#C9A84C" opacity="0.6" />
+          <ellipse cx="24" cy="6" rx="4" ry="3" fill="#8B7020" />
+          <ellipse cx="24" cy="4" rx="3" ry="2" fill="#6B5010" />
+          <path d="M16 22 Q24 20 32 22" fill="none" stroke="#E8D48A" strokeWidth="1" opacity="0.5" />
+          <path d="M14 30 Q24 28 34 30" fill="none" stroke="#E8D48A" strokeWidth="1" opacity="0.35" />
+          <line x1="24" y1="40" x2="24" y2="50" stroke="#8B7020" strokeWidth="1.5" />
+          <ellipse cx="24" cy="51" rx="4" ry="2.5" fill="#6B5010" opacity="0.7" />
+        </svg>
+      </motion.button>
+      {swinging && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.2 }}
+          className="font-handwriting text-[8px] text-[#C9A84C]/55 mt-1 absolute -bottom-5"
+          aria-live="polite"
         >
-          {/* Ruled lines */}
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="w-full h-px bg-blue-200/40 mb-6"
-              aria-hidden="true"
-            />
-          ))}
-          <div className="absolute top-8 left-8 right-8">
-            <p className="font-handwriting text-2xl text-coffee mb-4">{hiddenNote.title}</p>
-            <p className="font-letter text-xl text-charcoal/85 leading-relaxed mb-6">
-              {hiddenNote.body}
-            </p>
-
-            {/* Drawn underline */}
-            <svg className="w-full h-5 mb-2" viewBox="0 0 260 16" aria-hidden="true">
-              <motion.path
-                d="M 4 10 C 50 5, 110 14, 170 8 S 230 12, 256 9"
-                fill="none"
-                stroke="#C9A84C"
-                strokeWidth="2"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.2, delay: 0.5 }}
-              />
-            </svg>
-
-            <p className="font-handwriting text-xl text-coffee/70 text-right italic">
-              {hiddenNote.signOff}
-            </p>
-          </div>
-        </div>
-
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-6 right-4 w-7 h-7 bg-golden/20 text-coffee/60 flex items-center justify-center rounded-full text-sm hover:bg-orange hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-          aria-label="Close note"
-        >
-          ✕
-        </button>
-      </motion.div>
+          🔔
+        </motion.p>
+      )}
     </motion.div>
   );
 }
 
-// ─── Main component ──────────────────────────────────────────────────────────
-export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
-  const [openPolaroid, setOpenPolaroid] = useState<Polaroid | null>(null);
-  const [noteRevealed, setNoteRevealed] = useState(false);
-  const [showNote, setShowNote] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-
-  const { polaroids, filmStrip, quote, attribution } = chapter4Data;
+// ─── INTERACTION 2: Folded Prayer ─────────────────────────────────────────────
+function FoldedPrayer({ delay }: { delay: number }) {
+  const [opened, setOpened] = useState(false);
 
   return (
-    <>
-      <motion.div
-        className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden"
-        style={{ backgroundColor: '#EDE8DF' }}
-        variants={shouldReduceMotion ? {} : pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 1, ease: [0.77, 0, 0.175, 1] }}
-        aria-label="Chapter Four: Little Moments We Captured"
+    <motion.div
+      initial={{ opacity: 0, rotate: 2 }}
+      animate={{ opacity: 1, rotate: 2 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 160 }}
+    >
+      <div className="absolute -top-3 left-4 w-12 h-4 washi-tape -rotate-[2deg]" />
+      <Note delay={delay + 0.8} className="absolute -right-2 -top-5 rotate-[4deg]">a real promise.</Note>
+
+      <div
+        className="bg-[#FFFEF8] border border-[#C9A84C]/30 shadow-sm cursor-pointer focus-within:ring-2 focus-within:ring-[#C9A84C]/30"
+        onClick={() => setOpened(v => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={opened ? 'Fold prayer note' : 'Open prayer note'}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
-        {/* Paper texture overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `
-              linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px),
-              linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px)
-            `,
-            backgroundSize: '24px 24px',
-          }}
-          aria-hidden="true"
-        />
+        <div className="px-4 pt-3 pb-2 border-b border-[#C9A84C]/15 flex items-center justify-between">
+          <p className="font-sans text-[7px] tracking-[0.3em] uppercase text-[#8B6020]/40">Prayer Note</p>
+          <motion.span animate={{ rotate: opened ? 90 : 0 }} transition={{ duration: 0.4 }}
+            className="text-[10px] text-[#C9A84C]/40" aria-hidden="true">▷</motion.span>
+        </div>
 
-        <SunlightDrift />
-
-        <div className="relative z-10 max-w-7xl mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-0 min-h-full">
-
-          {/* ═══════════ LEFT PAGE ═══════════ */}
-          <div className="flex-1 lg:border-r lg:border-charcoal/12 lg:pr-10 flex flex-col gap-6 pb-8 lg:pb-0">
-
-            {/* Chapter header */}
-            <motion.div
-              className="pt-6"
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              <p className="font-sans text-xs tracking-[0.35em] uppercase text-coffee/45 mb-1">
-                {chapter4Data.chapterNumber}
-              </p>
-              <h2 className="font-display text-4xl md:text-5xl text-coffee leading-tight">
-                {chapter4Data.title}
-              </h2>
-              {/* Drawn underline */}
-              <motion.svg className="w-56 h-5 mt-1" viewBox="0 0 230 14" aria-hidden="true">
-                <motion.path
-                  d="M 0 9 C 46 4, 92 13, 138 7 S 200 11, 230 8"
-                  fill="none"
-                  stroke="#C9A84C"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.3, delay: 0.5 }}
-                />
-              </motion.svg>
-            </motion.div>
-
-            {/* Introduction */}
-            <motion.p
-              className="font-quote text-xl text-charcoal/80 leading-relaxed max-w-md"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.9 }}
-            >
-              {chapter4Data.intro}
-            </motion.p>
-
-            {/* Decorative washi tape strip */}
-            <motion.div
-              className="relative h-5 w-48 self-start"
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.6, ease: 'easeOut' }}
-              style={{ transformOrigin: 'left' }}
-              aria-hidden="true"
-            >
-              <WashiTape color="rgba(232,184,109,0.5)" rotate={-1} className="top-0 left-0 !w-48" />
-            </motion.div>
-
-            {/* Handwritten paragraph */}
-            <motion.div
-              className="relative max-w-sm"
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1, duration: 0.8 }}
-            >
-              {/* Yellow sticky-note style */}
-              <div
-                className="bg-[#FEFCE8] p-5 shadow-sm"
-                style={{ rotate: '-0.5deg', boxShadow: '2px 3px 8px rgba(0,0,0,0.08)' }}
-              >
-                <p className="font-letter text-2xl text-charcoal/85 leading-relaxed">
-                  {chapter4Data.handwrittenParagraph}
-                </p>
-                {/* Written underline */}
-                <motion.svg className="w-full h-4 mt-2" viewBox="0 0 280 12" aria-hidden="true">
-                  <motion.path
-                    d="M 4 8 Q 70 3 140 8 Q 210 13 276 6"
-                    fill="none"
-                    stroke="#C9A84C"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.2, delay: 1.2 }}
-                  />
-                </motion.svg>
-              </div>
-
-              {/* Annotation */}
-              <motion.p
-                className="font-handwriting text-base text-golden/70 italic mt-1 ml-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-              >
-                {chapter4Data.annotation}
-              </motion.p>
-            </motion.div>
-
-            {/* Pressed flower */}
-            <motion.div
-              className="relative self-end mr-8"
-              initial={{ opacity: 0, rotate: -20, scale: 0.6 }}
-              animate={{ opacity: 1, rotate: -8, scale: 1 }}
-              transition={{ delay: 1.3, duration: 1, type: 'spring', bounce: 0.3 }}
-              aria-hidden="true"
-            >
-              <img
-                src={pressedFlower}
-                alt=""
-                className="w-20 h-24 object-contain opacity-80"
-                style={{ filter: 'sepia(0.3) brightness(0.95)' }}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-              />
-              {/* Tape over flower */}
-              <WashiTape
-                color="rgba(232,184,109,0.4)"
-                rotate={-6}
-                className="top-2 left-1/2 -translate-x-1/2"
-              />
-            </motion.div>
-
-            {/* Film strip */}
-            <div className="mt-auto">
-              <motion.div
-                className="overflow-hidden rounded-sm"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                aria-hidden="true"
-              >
-                <FilmStrip labels={filmStrip} />
-              </motion.div>
-            </div>
-
-            {/* Quote */}
-            <motion.blockquote
-              className="pt-4 border-t border-charcoal/10"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <p className="font-quote text-lg text-charcoal/55 italic">{quote}</p>
-              <footer className="font-handwriting text-base text-coffee/45 mt-1">{attribution}</footer>
-            </motion.blockquote>
-
-            {/* Navigation */}
-            <div className="flex gap-4 pb-2">
-              <button
-                onClick={onPrev}
-                className="font-handwriting text-xl text-coffee/55 hover:text-coffee transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
-                aria-label="Previous chapter"
-              >
-                ← back
-              </button>
-              <button
-                onClick={onNext}
-                className="font-handwriting text-xl text-orange hover:text-coffee transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 ml-auto"
-                aria-label="Next chapter"
-              >
-                next chapter →
-              </button>
-            </div>
-          </div>
-
-          {/* Gutter */}
-          <div className="hidden lg:flex flex-col items-center px-3 py-8 gap-1.5" aria-hidden="true">
-            {[...Array(16)].map((_, i) => (
-              <div key={i} className="w-px h-3 bg-charcoal/8" />
-            ))}
-          </div>
-
-          {/* ═══════════ RIGHT PAGE — Polaroid wall ═══════════ */}
-          <div className="flex-1 lg:pl-8 flex flex-col gap-4 pb-8">
-
-            {/* Right page header */}
-            <motion.div
-              className="pt-6 flex items-center justify-between"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <p className="font-handwriting text-2xl text-coffee/60 italic">the camera roll</p>
-              <p className="font-sans text-xs tracking-widest text-coffee/30 uppercase">tap to open</p>
-            </motion.div>
-
-            {/* Coffee stain — decorative */}
-            <div className="relative flex-1">
-              <CoffeeStain className="absolute -top-2 -right-2 w-16 h-16" />
-
-              {/* Polaroid grid */}
-              <div
-                className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6"
-                role="list"
-                aria-label="Photo memories"
-              >
-                {polaroids.map((polaroid, i) => (
-                  <div key={polaroid.id} role="listitem">
-                    <PolaroidCard
-                      polaroid={polaroid}
-                      index={i}
-                      onOpen={setOpenPolaroid}
-                      onNoteReveal={() => { setNoteRevealed(true); setShowNote(true); }}
-                      noteRevealed={noteRevealed}
-                    />
-                  </div>
+        <AnimatePresence initial={false}>
+          {!opened && (
+            <motion.div key="closed" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }} className="px-4 py-3">
+              <div className="space-y-1.5">
+                {[3.5, 2.5, 4].map((w, i) => (
+                  <div key={i} className="h-px bg-[#C9A84C]/18" style={{ width: `${w / 4 * 100}%` }} />
                 ))}
               </div>
+              <p className="font-handwriting text-[8px] text-charcoal/22 text-right mt-3 italic">tap to open</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-              {/* Decorative scattered washi strips */}
-              <motion.div
-                className="mt-6 flex items-center gap-3"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 }}
-                aria-hidden="true"
-              >
-                <WashiTape color="rgba(232,184,109,0.45)" rotate={2} className="relative static !w-28 h-4" />
-                <p className="font-handwriting text-base text-coffee/40 italic">
-                  {noteRevealed ? 'you found the note ✨' : 'one of these has a secret…'}
-                </p>
-              </motion.div>
-            </div>
+        <AnimatePresence initial={false}>
+          {opened && (
+            <motion.div key="open" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="overflow-hidden">
+              <div className="px-5 py-4 space-y-1">
+                {[
+                  { text: 'We said we\'d go to Tirupati.', d: 0.1 },
+                  { text: '', d: 0.3 },
+                  { text: 'Deal is deal.', d: 0.5 },
+                  { text: '', d: 0.7 },
+                  { text: '— N', d: 1.1 },
+                ].map((line, i) => (
+                  <motion.p key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    transition={{ delay: line.d, duration: 1 }}
+                    className="font-letter text-[13px] text-charcoal/68 leading-relaxed min-h-[18px]">
+                    {line.text}
+                  </motion.p>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Saree & Dhoti Card ───────────────────────────────────────────────────────
+function SareeDhotiCard({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: -3 }}
+      animate={{ opacity: 1, rotate: -3 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 180 }}
+    >
+      <div className="absolute -top-3 right-5 w-14 h-4 washi-tape rotate-[1deg]" />
+      <Note delay={delay + 0.7} className="absolute -left-3 -top-5 -rotate-[3deg]">12–13 April.</Note>
+      <div className="bg-[#FDF6ED] border border-[#C9A84C]/25 shadow-sm px-4 py-3">
+        <div className="flex items-start gap-3">
+          <div className="flex flex-col items-center gap-0.5 pt-0.5">
+            <svg viewBox="0 0 20 32" width="20" height="32" aria-label="Saree" role="img">
+              <rect x="4" y="0" width="12" height="32" rx="2" fill="#8B2020" opacity="0.55" />
+              <path d="M4 8 Q10 12 16 8 Q10 4 4 8Z" fill="#C9A84C" opacity="0.6" />
+              <path d="M4 16 Q10 20 16 16 Q10 12 4 16Z" fill="#C9A84C" opacity="0.45" />
+              <path d="M4 24 Q10 28 16 24 Q10 20 4 24Z" fill="#C9A84C" opacity="0.35" />
+            </svg>
+            <p className="font-handwriting text-[7px] text-charcoal/35">saree</p>
+          </div>
+          <div className="flex flex-col items-center gap-0.5 pt-0.5">
+            <svg viewBox="0 0 20 32" width="20" height="32" aria-label="Dhoti" role="img">
+              <rect x="2" y="0" width="16" height="20" rx="1" fill="#F0E8D8" opacity="0.9" />
+              <rect x="2" y="0" width="16" height="20" rx="1" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.4" />
+              <path d="M2 20 L6 32 L14 32 L18 20Z" fill="#F0E8D8" opacity="0.9" />
+              <path d="M2 20 L6 32 L14 32 L18 20Z" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.35" />
+              <line x1="2" y1="10" x2="18" y2="10" stroke="#C9A84C" strokeWidth="0.7" opacity="0.4" />
+            </svg>
+            <p className="font-handwriting text-[7px] text-charcoal/35">dhoti</p>
+          </div>
+          <div className="flex-1 pl-1">
+            <p className="font-letter text-[12px] text-charcoal/60 leading-relaxed">
+              Both of us in temple clothes.
+            </p>
+            <p className="font-letter text-[12px] text-[#8B2020]/50 leading-relaxed mt-0.5">
+              Vibhuti on both foreheads.
+            </p>
+            <p className="font-handwriting text-[9px] text-charcoal/28 mt-2 italic">Halasuru Temple</p>
           </div>
         </div>
-      </motion.div>
+      </div>
+    </motion.div>
+  );
+}
 
-      {/* ── Lightbox ── */}
-      <AnimatePresence>
-        {openPolaroid && (
-          <LightboxModal polaroid={openPolaroid} onClose={() => setOpenPolaroid(null)} />
-        )}
-      </AnimatePresence>
+// ─── Swayam Fest Note ─────────────────────────────────────────────────────────
+function SwayamNote({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: 1.5 }}
+      animate={{ opacity: 1, rotate: 1.5 }}
+      transition={{ delay, duration: 1 }}
+      className="relative"
+      style={{ width: 160 }}
+    >
+      <div className="absolute -top-2 left-3 w-10 h-4 washi-tape -rotate-[1deg]" />
+      <Note delay={delay + 0.6} className="absolute -right-4 -top-4 rotate-[5deg]">end of April.</Note>
+      <div className="bg-white border border-charcoal/8 shadow-sm px-4 py-3" style={{ borderLeft: '3px solid #E8924A' }}>
+        <p className="font-sans text-[7px] tracking-[0.3em] uppercase text-[#E8924A]/55 mb-1.5">Swayam Fest</p>
+        <p className="font-letter text-[12px] text-charcoal/60 leading-relaxed">Walking together.</p>
+        <p className="font-letter text-[12px] text-charcoal/50 leading-relaxed">Talking about everything.</p>
+        <p className="font-letter text-[12px] text-charcoal/40 leading-relaxed">Nothing in particular.</p>
+        <p className="font-handwriting text-[9px] text-charcoal/25 mt-2 italic">28–29 April 2026</p>
+      </div>
+    </motion.div>
+  );
+}
 
-      {/* ── Hidden note ── */}
-      <AnimatePresence>
-        {showNote && (
-          <HiddenNoteCard onClose={() => setShowNote(false)} />
-        )}
-      </AnimatePresence>
-    </>
+// ─── Prayer Thread ────────────────────────────────────────────────────────────
+function PrayerThread({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 1.5 }}
+      className="pointer-events-none"
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 8 120" width="8" height="120">
+        <path d="M4 2 Q6 12 4 22 Q2 32 4 42 Q6 52 4 62 Q2 72 4 82 Q6 92 4 102 Q2 112 4 118"
+          fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" opacity="0.45" />
+        {[18,36,54,72,90].map((y, i) => (
+          <circle key={i} cx="4" cy={y} r="2.5" fill="#C9A84C" opacity="0.35" />
+        ))}
+      </svg>
+    </motion.div>
+  );
+}
+
+// ─── Chapter Four ─────────────────────────────────────────────────────────────
+export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
+  const slideVariants = {
+    initial: { x: '100%', opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: '-100%', opacity: 0 },
+  };
+
+  return (
+    <motion.div
+      className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden"
+      style={{ backgroundColor: '#FDF6ED' }}
+      variants={slideVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+      aria-label="Chapter Four: Where We Found Peace"
+    >
+      {/* Paper grain */}
+      <div className="absolute inset-0 pointer-events-none paper-texture" aria-hidden="true" />
+      <SunlightDrift />
+
+      <div className="relative z-10 max-w-6xl mx-auto min-h-full p-6 md:p-12 flex flex-col md:flex-row gap-0">
+
+        {/* ═══════════ LEFT PAGE ═══════════ */}
+        <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-12 py-8 z-10 relative flex flex-col gap-8">
+
+          {/* Background accent */}
+          <div className="absolute top-32 left-2 w-12 h-12 rounded-full border border-[#C9A84C]/10 pointer-events-none"
+            style={{ boxShadow: 'inset 0 0 0 3px rgba(201,168,76,0.05)' }} aria-hidden="true" />
+          <div className="absolute bottom-32 left-0 text-sm opacity-8 pointer-events-none select-none" aria-hidden="true">🪔</div>
+
+          {/* Chapter header */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
+            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#8B6020]/40 mb-1">Chapter Four</p>
+            <p className="font-sans text-[9px] tracking-[0.25em] uppercase text-[#8B2020]/30 mb-2">April 2026</p>
+            <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">Where We Found<br />Peace</h2>
+            <motion.svg className="w-48 h-4 mt-1.5" viewBox="0 0 200 12" aria-hidden="true">
+              <motion.path d="M0 7 Q50 3 100 7 Q150 11 200 6"
+                fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                transition={{ duration: 1.4, delay: 0.7 }} />
+            </motion.svg>
+          </motion.div>
+
+          {/* Handwriting quote */}
+          <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8, duration: 1 }}>
+            <div className="bg-[#FDF8F0] border border-[#C9A84C]/20 shadow-sm px-5 py-4" style={{ rotate: '-0.5deg' }}>
+              <p className="font-letter text-base text-charcoal/62 leading-loose">
+                Some places become special<br />
+                <span className="ml-4">because of</span><br />
+                <span className="ml-8">who stood beside you.</span>
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Pressed jasmine + temple receipt side by side */}
+          <div className="flex items-end gap-6 pl-2">
+            <PressedJasmine delay={1.2} />
+            <TempleReceipt delay={1.5} />
+          </div>
+
+          {/* Prayer thread decoration */}
+          <div className="absolute right-14 top-56 opacity-60">
+            <PrayerThread delay={2} />
+          </div>
+
+          {/* Navigation */}
+          <div className="flex gap-4 mt-auto pt-8">
+            <button
+              onClick={onPrev}
+              className="font-handwriting text-xl text-[#8B6020]/55 hover:text-[#8B6020] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2"
+              aria-label="Previous chapter"
+            >← back</button>
+            <button
+              onClick={onNext}
+              className="font-handwriting text-xl text-[#E8924A] hover:text-[#8B6020] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2 ml-auto"
+              aria-label="Next chapter"
+            >next chapter →</button>
+          </div>
+        </div>
+
+        {/* ═══════════ RIGHT PAGE ═══════════ */}
+        <div className="flex-1 md:pl-12 py-8 z-10 relative">
+
+          {/* Scattered layout — deliberate offsets */}
+          <div className="relative min-h-full">
+
+            {/* Temple bell — top right, floats alone */}
+            <div className="absolute top-6 right-6">
+              <TempleBell delay={0.6} />
+            </div>
+
+            {/* Vibhuti thumbprint — top left */}
+            <div className="absolute top-4 left-8">
+              <VibhutiPrint delay={0.9} />
+            </div>
+
+            {/* Saree & dhoti card — center */}
+            <div className="absolute top-20 left-12">
+              <SareeDhotiCard delay={1.2} />
+            </div>
+
+            {/* Folded prayer — mid right, slight overlap */}
+            <div className="absolute top-48 right-4">
+              <FoldedPrayer delay={1.6} />
+            </div>
+
+            {/* Swayam note — lower left */}
+            <div className="absolute top-80 left-4">
+              <SwayamNote delay={2} />
+            </div>
+
+            {/* Quiet ending sentence */}
+            <motion.div
+              className="absolute bottom-16 right-0 left-0 text-right pr-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3, duration: 2 }}
+            >
+              <p className="font-quote text-sm text-charcoal/35 italic">Some memories</p>
+              <p className="font-quote text-sm text-charcoal/28 italic">never needed words.</p>
+            </motion.div>
+
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
