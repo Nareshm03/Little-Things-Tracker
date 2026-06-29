@@ -229,19 +229,23 @@ function GroceryNote({ delay }: { delay: number }) {
       </svg>
       <div className="bg-[#FDFAF3] border border-charcoal/10 shadow-sm px-3 pb-3 pt-1.5">
         <p className="font-handwriting text-[7.5px] text-charcoal/28 mb-1.5 tracking-wider uppercase">this week</p>
-        {[
-          { text: 'fish curry 🐟', crossed: false },
-          { text: 'coconut sambar', crossed: false },
-          { text: 'curd rice', crossed: true },
-          { text: 'paratha', crossed: false },
-          { text: 'noodles', crossed: false },
-          { text: 'momos? 🥟', crossed: false },
-          { text: 'kulfi 🍦', crossed: false },
-        ].map(({ text, crossed }, i) => (
-          <p key={i} className={`font-handwriting text-[9px] leading-relaxed ${crossed ? 'line-through text-charcoal/22' : 'text-charcoal/48'}`}>
-            {text}
-          </p>
-        ))}
+        <div className="space-y-0.5">
+          {[
+            { text: 'fish curry 🐟', checked: true },
+            { text: 'coconut sambar', checked: true },
+            { text: 'paratha', checked: true },
+            { text: 'curd rice', checked: false },
+            { text: 'kulfi 🍦', checked: true },
+          ].map(({ text, checked }, i) => (
+            <p key={i} className="font-handwriting text-[9px] text-charcoal/48 leading-relaxed">
+              <span className="text-charcoal/32">{checked ? '☑' : '☐'}</span> {text}
+            </p>
+          ))}
+          <div className="flex items-baseline gap-1 mt-0.5">
+            <p className="font-handwriting text-[9px] text-charcoal/42">☐ momos 🥟</p>
+            <p className="font-handwriting text-[7px] text-charcoal/25 italic">(after exams!!)</p>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
