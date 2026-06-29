@@ -312,7 +312,7 @@ function FinalText({
             animate={{ opacity: 1 }}
             transition={{ duration: 2.5, ease: 'easeOut' }}
           >
-            You can always open this book again.
+            Whenever you miss us... open this again.
           </motion.p>
         )}
       </AnimatePresence>
