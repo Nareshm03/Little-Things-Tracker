@@ -356,6 +356,55 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
             <TempleReceipt delay={1.9} />
           </div>
 
+          {/* ── Food & Care grid ── */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 2.2, duration: 1 }}
+            className="mt-2"
+          >
+            <p className="font-sans text-[7.5px] tracking-[0.32em] uppercase text-[#8B6020]/30 mb-2.5">
+              food & care
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { icon: '🍛', name: 'Anna Sambar',    ctx: 'her daily PG food · almost every day' },
+                { icon: '🐟', name: 'Fish Curry',     ctx: "Amma made it for her · multiple times 🥺" },
+                { icon: '🍫', name: 'Dark Chocolate', ctx: '"I think dark chocolate... you?" · 15 Feb' },
+                { icon: '🍚', name: 'Curd Rice',      ctx: '"You will get sleep" — he warned her 😂' },
+                { icon: '🍬', name: 'Kulfi',           ctx: '"I ate one kulfi also" after dinner' },
+                { icon: '🫘', name: 'Sikkina Unde',   ctx: 'she explained → bangara forever after · 23 Feb' },
+              ].map(({ icon, name, ctx }) => (
+                <div
+                  key={name}
+                  className="bg-white/70 border border-[#C9A84C]/12 px-2 pt-2 pb-2.5 text-center shadow-sm"
+                >
+                  <span className="text-xl block mb-1" aria-hidden="true">{icon}</span>
+                  <p className="font-letter text-[9.5px] text-charcoal/62 leading-tight mb-0.5">{name}</p>
+                  <p className="font-handwriting text-[7.5px] text-charcoal/35 leading-tight">{ctx}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Care pills */}
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {[
+                '🌅 "Had breakfast?"',
+                '💧 "Drink water mam"',
+                '🏠 "Reached home?"',
+                '🛵 "Ride safe"',
+                '😴 "Sleep early"',
+                '🥺 "Good boii / Good gurl"',
+              ].map(pill => (
+                <span
+                  key={pill}
+                  className="bg-white border border-[#B85C38]/15 rounded-full px-2.5 py-1 font-handwriting text-[8.5px] text-charcoal/52 shadow-sm"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Navigation */}
           <div className="flex gap-4 mt-auto pt-6">
             <button onClick={onPrev}

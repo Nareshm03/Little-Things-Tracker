@@ -100,13 +100,14 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
 // ─── Printed Chat Screenshot ──────────────────────────────────────────────────
 
 function ChatPrintout({ delay }: { delay: number }) {
-  const messages: Array<{ from: 'n' | 'm'; text: string }> = [
-    { from: 'n', text: 'Had breakfast???' },
-    { from: 'm', text: 'Noooooo' },
-    { from: 'n', text: 'Eat knowww' },
-    { from: 'n', text: 'Ur in cllge now ?' },
-    { from: 'm', text: 'Just now I came' },
-    { from: 'n', text: 'Then breakfast who ll eat' },
+  const messages: Array<{ from: 'n' | 'm'; text: string; time: string }> = [
+    { from: 'n', text: 'Had breakfast?', time: '8:04 AM' },
+    { from: 'm', text: 'Not yet 😅', time: '8:06 AM' },
+    { from: 'n', text: 'Uta madu 🫂💗', time: '8:07 AM' },
+    { from: 'm', text: 'Drink water mam 🙏', time: '1:14 PM' },
+    { from: 'n', text: 'Reached home?', time: '6:41 PM' },
+    { from: 'n', text: 'Good boii 🥺', time: '8:55 PM' },
+    { from: 'm', text: 'Good gurl 🥺', time: '9:02 PM' },
   ];
 
   return (
@@ -121,7 +122,7 @@ function ChatPrintout({ delay }: { delay: number }) {
       <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm overflow-hidden">
         <div className="bg-charcoal/5 text-center py-1.5">
           <span className="text-[9px] tracking-widest uppercase text-charcoal/38 font-sans">
-            8 February 2026
+            a day in our chat
           </span>
         </div>
         <div className="px-3 py-3 space-y-1.5">
@@ -132,8 +133,8 @@ function ChatPrintout({ delay }: { delay: number }) {
                 key={i}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: delay + 0.3 + i * 0.22, duration: 0.4 }}
-                className={`flex ${isNaresh ? 'justify-end' : 'justify-start'}`}
+                transition={{ delay: delay + 0.3 + i * 0.2, duration: 0.4 }}
+                className={`flex flex-col ${isNaresh ? 'items-end' : 'items-start'}`}
               >
                 <div
                   className={`px-2.5 py-1 rounded-lg text-[11px] leading-snug max-w-[78%] ${
@@ -148,6 +149,9 @@ function ChatPrintout({ delay }: { delay: number }) {
                     <span className="ml-1 text-[8px] text-green-600/50">✓✓</span>
                   )}
                 </div>
+                <span className="text-[7.5px] text-charcoal/22 mt-0.5 font-sans px-0.5">
+                  {msg.time}
+                </span>
               </motion.div>
             );
           })}
@@ -156,11 +160,37 @@ function ChatPrintout({ delay }: { delay: number }) {
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: delay + 1.6, duration: 1 }}
+        transition={{ delay: delay + 1.8, duration: 1 }}
         className="font-handwriting text-[11px] text-coffee/45 mt-1.5 text-right mr-1 italic"
       >
-        this became every morning ↑
+        this became every day ↑
       </motion.p>
+    </motion.div>
+  );
+}
+
+// ─── Meghana's quote slip ─────────────────────────────────────────────────────
+
+function MeghanaQuoteSlip({ delay }: { delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8, rotate: -1.5 }}
+      animate={{ opacity: 1, y: 0, rotate: -1.5 }}
+      transition={{ delay, duration: 1 }}
+      className="relative max-w-[244px]"
+    >
+      <div className="absolute -top-2.5 left-4 w-12 h-4 washi-tape rotate-[1deg]" />
+      <div
+        className="bg-[#FFFEF8] border-l-[3px] border-[#C9A84C]/55 shadow-sm px-4 py-3"
+        style={{ borderLeftColor: '#C9A84C' }}
+      >
+        <p className="font-quote text-[11.5px] text-charcoal/65 italic leading-relaxed">
+          "Even I miss you so much… I used to remember yesterday's cute moments and blush myself 🥰"
+        </p>
+        <p className="font-sans text-[7.5px] tracking-[0.2em] text-charcoal/28 uppercase mt-2">
+          — Meghana · 8 Feb 2026 · before we even met that day
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -261,9 +291,10 @@ function HackathonCard({ delay }: { delay: number }) {
 
 function FirstOutingTimeline({ delay }: { delay: number }) {
   const stops = [
-    { time: '2:47 PM', label: 'Bus Stop', note: '' },
-    { time: '',        label: '3 hours',  note: '' },
-    { time: '6:28 PM', label: 'Reached PG', note: '' },
+    { time: '2:47 PM', label: 'Bus Stop — we met' },
+    { time: '',        label: '3 hours together' },
+    { time: '6:28 PM', label: 'She reached PG' },
+    { time: '7:10 PM', label: 'I reached home' },
   ];
 
   return (
@@ -384,7 +415,8 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
 
           <div className="space-y-4">
             <ChatPrintout delay={2.4} />
-            <DisappearingMessagesCard delay={4.4} />
+            <MeghanaQuoteSlip delay={4.0} />
+            <DisappearingMessagesCard delay={5.2} />
           </div>
 
           {/* Spacer */}

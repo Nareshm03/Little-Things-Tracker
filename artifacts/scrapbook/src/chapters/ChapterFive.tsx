@@ -533,7 +533,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
           </div>
         </div>
 
-        {/* ═══════════ RIGHT PAGE — study desk ═══════════ */}
+        {/* ═══════════ RIGHT PAGE — study desk + temple + messages ═══════════ */}
         <div className="flex-1 md:pl-10 py-8 z-10">
           <div className="relative" style={{ minHeight: 660 }}>
 
@@ -611,14 +611,93 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
                 <span className="text-charcoal/22">we stopped noticing</span><br />
                 <span className="text-charcoal/18 text-xs">these little things.</span>
               </p>
-              <p className="font-quote text-xs text-charcoal/16 italic mt-3 leading-relaxed">
-                Years later...<br />
-                <span className="text-charcoal/13">they became</span><br />
-                <span className="text-charcoal/11">our favourite memories.</span>
-              </p>
             </motion.div>
 
           </div>
+
+          {/* ── Temple moment — Halasuru ── */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 2.8, duration: 1.4 }}
+            className="mt-8 pt-6 border-t border-charcoal/8"
+          >
+            <p className="font-sans text-[7.5px] tracking-[0.3em] uppercase text-[#C9A84C]/55 mb-3 text-center">
+              April 12–13, 2026 · Halasuru Temple, Bangalore
+            </p>
+            <p className="font-display text-xl text-charcoal/60 text-center italic mb-4 leading-snug">
+              "Some days didn't need words."
+            </p>
+            <div className="space-y-2 text-center">
+              <p className="font-letter text-[11.5px] text-charcoal/42 leading-loose">
+                vibhuti on foreheads<br />
+                temple bells, quiet prayers<br />
+                <em>you, beside me</em>
+              </p>
+              <div className="w-8 h-px bg-[#C9A84C]/25 mx-auto my-3" />
+              <p className="font-letter text-[11.5px] text-charcoal/38 leading-loose">
+                green saree, morning sun<br />
+                the lawn never looked so good<br />
+                <em>I forgot to breathe</em>
+              </p>
+            </div>
+            <motion.p
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 3.8, duration: 1.6 }}
+              className="font-handwriting text-xs text-[#C9A84C]/55 text-center mt-3 italic"
+            >
+              "You were looking like a wowwww 🫶 — still true."
+            </motion.p>
+          </motion.div>
+
+          {/* ── Beautiful Messages ── */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 3.2, duration: 1.4 }}
+            className="mt-8 pt-6 border-t border-charcoal/8 space-y-4"
+          >
+            <p className="font-sans text-[7.5px] tracking-[0.3em] uppercase text-[#8B6020]/30 mb-1">
+              words that stayed
+            </p>
+            {[
+              {
+                text: '"Every night before I sleep, I think about you….. and suddenly the whole day feels your presence… love you so deeply that sometimes I don\'t even have the right words for it. It\'s not just love… it\'s comfort, peace and that feeling of home with you… I crave every single minute."',
+                attr: '— Naresh · 2 March 2026 · 11:17 PM',
+                accent: '#B85C38',
+              },
+              {
+                text: '"Your birthday may be ending tonight but honestly? Every single day with you feels like a celebration. I want to make every ordinary day feel special for you."',
+                attr: '— Naresh · 11 March 2026 · 11:43 PM · her birthday',
+                accent: '#6B8F6B',
+              },
+              {
+                text: '"I love you sooooo much my chinnu muddu everything 😘🫣🥰💋" — Meghana. "Love you sweetheart" — Naresh. Every single night. Without fail.',
+                attr: '— Both · Every night · February → June 2026',
+                accent: '#C9A84C',
+              },
+            ].map(({ text, attr, accent }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 3.5 + i * 0.3, duration: 1 }}
+                className="bg-white/65 shadow-sm relative pl-4 pr-3 py-3"
+                style={{ borderLeft: `3px solid ${accent}40` }}
+              >
+                <span
+                  className="absolute top-0 left-2 font-display text-4xl leading-none pointer-events-none select-none"
+                  style={{ color: `${accent}12` }}
+                  aria-hidden="true"
+                >"</span>
+                <p className="font-quote text-[11px] text-charcoal/62 italic leading-relaxed relative z-10">
+                  {text}
+                </p>
+                <p className="font-sans text-[7px] tracking-[0.2em] uppercase mt-2" style={{ color: `${accent}80` }}>
+                  {attr}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
         </div>
       </div>
     </motion.div>

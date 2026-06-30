@@ -11,6 +11,8 @@ import ChapterFour from './chapters/ChapterFour';
 import ChapterFive from './chapters/ChapterFive';
 import ChapterSix from './chapters/ChapterSix';
 import ChapterSeven from './chapters/ChapterSeven';
+import ChapterNicknames from './chapters/ChapterNicknames';
+import ChapterFuture from './chapters/ChapterFuture';
 import ChapterEpilogue from './chapters/ChapterEpilogue';
 import ClosingSequence from './chapters/ClosingSequence';
 import NavigationBookmarks from './components/NavigationBookmarks';
@@ -25,12 +27,14 @@ const chapters = [
   { id: 'dedication', component: Dedication,       isDark: false },
   { id: 'before',     component: BeforeWeBegin,    isDark: false },
   { id: 'ch1',        component: ChapterOne,       isDark: false },
+  { id: 'nicknames',  component: ChapterNicknames, isDark: false },
   { id: 'ch2',        component: ChapterTwo,       isDark: false },
   { id: 'ch3',        component: ChapterThree,     isDark: false },
   { id: 'ch4',        component: ChapterFour,      isDark: false },
   { id: 'ch5',        component: ChapterFive,      isDark: false },
   { id: 'ch6',        component: ChapterSix,       isDark: false },
   { id: 'ch7',        component: ChapterSeven,     isDark: false },
+  { id: 'future',     component: ChapterFuture,    isDark: false },
   { id: 'epilogue',   component: ChapterEpilogue,  isDark: false },
 ];
 
