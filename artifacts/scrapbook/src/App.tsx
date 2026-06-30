@@ -102,31 +102,38 @@ function App() {
   return (
     <div className="min-h-[100dvh] w-full overflow-hidden relative selection:bg-golden selection:text-white">
 
-      {/* Audio Toggle — vintage paper-tab style */}
+      {/* Audio Toggle — looks like a handwritten corner note */}
       {hasStarted && !isClosing && (
         <button
           onClick={() => setIsMuted(!isMuted)}
           aria-label={isMuted ? 'Unmute' : 'Mute'}
-          className="fixed top-0 right-8 z-50 flex flex-col items-center pt-1 pb-2 px-3 bg-warm-white/80 border border-t-0 border-sandstone/30 shadow-[0_2px_6px_rgba(0,0,0,0.08)] hover:bg-warm-white transition-colors duration-300"
-          style={{ borderRadius: '0 0 4px 4px' }}
+          className="fixed top-5 right-5 z-50 group flex flex-col items-center gap-0.5 opacity-30 hover:opacity-60 transition-opacity duration-500"
         >
-          {/* Vintage speaker SVG */}
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brown/60 mt-1" aria-hidden="true">
-            {/* Speaker body */}
-            <path d="M4 7H2a1 1 0 00-1 1v4a1 1 0 001 1h2l5 4V3L4 7z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            {/* Sound waves — shown when unmuted */}
-            {!isMuted && <>
-              <path d="M13 7.5a3.5 3.5 0 010 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
-              <path d="M15.5 5.5a6.5 6.5 0 010 9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeOpacity="0.5" fill="none"/>
-            </>}
-            {/* X mark — shown when muted */}
-            {isMuted && <>
-              <line x1="13" y1="7" x2="17" y2="13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              <line x1="17" y1="7" x2="13" y2="13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            </>}
+          {/* Minimal hand-drawn speaker */}
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+            className="text-brown" aria-hidden="true"
+            style={{ filter: 'url(#rough)' }}>
+            <defs>
+              <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.6" xChannelSelector="R" yChannelSelector="G"/>
+            </defs>
+            <path d="M4 7.5H2.5a.5.5 0 00-.5.5v4a.5.5 0 00.5.5H4l4.5 3.5V4L4 7.5z"
+              stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" fill="rgba(111,78,55,0.08)"/>
+            {!isMuted ? (
+              <>
+                <path d="M12.5 8a2.5 2.5 0 010 4" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round"/>
+                <path d="M14.5 6a5.5 5.5 0 010 8" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeOpacity="0.55"/>
+              </>
+            ) : (
+              <>
+                <line x1="13" y1="8" x2="16.5" y2="12" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round"/>
+                <line x1="16.5" y1="8" x2="13" y2="12" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round"/>
+              </>
+            )}
           </svg>
-          <span className="font-handwriting text-[9px] text-brown/40 leading-none mt-0.5">
-            {isMuted ? 'sound' : 'sound'}
+          {/* Tiny handwritten label */}
+          <span className="font-handwriting text-[8px] text-brown/70 leading-none tracking-wide">
+            {isMuted ? 'muted' : 'on'}
           </span>
         </button>
       )}

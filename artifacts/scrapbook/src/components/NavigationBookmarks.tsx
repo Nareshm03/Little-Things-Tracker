@@ -37,18 +37,18 @@ export default function NavigationBookmarks({ chapters, currentIndex, onSelect }
               {BOOKMARK_LABELS[index]}
             </span>
 
-            {/* Ribbon — barely-there unless active */}
+            {/* Ribbon — ghost-thin unless active */}
             <motion.div
-              className={`h-[5px] rounded-l-sm ${
+              className={`h-[4px] rounded-l-sm ${
                 isActive
-                  ? 'w-8 bg-golden/55 shadow-[0_1px_3px_rgba(0,0,0,0.08)]'
+                  ? 'w-6 bg-golden/30'
                   : isDark
-                    ? 'w-3 bg-white/8 group-hover:bg-white/14'
-                    : 'w-3 bg-brown/10 group-hover:bg-brown/20'
+                    ? 'w-2 bg-white/5 group-hover:bg-white/10'
+                    : 'w-2 bg-brown/6 group-hover:bg-brown/12'
               }`}
               style={{ transformOrigin: 'right center' }}
-              animate={{ rotate: isActive ? 0 : [0, 0.6, 0, -0.6, 0] }}
-              transition={{ rotate: { repeat: Infinity, duration: 5 + index, ease: 'easeInOut' } }}
+              animate={{ rotate: isActive ? 0 : [0, 0.5, 0, -0.5, 0] }}
+              transition={{ rotate: { repeat: Infinity, duration: 6 + index, ease: 'easeInOut' } }}
             />
           </motion.button>
         );
