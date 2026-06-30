@@ -23,8 +23,6 @@ function Note({
 }
 
 // ─── INTERACTIVE 1: Folded Letter ─────────────────────────────────────────────
-// The most important artifact. Opens to reveal the actual letter.
-// ⚠️  Replace the body lines below with the real letter text when Naresh provides it.
 
 function FoldedLetter({ delay }: { delay: number }) {
   const [opened, setOpened] = useState(false);
@@ -36,8 +34,50 @@ function FoldedLetter({ delay }: { delay: number }) {
       transition={{ delay, duration: 1.2 }}
       className="relative"
     >
-      {/* Tape */}
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-5 washi-tape rotate-[1deg] z-20" />
+      {/* Coffee stain — overlaps one corner */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          bottom: 18,
+          right: -10,
+          width: 38,
+          height: 34,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(140,90,40,0.13) 55%, transparent 85%)',
+          border: '1px solid rgba(140,90,40,0.08)',
+          zIndex: 30,
+          pointerEvents: 'none',
+          filter: 'blur(1px)',
+        }}
+      />
+      {/* Inner ring of coffee stain */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          bottom: 24,
+          right: -5,
+          width: 22,
+          height: 20,
+          borderRadius: '50%',
+          border: '1px solid rgba(140,90,40,0.07)',
+          zIndex: 31,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Tape — slightly lifting on the right side */}
+      <div
+        className="absolute -top-3 left-1/2 washi-tape z-20"
+        style={{
+          width: 76,
+          height: 20,
+          transform: 'translateX(-50%) rotate(1deg) skewX(-2deg)',
+          transformOrigin: 'left center',
+        }}
+      />
+
       {/* Annotation */}
       <Note delay={delay + 0.8} className="absolute -right-2 -top-5 rotate-[4deg] z-30">
         still have this ❤️
@@ -65,9 +105,9 @@ function FoldedLetter({ delay }: { delay: number }) {
           {!opened && (
             <motion.div key="closed" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }} className="px-5 py-4">
-              <div className="space-y-2">
-                {[3, 4, 3.5, 4, 2.5].map((w, i) => (
-                  <div key={i} className="h-px bg-[#D4C89A]/25" style={{ width: `${w / 4 * 100}%` }} />
+              <div className="space-y-2.5">
+                {[0.8, 0.9, 0.55, 0.85, 0.7, 0.6, 0.75].map((w, i) => (
+                  <div key={i} className="h-px bg-[#D4C89A]/30" style={{ width: `${w * 100}%` }} />
                 ))}
               </div>
               <p className="font-handwriting text-[9px] text-charcoal/25 text-right mt-4 italic">tap to unfold</p>
@@ -83,42 +123,106 @@ function FoldedLetter({ delay }: { delay: number }) {
               className="overflow-hidden relative">
               {/* Ruled lines */}
               <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                {Array.from({ length: 26 }).map((_, i) => (
+                {Array.from({ length: 30 }).map((_, i) => (
                   <div key={i} className="border-b border-[#B8A880]/10" style={{ height: 26 }} />
                 ))}
               </div>
-              <div className="px-6 py-4 relative space-y-1 pb-6">
-                {[
-                  { text: 'Every night before I sleep, I think about you…..',      d: 0.1 },
-                  { text: 'and suddenly the whole day feels your presence…',        d: 0.4 },
-                  { text: '',                                                        d: 0.5 },
-                  { text: 'love you so deeply that sometimes I don\'t even have',   d: 0.6 },
-                  { text: 'the right words for it.',                                d: 0.9 },
-                  { text: '',                                                        d: 1.0 },
-                  { text: 'It\'s not just love… it\'s comfort, peace and that',     d: 1.1 },
-                  { text: 'feeling of home with you…',                              d: 1.4 },
-                  { text: '',                                                        d: 1.5 },
-                  { text: 'I crave every single minute…',                           d: 1.6 },
-                  { text: '',                                                        d: 1.7 },
-                  { text: 'I miss your presence in the smallest moments —',         d: 1.8 },
-                  { text: 'your voice, your fragrance and just you…',               d: 2.1 },
-                  { text: '',                                                        d: 2.2 },
-                  { text: 'Sleep peacefully, my beautiful girl.',                   d: 2.3 },
-                  { text: 'May your dreams be wonderful filled with me.',           d: 2.6 },
-                  { text: '',                                                        d: 2.7 },
-                  { text: 'And remember…',                                          d: 2.8 },
-                  { text: 'Your always Mine and Im always yours',                   d: 3.1 },
-                  { text: 'no matter it doesn\'t change.',                          d: 3.4 },
-                  { text: '',                                                        d: 3.5 },
-                  { text: 'Good night, baby.',                                      d: 3.6 },
-                  { text: 'I love you more than I can explain.',                    d: 3.9 },
-                ].map((line, i) => (
-                  <motion.p key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                    transition={{ delay: line.d, duration: 1.2 }}
-                    className="font-letter text-[13px] text-charcoal/70 leading-relaxed min-h-[20px]">
-                    {line.text}
-                  </motion.p>
-                ))}
+
+              {/* Left margin red line */}
+              <div className="absolute left-10 top-0 bottom-0 w-px bg-[#C87070]/10 pointer-events-none" aria-hidden="true" />
+
+              <div className="px-6 py-5 relative pb-8" style={{ paddingLeft: 44 }}>
+
+                {/* Salutation */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  Dear Meghana,
+                </motion.p>
+
+                {/* Para 1 */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-1 indent-5">
+                  Every night before I sleep, I think about you…
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  and suddenly the whole day feels your presence…
+                </motion.p>
+
+                {/* Para 2 — with one crossed/corrected word */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 1.1, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-1 indent-5">
+                  I{' '}
+                  <span style={{ textDecoration: 'line-through', opacity: 0.4, fontStyle: 'normal' }}>like</span>
+                  {' '}love you so deeply that sometimes
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 1.4, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  I don't even have the right words for it.
+                </motion.p>
+
+                {/* Para 3 */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 1.7, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-1 indent-5">
+                  It's not just love… it's comfort, peace and that
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 2.0, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  feeling of home with you…
+                </motion.p>
+
+                {/* Para 4 */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 2.3, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-1 indent-5">
+                  I miss your presence in the smallest moments —
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 2.6, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  your voice, your fragrance and just you…
+                </motion.p>
+
+                {/* Para 5 */}
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 2.9, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-1 indent-5">
+                  Sleep peacefully, my beautiful girl.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 3.2, duration: 1.2 }}
+                  className="font-letter text-[13px] text-charcoal/70 leading-relaxed mb-3">
+                  May your dreams be wonderful — filled with me.
+                </motion.p>
+
+                {/* Closing */}
+                <motion.div
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 3.6, duration: 1.5 }}
+                  className="mt-4">
+                  <p className="font-letter text-[13px] text-charcoal/60 leading-relaxed">Good night, baby.</p>
+                  <p className="font-letter text-[13px] text-charcoal/60 leading-relaxed mb-4">I love you more than I can explain.</p>
+                  <p className="font-letter text-[13px] text-charcoal/55 leading-relaxed">Love,</p>
+                  <p className="font-letter text-lg text-charcoal/65">N</p>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -143,7 +247,22 @@ function MovieTicket({ delay }: { delay: number }) {
       <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#D4844A]/45 border-2 border-[#D4844A]/25 z-20 shadow-sm" />
       <Note delay={delay + 0.6} className="absolute -bottom-5 left-0 -rotate-[2deg]">don't lose this.</Note>
 
-      <div className="bg-[#1A1A2E] rounded-sm shadow-md" style={{ opacity: 0.87 }}>
+      <div className="bg-[#1A1A2E] rounded-sm shadow-md relative overflow-hidden" style={{ opacity: 0.87 }}>
+        {/* Fingerprint overlay — subtle radial smudge */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 28,
+            right: 12,
+            width: 32,
+            height: 28,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.04) 40%, transparent 80%)',
+            pointerEvents: 'none',
+            zIndex: 10,
+          }}
+        />
         <div className="px-3 py-2 border-b border-white/8">
           <p className="font-sans text-[7px] tracking-[0.3em] uppercase text-white/35 text-center">Cinema · March 2026</p>
         </div>
@@ -171,7 +290,7 @@ function MovieTicket({ delay }: { delay: number }) {
   );
 }
 
-// ─── STATIC: Handwriting Strip ────────────────────────────────────────────────
+// ─── STATIC: Handwriting Strip — torn notebook style ─────────────────────────
 
 function HandwritingStrip({ delay }: { delay: number }) {
   return (
@@ -180,24 +299,65 @@ function HandwritingStrip({ delay }: { delay: number }) {
       animate={{ opacity: 1, rotate: 2 }}
       transition={{ delay, duration: 0.9 }}
       className="relative"
-      style={{ width: 200 }}
+      style={{ width: 160 }}
     >
-      <div className="absolute -top-3 left-5 w-10 h-4 washi-tape -rotate-[1deg]" />
-      <Note delay={delay + 0.5} className="absolute -right-3 -top-4 rotate-[5deg]">you laughed here 😂</Note>
+      {/* Tape */}
+      <div className="absolute -top-3 left-4 w-10 h-4 washi-tape -rotate-[1deg]" />
 
-      <div className="bg-white border border-charcoal/8 shadow-sm px-4 py-3" style={{ borderLeft: '3px solid #D4C89A' }}>
-        <div className="space-y-px mb-2.5" aria-hidden="true">
-          <div className="h-px bg-[#B8D4E8]/22 w-full" />
-          <div className="h-px bg-[#B8D4E8]/22 w-full" />
-        </div>
-        <p className="font-letter text-sm text-charcoal/60">
-          See how worst is my handwriting
+      {/* Torn top edge */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 160 8"
+        width="160"
+        height="8"
+        style={{ display: 'block', marginBottom: -1 }}
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0 8 L8 3 L18 7 L30 2 L44 6 L58 1 L70 5 L84 2 L96 6 L110 1 L124 5 L138 3 L148 6 L160 2 L160 8 Z"
+          fill="#FFFFFF"
+        />
+      </svg>
+
+      <div className="bg-white border-x border-b border-charcoal/8 shadow-sm px-3 py-2.5" style={{ borderLeft: '2.5px solid #D4C89A' }}>
+        <p className="font-letter text-[13px] text-charcoal/60">
+          See how worst is my handwriting 😂
         </p>
-        <p className="font-letter text-sm text-coffee/60 mt-1 italic">
-          "It's looking good from far 😂"
+        <p className="font-letter text-[12px] text-coffee/58 mt-0.5 italic">
+          "It's looking good from far."
         </p>
-        <div className="h-px bg-[#B8D4E8]/22 w-full mt-2.5" aria-hidden="true" />
       </div>
+
+      {/* Torn bottom edge */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 160 8"
+        width="160"
+        height="8"
+        style={{ display: 'block', marginTop: -1 }}
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0 0 L12 5 L24 1 L38 6 L52 2 L64 7 L78 3 L92 6 L106 2 L120 7 L134 3 L146 5 L160 0 L160 8 L0 8 Z"
+          fill="#FFFFFF"
+        />
+      </svg>
+
+      {/* Curled corner — bottom right */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          bottom: 4,
+          right: 0,
+          width: 12,
+          height: 12,
+          background: 'linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.06) 50%)',
+          borderRadius: '0 0 0 2px',
+          boxShadow: '-2px -2px 3px rgba(0,0,0,0.06)',
+          pointerEvents: 'none',
+        }}
+      />
     </motion.div>
   );
 }
@@ -344,54 +504,113 @@ function LunchWrapper({ delay }: { delay: number }) {
   );
 }
 
-// ─── STATIC: Bus Ticket ───────────────────────────────────────────────────────
+// ─── STATIC: Bus Ticket — printed WhatsApp screenshot style ──────────────────
 
 function BusTicket({ delay }: { delay: number }) {
   return (
     <motion.div initial={{ opacity: 0, rotate: 2 }} animate={{ opacity: 1, rotate: 2 }}
-      transition={{ delay, duration: 0.9 }} style={{ width: 155 }}>
-      <div className="bg-[#F5F5DC] border border-charcoal/12 shadow-sm overflow-hidden">
-        <div className="bg-[#2D4A8A]/10 px-3 py-1 border-b border-charcoal/8">
-          <p className="font-sans text-[7px] tracking-widest uppercase text-charcoal/30 text-center">BMTC</p>
+      transition={{ delay, duration: 0.9 }} style={{ width: 162 }} className="relative">
+      {/* Tape strip */}
+      <div
+        className="absolute -top-3 left-1/2 washi-tape z-10"
+        style={{ width: 52, height: 17, transform: 'translateX(-50%) rotate(-0.5deg)' }}
+      />
+      {/* Printed screenshot — aged/slightly warm paper */}
+      <div
+        className="shadow-md border border-charcoal/10 overflow-hidden relative"
+        style={{
+          background: '#F7F3ED',
+          filter: 'sepia(0.06) brightness(0.98)',
+        }}
+      >
+        {/* WhatsApp header bar */}
+        <div style={{ background: '#075E54', padding: '5px 8px 4px' }}>
+          <p className="font-sans text-white/90" style={{ fontSize: 7, letterSpacing: '0.02em' }}>
+            ← &nbsp;N 🤍
+          </p>
         </div>
-        <div className="px-3 py-2.5 space-y-1">
-          {[
-            { msg: 'I reached PG.', out: true },
-            { msg: 'Got bus?', out: false },
-            { msg: 'Almost ITPL.', out: true },
-          ].map((m, i) => (
-            <div key={i} className={`flex ${m.out ? 'justify-end' : 'justify-start'}`}>
-              <p className={`font-sans text-[9px] px-2 py-0.5 rounded-sm ${
-                m.out ? 'text-charcoal/50 bg-[#DCF8C6]/55' : 'text-charcoal/42 bg-white/55 border border-charcoal/5'
-              }`}>{m.msg}</p>
+
+        {/* Chat bubbles */}
+        <div className="px-2.5 py-2.5 space-y-1.5" style={{ background: '#E5DDD5' }}>
+          {/* Meghana's message (left) */}
+          <div className="flex justify-start">
+            <div className="bg-white rounded-lg rounded-tl-none px-2.5 py-1.5 shadow-sm" style={{ maxWidth: '75%' }}>
+              <p className="font-sans text-[8.5px] text-[#111]/70 leading-relaxed">I reached PG.</p>
+              <p className="font-sans text-[6px] text-[#888] text-right mt-0.5">11:09 PM</p>
             </div>
-          ))}
+          </div>
+          {/* Naresh's reply (right) */}
+          <div className="flex justify-end">
+            <div className="rounded-lg rounded-tr-none px-2.5 py-1.5 shadow-sm" style={{ background: '#DCF8C6', maxWidth: '70%' }}>
+              <p className="font-sans text-[8.5px] text-[#111]/70 leading-relaxed">Got bus?</p>
+              <p className="font-sans text-[6px] text-[#888] text-right mt-0.5">11:10 PM ✓✓</p>
+            </div>
+          </div>
+          {/* Meghana again */}
+          <div className="flex justify-start">
+            <div className="bg-white rounded-lg rounded-tl-none px-2.5 py-1.5 shadow-sm" style={{ maxWidth: '80%' }}>
+              <p className="font-sans text-[8.5px] text-[#111]/70 leading-relaxed">Almost ITPL 😴</p>
+              <p className="font-sans text-[6px] text-[#888] text-right mt-0.5">11:22 PM</p>
+            </div>
+          </div>
         </div>
-        <div className="border-t border-dashed border-charcoal/10 mx-2 mb-1" />
-        <p className="font-handwriting text-[8px] text-charcoal/18 text-center pb-1.5">same route. every day.</p>
+
+        {/* Printed paper grain overlay */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.03\'/%3E%3C/svg%3E")',
+            pointerEvents: 'none',
+            opacity: 0.4,
+          }}
+        />
       </div>
+      <p className="font-handwriting text-[7.5px] text-charcoal/22 text-center mt-1.5">same route. every day.</p>
     </motion.div>
   );
 }
 
-// ─── STATIC: Birthday Photo Polaroid ─────────────────────────────────────────
+// ─── STATIC: Birthday Photo Polaroid — warm tint, bent corner ────────────────
 
 function BirthdayPolaroid({ delay }: { delay: number }) {
   return (
     <motion.div initial={{ opacity: 0, rotate: -2.5 }} animate={{ opacity: 1, rotate: -2.5 }}
-      transition={{ delay, duration: 1.1 }} className="relative" style={{ width: 162 }}>
+      transition={{ delay, duration: 1.1 }} className="relative" style={{ width: 162, cursor: 'default' }}>
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-4 washi-tape rotate-[1deg]" />
       <Note delay={delay + 0.6} className="absolute -right-4 -top-5 rotate-[6deg]">favorite memory.</Note>
-      <div className="bg-white p-2 pb-8 shadow-lg border border-charcoal/5">
-        <img src={birthdayPhoto} alt="Naresh and Meghana outside on her birthday, sunset, pink flower"
-          className="w-full object-cover" style={{ height: 172, objectPosition: 'center top' }} />
+      <div className="bg-white p-2 pb-8 shadow-lg border border-charcoal/5 relative overflow-hidden">
+        <img
+          src={birthdayPhoto}
+          alt="Naresh and Meghana outside on her birthday, sunset, pink flower"
+          className="w-full object-cover"
+          style={{
+            height: 172,
+            objectPosition: 'center top',
+            filter: 'sepia(0.14) brightness(1.06) saturate(1.18) contrast(1.02)',
+          }}
+        />
+        {/* Bent corner — bottom right */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: 16,
+            height: 16,
+            background: 'linear-gradient(135deg, transparent 50%, rgba(200,180,140,0.35) 50%)',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
       <p className="font-handwriting text-[10px] text-charcoal/38 text-center mt-2">11 March 2026</p>
     </motion.div>
   );
 }
 
-// ─── STATIC: Family Visit Polaroid (6 March) ─────────────────────────────────
+// ─── STATIC: Family Visit Polaroid (6 March) — faded ─────────────────────────
 
 function FamilyPolaroid({ delay }: { delay: number }) {
   return (
@@ -399,8 +618,16 @@ function FamilyPolaroid({ delay }: { delay: number }) {
       transition={{ delay, duration: 1 }} className="relative" style={{ width: 112 }}>
       <div className="absolute -top-2 left-3 w-10 h-4 washi-tape -rotate-[1deg]" />
       <div className="bg-white p-1.5 pb-6 shadow-md border border-charcoal/5">
-        <img src={grandmomPhoto} alt="Meghana with her grandmother on 6 March"
-          className="w-full object-cover" style={{ height: 110, objectPosition: 'center top' }} />
+        <img
+          src={grandmomPhoto}
+          alt="Meghana with her grandmother on 6 March"
+          className="w-full object-cover"
+          style={{
+            height: 110,
+            objectPosition: 'center top',
+            filter: 'sepia(0.32) brightness(0.88) contrast(0.84) saturate(0.72)',
+          }}
+        />
       </div>
       <p className="font-handwriting text-[9px] text-charcoal/32 text-center mt-1">6 March — home</p>
     </motion.div>
@@ -423,6 +650,10 @@ function WashiHidden({ delay }: { delay: number }) {
               role="button" tabIndex={0}
               aria-label="Lift the tape"
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPhase('deleted'); } }}>
+              {/* Small handwritten note above the covered bubble */}
+              <p className="font-handwriting text-[8.5px] text-charcoal/30 mb-2 italic">
+                (something I almost sent)
+              </p>
               <div className="flex justify-end mb-2">
                 <div className="bg-[#DCF8C6] px-2.5 py-1 rounded-lg rounded-tr-none text-[9px] text-charcoal/45">...</div>
               </div>
@@ -497,51 +728,56 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
           </svg>
           <div className="absolute bottom-40 left-1 text-xs opacity-10 pointer-events-none" aria-hidden="true">🌸</div>
 
-          {/* Chapter header */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }} className="mb-7">
+          {/* Chapter header — moved 20px lower, increased line-height, settles first */}
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 1.4, ease: [0.4, 0, 0.2, 1] }}
+            className="mb-7 mt-5"
+          >
             <p className="font-sans text-xs tracking-[0.38em] uppercase text-brown/38 mb-2">Chapter Three</p>
             <p className="font-handwriting text-xl text-coffee/48 mb-1">March 2026</p>
-            <h2 className="font-display text-3xl md:text-4xl text-coffee font-light leading-snug">
+            <h2 className="font-display text-3xl md:text-4xl text-coffee font-light" style={{ lineHeight: 1.35 }}>
               When Everyday<br />Became Home
             </h2>
             <motion.svg className="w-40 h-4 mt-2" viewBox="0 0 160 12" aria-hidden="true">
               <motion.path d="M 0 8 C 35 3, 80 11, 120 6 S 150 9, 160 7"
                 fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round"
                 initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                transition={{ duration: 1.8, delay: 0.8, ease: 'easeOut' }} />
+                transition={{ duration: 1.8, delay: 1.2, ease: 'easeOut' }} />
             </motion.svg>
           </motion.div>
 
-          {/* ── Desktop: organic overlapping scatter ── */}
+          {/* ── Desktop: organic overlapping scatter — delayed so title settles first ── */}
           <div className="hidden md:block relative flex-1" style={{ minHeight: 520 }}>
 
             {/* Letter — largest, anchors the left page */}
             <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 5 }}>
-              <FoldedLetter delay={1.0} />
+              <FoldedLetter delay={1.6} />
             </div>
 
             {/* Movie ticket — overlaps top-right corner of letter */}
             <div style={{ position: 'absolute', top: 10, left: 188, zIndex: 9 }}>
-              <MovieTicket delay={1.5} />
+              <MovieTicket delay={2.0} />
             </div>
 
             {/* Handwriting strip — below letter, offset left */}
             <div style={{ position: 'absolute', top: 310, left: 15, zIndex: 6 }}>
-              <HandwritingStrip delay={2.0} />
+              <HandwritingStrip delay={2.5} />
             </div>
 
             {/* Tobby — tucked under ticket, right of handwriting */}
             <div style={{ position: 'absolute', top: 270, left: 180, zIndex: 7 }}>
-              <TobbyPolaroid delay={2.4} />
+              <TobbyPolaroid delay={2.9} />
             </div>
           </div>
 
           {/* ── Mobile: natural flow ── */}
           <div className="flex flex-col gap-6 md:hidden">
-            <FoldedLetter delay={1.0} />
-            <MovieTicket delay={1.4} />
-            <HandwritingStrip delay={1.7} />
-            <TobbyPolaroid delay={2.0} />
+            <FoldedLetter delay={1.6} />
+            <MovieTicket delay={2.0} />
+            <HandwritingStrip delay={2.3} />
+            <TobbyPolaroid delay={2.6} />
           </div>
 
           {/* Navigation */}
@@ -555,71 +791,84 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:pl-12 py-8">
 
           {/* Desktop scatter */}
-          <div className="hidden md:block relative" style={{ minHeight: 820 }}>
+          <div className="hidden md:block relative" style={{ minHeight: 860 }}>
 
             {/* Daily care strips — top left */}
             <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 5 }}>
-              <DailyCareStrips delay={1.3} />
+              <DailyCareStrips delay={1.8} />
             </div>
 
             {/* Lunch wrapper — top right, slightly overlapping strips */}
             <div style={{ position: 'absolute', top: 20, left: 206, zIndex: 7 }}>
-              <LunchWrapper delay={1.7} />
+              <LunchWrapper delay={2.2} />
             </div>
 
             {/* Bus ticket — mid left */}
             <div style={{ position: 'absolute', top: 250, left: 8, zIndex: 5 }}>
-              <BusTicket delay={2.1} />
+              <BusTicket delay={2.6} />
             </div>
 
-            {/* Birthday polaroid — mid right, overlaps bus ticket edge */}
-            <div style={{ position: 'absolute', top: 200, left: 192, zIndex: 8 }}>
-              <BirthdayPolaroid delay={2.5} />
+            {/* Birthday polaroid — shifted ~50px lower per feedback */}
+            <div style={{ position: 'absolute', top: 252, left: 192, zIndex: 8 }}>
+              <BirthdayPolaroid delay={3.0} />
             </div>
 
             {/* Family polaroid — tucked below/beside birthday */}
-            <div style={{ position: 'absolute', top: 390, left: 210, zIndex: 6 }}>
-              <FamilyPolaroid delay={2.9} />
+            <div style={{ position: 'absolute', top: 440, left: 210, zIndex: 6 }}>
+              <FamilyPolaroid delay={3.4} />
             </div>
 
             {/* Washi hidden — lower left */}
-            <div style={{ position: 'absolute', top: 430, left: 5, zIndex: 6 }}>
-              <WashiHidden delay={3.2} />
+            <div style={{ position: 'absolute', top: 470, left: 5, zIndex: 6 }}>
+              <WashiHidden delay={3.8} />
             </div>
 
-            {/* AUTO POUT PHOTO — she's in an auto, being herself */}
+            {/* AUTO POUT PHOTO — moved 20px upward */}
             <motion.div
-              style={{ position: 'absolute', top: 572, left: 176, zIndex: 7, rotate: '2.5deg' }}
+              style={{ position: 'absolute', top: 552, left: 176, zIndex: 7, rotate: '2.5deg' }}
               initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.6, duration: 1.1 }}
+              transition={{ delay: 4.2, duration: 1.1 }}
             >
               <div className="absolute -top-2.5 left-1/2 z-10 w-10 h-3.5"
                 style={{ backgroundColor: 'rgba(232,184,109,0.44)', transform: 'translateX(-50%) rotate(-1deg)' }}
                 aria-hidden="true" />
-              <div className="bg-white shadow-md border border-charcoal/5" style={{ padding: '5px 5px 20px 5px' }}>
+              <div className="bg-white shadow-md border border-charcoal/5 relative overflow-hidden" style={{ padding: '5px 5px 20px 5px' }}>
                 <img
                   src={photoAutoPout}
                   alt="In an auto, being herself"
                   style={{
                     width: 118, height: 142,
                     objectFit: 'cover', objectPosition: 'center top',
-                    filter: 'sepia(0.05) contrast(1.03)',
+                    filter: 'saturate(0.84) hue-rotate(-8deg) brightness(1.03)',
                     display: 'block',
+                  }}
+                />
+                {/* Bent corner on selfie polaroid */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    width: 14,
+                    height: 14,
+                    background: 'linear-gradient(315deg, transparent 50%, rgba(180,160,120,0.3) 50%)',
+                    pointerEvents: 'none',
                   }}
                 />
                 <p className="font-handwriting text-[7.5px] text-charcoal/35 text-center mt-1">auto rides 😂</p>
               </div>
-              <Note delay={4.2} className="absolute -bottom-5 -left-2 -rotate-[2deg]">being herself.</Note>
+              <Note delay={4.8} className="absolute -bottom-5 -left-2 -rotate-[2deg]">being herself.</Note>
             </motion.div>
 
-            {/* Ending — bottom, fades in last */}
+            {/* Ending — pushed to very bottom margin, not fighting the photo */}
             <motion.div
-              style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
+              style={{ position: 'absolute', bottom: 12, left: 0, right: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 5.5, duration: 2.5 }}
+              transition={{ delay: 6.5, duration: 2.5 }}
             >
-              <div className="border-t border-charcoal/8 pt-6 text-center">
+              <div className="border-t border-charcoal/8 pt-5 text-center">
                 <p className="font-quote text-[15px] text-charcoal/45 italic leading-loose">
                   We didn't become closer<br />
                   because everything went right.
@@ -634,14 +883,14 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
 
           {/* Mobile flow */}
           <div className="flex flex-col gap-7 md:hidden">
-            <DailyCareStrips delay={1.2} />
-            <LunchWrapper delay={1.5} />
-            <BusTicket delay={1.8} />
-            <BirthdayPolaroid delay={2.0} />
-            <FamilyPolaroid delay={2.3} />
-            <WashiHidden delay={2.6} />
+            <DailyCareStrips delay={1.8} />
+            <LunchWrapper delay={2.0} />
+            <BusTicket delay={2.3} />
+            <BirthdayPolaroid delay={2.5} />
+            <FamilyPolaroid delay={2.8} />
+            <WashiHidden delay={3.0} />
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 4.5, duration: 2.5 }}
+              transition={{ delay: 5.0, duration: 2.5 }}
               className="border-t border-charcoal/8 pt-6 text-center">
               <p className="font-quote text-[15px] text-charcoal/45 italic leading-loose">
                 We didn't become closer<br />because everything went right.

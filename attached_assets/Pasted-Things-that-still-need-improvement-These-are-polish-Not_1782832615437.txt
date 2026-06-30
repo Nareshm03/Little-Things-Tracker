@@ -1,0 +1,239 @@
+Things that still need improvement
+
+These are polish.
+
+Not redesigns.
+
+1. The letter is WAY too empty.
+
+This is the biggest issue.
+
+You told me this is your real letter.
+
+But visually...
+
+it looks like
+
+------------------
+
+(blank)
+
+(blank)
+
+(blank)
+
+(blank)
+
+
+A real handwritten letter has paragraphs.
+
+Indentation.
+
+Crossed words.
+
+Ink pressure.
+
+Maybe even one correction.
+
+Instead of
+
+_____________________
+
+_____________________
+
+_____________________
+
+
+Make it look like
+
+Dear...
+
+Every night before...
+
+Sometimes...
+
+I don't know...
+
+Love,
+N
+
+Even if the animation reveals it.
+
+Right now it feels unfinished.
+
+2. The photos are too perfect
+
+Real printed photos are never perfectly white.
+
+I'd give every photo
+
+slightly different
+
+brightness
+warmth
+paper color
+
+For example
+
+Outdoor hug
+
+slightly warm
+
+Grandmom
+
+more faded
+
+Selfie
+
+slightly bluish
+
+Tiny differences.
+
+3. The camera icon
+
+The blue camera icon on the outdoor photo immediately caught my eye.
+
+Honestly...
+
+remove it.
+
+It breaks the illusion.
+
+A scrapbook shouldn't remind you it's a website.
+
+If the photo is clickable,
+
+make the cursor change.
+
+Don't add an icon.
+
+4. The ending text
+
+Current
+
+We became closer because we kept coming back.
+
+Good sentence.
+
+Wrong placement.
+
+It is fighting with the selfie photo.
+
+I'd move it lower.
+
+Almost touching the bottom margin.
+
+Like someone wrote it after finishing the page.
+
+5. The BMTC slip
+
+This one feels slightly artificial.
+
+Instead of
+
+I reached PG
+
+Got bus?
+
+Almost ITPL
+
+I'd literally use a cropped WhatsApp screenshot.
+
+Print it.
+
+Tape it.
+
+Done.
+
+Feels 100x more authentic.
+
+6. Spacing
+
+The right page has a lot happening near the top.
+
+Then a huge gap.
+
+Then another photo.
+
+I would shift the large hug photo about 40–60 px lower.
+
+Then move the selfie 20 px upward.
+
+The eye would travel much more naturally.
+
+7. The handwriting strip
+
+This is cute.
+
+But I'd actually make it smaller.
+
+Almost like someone tore a notebook.
+
+Maybe only
+
+See how worst is my handwriting 😂
+
+Then below
+
+"It's looking good from far."
+
+Shorter.
+
+Cleaner.
+
+8. More imperfections
+
+Every page still feels digitally assembled.
+
+I'd add things like:
+
+tiny coffee stain overlapping one corner of the letter
+tape that's lifting slightly on one side
+fingerprint on the movie ticket
+bent edge on one Polaroid
+slightly curled notebook corner
+
+Not enough to notice consciously.
+
+Enough that the brain says:
+
+"Someone touched this."
+
+9. The empty white card
+
+There's a blank white note in the center-right (with the small green bubble).
+
+It immediately stood out because it's much emptier than everything else.
+
+Either:
+
+give it a tiny handwritten note, or
+shrink it.
+
+Right now it looks unfinished rather than intentionally quiet.
+
+10. The chapter title
+
+"When Everyday Became Home"
+
+This is one of the strongest titles in the entire project.
+
+I would make it even more of a focal point:
+
+increase line-height slightly
+move it about 20px lower
+let it "settle" before the artifacts animate in
+
+That would make the chapter feel like you're opening to a new memory rather than immediately scanning objects.
+
+Overall
+Category	Score
+Emotion	10/10
+Story	10/10
+Authenticity	9.8/10
+Layout	9.5/10
+Scrapbook Feel	9.4/10
+Motion Potential	9.5/10
+Final score
+
+9.6 / 10
