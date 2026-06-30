@@ -1,120 +1,214 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ChapterProps } from '../App';
 
-// ─── Nickname data ─────────────────────────────────────────────────────────────
-const NICKNAMES = [
-  {
-    word: 'Chinnu',
-    meaning: 'her nickname for him · means sweet baby · used from day 1',
-    color: '#FFF0E8',
-    accent: '#B85C38',
-    rotate: -2,
-  },
+// ─── Types ─────────────────────────────────────────────────────────────────────
+type PieceSize = 'xl' | 'lg' | 'md' | 'sm';
+type AnnotationSide = 'below-right' | 'below-left';
+
+interface Piece {
+  word: string;
+  memory: string;
+  annotation?: string;
+  annotationSide?: AnnotationSide;
+  size: PieceSize;
+  top: string;
+  left: string;
+  rotate: number;
+  tape: { rotate: number; left: string };
+  accent: string;
+  bg: string;
+  delay: number;
+}
+
+// ─── Board pieces ──────────────────────────────────────────────────────────────
+// Size controls the word's visual weight on the board.
+// top / left are percentages of the board container.
+// "memory" replaces dictionary definitions — a fragment, a moment, a feeling.
+
+const PIECES: Piece[] = [
   {
     word: 'Bangara',
-    meaning: 'gold / precious · born after sikkina unde · 23 Feb 2026',
-    color: '#FFFBEE',
-    accent: '#C9973A',
-    rotate: 1.5,
+    memory: 'From that day...\nyou never called me\nanything else.',
+    annotation: 'Sikkina Unde. 23 Feb.',
+    annotationSide: 'below-right' as const,
+    size: 'xl' as const,
+    top: '5%', left: '4%',
+    rotate: -2.5,
+    tape: { rotate: -3, left: '22%' },
+    accent: '#B8860B',
+    bg: '#FFFDE7',
+    delay: 0.35,
   },
   {
-    word: 'Gubee',
-    meaning: 'appeared May–June · nobody knows where it came from · means everything',
-    color: '#F0F8F0',
-    accent: '#6B8F6B',
-    rotate: -1,
+    word: 'Chinnu',
+    memory: 'Still the first word\nevery morning.',
+    size: 'lg' as const,
+    top: '4%', left: '54%',
+    rotate: 1.8,
+    tape: { rotate: 2, left: '55%' },
+    accent: '#8B3A2A',
+    bg: '#FFF4EE',
+    delay: 0.65,
   },
   {
     word: 'Muddu',
-    meaning: 'Kannada for cute / kiss · both used it constantly',
-    color: '#FFF0F2',
-    accent: '#C06070',
-    rotate: 2,
+    memory: 'Both of you.\nConstantly.\nFor everything.',
+    size: 'md' as const,
+    top: '42%', left: '24%',
+    rotate: -1.2,
+    tape: { rotate: -4, left: '35%' },
+    accent: '#9B3A4A',
+    bg: '#FFF0F2',
+    delay: 0.95,
   },
   {
     word: 'Kanmani',
-    meaning: 'Tamil · eye of my heart · his name for her',
-    color: '#EEF4FF',
-    accent: '#5C7EC9',
-    rotate: -1.5,
+    memory: 'Tamil.\nEye of my heart.',
+    size: 'sm' as const,
+    top: '34%', left: '63%',
+    rotate: 2.5,
+    tape: { rotate: 3, left: '45%' },
+    accent: '#3A5C8B',
+    bg: '#EEF4FF',
+    delay: 1.25,
+  },
+  {
+    word: 'Gubee',
+    memory: '"Nooooo gubeeeeee 😂"\n\nNobody knows\nwhere it came from.',
+    size: 'sm' as const,
+    top: '60%', left: '4%',
+    rotate: -3.5,
+    tape: { rotate: -2, left: '30%' },
+    accent: '#3A6B3A',
+    bg: '#F0F8F0',
+    delay: 1.55,
   },
   {
     word: 'Pookie',
-    meaning: 'from the hands photo together · 🫶 · mwah',
-    color: '#FFF8F5',
-    accent: '#B85C38',
-    rotate: 1,
+    memory: '🫶\n\nmwah.',
+    annotation: 'from the hands photo',
+    annotationSide: 'below-left' as const,
+    size: 'sm' as const,
+    top: '57%', left: '62%',
+    rotate: 1.2,
+    tape: { rotate: 5, left: '65%' },
+    accent: '#8B3A5C',
+    bg: '#FFF5F8',
+    delay: 1.85,
   },
-];
+] as const;
+
+// ─── Size maps ─────────────────────────────────────────────────────────────────
+const WORD_SIZE = {
+  xl: 'text-[2.6rem]',
+  lg: 'text-[2rem]',
+  md: 'text-[1.5rem]',
+  sm: 'text-[1.15rem]',
+};
+const CARD_WIDTH = {
+  xl: '220px',
+  lg: '185px',
+  md: '160px',
+  sm: '148px',
+};
+const MEMORY_SIZE = {
+  xl: 'text-[12px]',
+  lg: 'text-[11.5px]',
+  md: 'text-[11px]',
+  sm: 'text-[10.5px]',
+};
 
 // ─── Washi tape strip ─────────────────────────────────────────────────────────
-function WashiTape({ rotate = -1.5 }: { rotate?: number }) {
+function WashiTape({ rotate, left }: { rotate: number; left: string }) {
   return (
     <div
-      className="absolute -top-2.5 left-1/2 z-10 w-9 h-4"
+      className="absolute z-10 h-[18px]"
       style={{
-        backgroundColor: 'rgba(201,151,58,0.42)',
-        transform: `translateX(-50%) rotate(${rotate}deg)`,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.07)',
+        width: '52px',
+        top: '-9px',
+        left,
+        transform: `rotate(${rotate}deg)`,
+        backgroundColor: 'rgba(201,168,76,0.38)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
       }}
       aria-hidden="true"
     />
   );
 }
 
-// ─── Single nickname card ──────────────────────────────────────────────────────
-function NicknameCard({
-  word, meaning, color, accent, rotate, delay,
-}: (typeof NICKNAMES)[0] & { delay: number }) {
-  const [hovered, setHovered] = useState(false);
-
+// ─── Ink squiggle divider ──────────────────────────────────────────────────────
+function InkSquiggle({ delay }: { delay: number }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14, rotate }}
-      animate={{ opacity: 1, y: 0, rotate: hovered ? 0 : rotate }}
-      transition={{ delay, duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="relative"
-    >
-      <WashiTape rotate={rotate * 0.4} />
-      <div
-        className="pt-5 pb-4 px-4 border border-charcoal/8 shadow-sm transition-shadow duration-300"
-        style={{
-          backgroundColor: color,
-          borderTop: `3px solid ${accent}`,
-          boxShadow: hovered
-            ? '0 12px 32px rgba(0,0,0,0.12)'
-            : '0 4px 16px rgba(0,0,0,0.07)',
-        }}
-      >
-        <p
-          className="font-handwriting text-[1.55rem] mb-2 leading-none"
-          style={{ color: accent }}
-        >
-          {word}
-        </p>
-        <p className="font-letter text-[11px] text-charcoal/52 leading-relaxed">
-          {meaning}
-        </p>
-      </div>
-    </motion.div>
+    <motion.svg width="48" height="8" viewBox="0 0 48 8" aria-hidden="true" className="mt-1.5 mb-0.5">
+      <motion.path
+        d="M2 5 C8 2, 14 7, 20 4 S34 2, 46 5"
+        fill="none" stroke="#6F4E37" strokeWidth="1" strokeLinecap="round"
+        opacity={0.3}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.2, delay, ease: 'easeOut' }}
+      />
+    </motion.svg>
   );
 }
 
-// ─── Ink rule ─────────────────────────────────────────────────────────────────
-function InkRule({ delay }: { delay: number }) {
+// ─── Single nickname paper ─────────────────────────────────────────────────────
+function NicknamePaper({
+  word, memory, annotation, annotationSide,
+  size, top, left, rotate, tape, accent, bg, delay,
+}: Piece) {
   return (
-    <motion.svg className="w-20 h-3" viewBox="0 0 100 10" aria-hidden="true">
-      <motion.path
-        d="M 2 6 C 25 3, 50 8, 75 5 S 92 7, 98 5"
-        fill="none" stroke="#6F4E37" strokeWidth="1.2" strokeLinecap="round"
-        opacity={0.28}
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-        transition={{ duration: 1.6, delay, ease: 'easeOut' }}
-      />
-    </motion.svg>
+    <motion.div
+      initial={{ opacity: 0, y: 18, rotate: rotate - 4 }}
+      animate={{ opacity: 1, y: 0, rotate }}
+      transition={{ delay, duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+      className="absolute"
+      style={{ top, left, width: CARD_WIDTH[size], zIndex: size === 'xl' ? 4 : size === 'lg' ? 3 : 2 }}
+    >
+      <div className="relative">
+        <WashiTape rotate={tape.rotate} left={tape.left} />
+        <div
+          className="pt-5 pb-4 px-4 border border-charcoal/8 shadow-sm"
+          style={{
+            backgroundColor: bg,
+            boxShadow: '2px 4px 18px rgba(0,0,0,0.09)',
+          }}
+        >
+          {/* The nickname — handwriting, sized by importance */}
+          <p
+            className={`font-handwriting ${WORD_SIZE[size]} leading-none mb-2`}
+            style={{ color: accent }}
+          >
+            {word}
+          </p>
+
+          {/* The memory, not the definition */}
+          <p
+            className={`font-letter ${MEMORY_SIZE[size]} text-charcoal/52 leading-relaxed whitespace-pre-line`}
+          >
+            {memory}
+          </p>
+        </div>
+
+        {/* Tiny annotation — like a pencilled note added later */}
+        {annotation && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: delay + 0.9, duration: 1 }}
+            className="font-handwriting text-[9.5px] text-charcoal/32 italic absolute whitespace-nowrap"
+            style={
+              annotationSide === 'below-right'
+                ? { bottom: '-18px', right: '0px' }
+                : { bottom: '-18px', left: '0px' }
+            }
+          >
+            {annotation}
+          </motion.p>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
@@ -145,20 +239,20 @@ export default function ChapterNicknames({ onNext, onPrev }: ChapterProps) {
         aria-hidden="true"
       />
 
-      {/* Warm glow top-right */}
+      {/* Warm glow */}
       <div
         className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(201,151,58,0.08) 0%, transparent 65%)' }}
+        style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(201,151,58,0.07) 0%, transparent 65%)' }}
         aria-hidden="true"
       />
 
       <div className="relative z-10 max-w-3xl mx-auto min-h-full flex flex-col px-6 md:px-12 py-10">
 
-        {/* Header */}
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 1 }}
-          className="mb-8"
+          transition={{ delay: 0.15, duration: 1 }}
+          className="mb-4 flex-shrink-0"
         >
           <p className="font-sans text-[9px] tracking-[0.42em] uppercase text-[#8B6020]/36 mb-2">
             our language
@@ -171,43 +265,67 @@ export default function ChapterNicknames({ onNext, onPrev }: ChapterProps) {
               d="M0 7 Q45 3 90 7 Q135 11 180 6"
               fill="none" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round"
               initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-              transition={{ duration: 1.3, delay: 0.6 }}
+              transition={{ duration: 1.3, delay: 0.5 }}
             />
           </motion.svg>
         </motion.div>
 
-        {/* Intro line */}
+        {/* ── Subtitle — intimate, not descriptive ── */}
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1.2 }}
-          className="font-quote text-base text-charcoal/48 italic mb-8 max-w-sm leading-relaxed"
+          transition={{ delay: 0.4, duration: 1.2 }}
+          className="font-quote text-base text-charcoal/42 italic mb-10 max-w-xs leading-relaxed flex-shrink-0"
         >
-          Every relationship builds its own vocabulary.<br />
-          Ours started with a sweet dish from Kundapur.
+          Some words only make sense<br />
+          to two people.
         </motion.p>
 
-        {/* 3 × 2 cards grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
-          {NICKNAMES.map((n, i) => (
-            <NicknameCard key={n.word} {...n} delay={0.7 + i * 0.18} />
+        {/* ── Scattered board ── */}
+        {/* Board is relative-positioned; pieces are absolute within it */}
+        <div className="relative flex-1" style={{ minHeight: '620px' }}>
+          {PIECES.map((piece) => (
+            <NicknamePaper key={piece.word} {...piece} />
           ))}
+
+          {/* Tiny hidden detail: small heart near Muddu, barely visible */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.4, duration: 1.8 }}
+            className="absolute font-handwriting text-[11px] text-[#9B3A4A]/22 select-none pointer-events-none"
+            style={{ top: '53%', left: '34%', rotate: '-8deg' } as React.CSSProperties}
+            aria-hidden="true"
+          >
+            ♡
+          </motion.p>
+
+          {/* Tiny hidden detail: pencil note near Gubee */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.8, duration: 1.8 }}
+            className="absolute font-handwriting text-[9px] text-charcoal/20 italic select-none pointer-events-none"
+            style={{ top: '74%', left: '18%' }}
+            aria-hidden="true"
+          >
+            appeared May–June
+          </motion.p>
         </div>
 
-        {/* Closing note */}
+        {/* ── Closing note ── */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 1.9, duration: 1.4 }}
-          className="flex flex-col gap-1.5 mt-auto pt-4"
+          transition={{ delay: 2.2, duration: 1.4 }}
+          className="flex flex-col gap-1 pt-8 flex-shrink-0"
         >
-          <InkRule delay={2.0} />
-          <p className="font-handwriting text-base text-coffee/38 italic mt-1 leading-relaxed">
-            Some words exist in exactly one conversation in the world.<br />
-            These are ours.
+          <InkSquiggle delay={2.3} />
+          <p className="font-handwriting text-base text-coffee/35 italic mt-1 leading-relaxed">
+            Some words exist in exactly one conversation in the world.
           </p>
         </motion.div>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between pt-8 mt-6">
+        {/* ── Navigation ── */}
+        <div className="flex items-center justify-between pt-8 mt-4 flex-shrink-0">
           <button
             onClick={onPrev}
             className="font-handwriting text-xl text-[#8B6020]/50 hover:text-[#8B6020] transition-colors underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A84C]/50 focus-visible:ring-offset-2"
