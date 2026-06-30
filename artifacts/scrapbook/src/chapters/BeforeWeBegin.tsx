@@ -41,7 +41,7 @@ export default function BeforeWeBegin({ onNext }: ChapterProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5 }}
     >
-      <div className="max-w-2xl px-8 flex flex-col items-center">
+      <div className="max-w-xl px-8 flex flex-col items-center">
         
         {/* Pressed flower fading in first */}
         <motion.div

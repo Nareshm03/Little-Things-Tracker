@@ -23,7 +23,7 @@ export default function Dedication({ onNext }: ChapterProps) {
       transition={{ duration: 1.5, ease: "easeInOut" }}
       onClick={isWritten ? onNext : undefined}
     >
-      <div className="max-w-2xl px-8 md:px-16 text-center cursor-pointer">
+      <div className="max-w-xl px-8 md:px-16 text-center cursor-pointer">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,11 +52,11 @@ export default function Dedication({ onNext }: ChapterProps) {
 
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: isWritten ? 0.4 : 0 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="mt-12 text-sm font-sans tracking-widest uppercase text-brown/60"
+          animate={{ opacity: isWritten ? 1 : 0 }}
+          transition={{ duration: 1.4, delay: 2 }}
+          className="mt-12"
         >
-          Click anywhere to turn the page
+          <span className="font-handwriting text-xl text-brown/50 italic">turn the page...</span>
         </motion.div>
       </div>
     </motion.div>

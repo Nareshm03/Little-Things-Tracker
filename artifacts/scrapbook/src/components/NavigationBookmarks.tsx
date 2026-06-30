@@ -28,28 +28,27 @@ export default function NavigationBookmarks({ chapters, currentIndex, onSelect }
             onClick={() => onSelect(index)}
             className="relative group flex items-center justify-end w-32"
             whileHover={{ x: -4 }}
-            animate={{ x: isActive ? -8 : 0 }}
+            animate={{ x: isActive ? -6 : 0 }}
           >
-            {/* Label */}
-            <span 
-              className={`mr-3 text-xs font-serif italic opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isDark ? 'text-moonlight' : 'text-coffee'} ${isActive ? 'opacity-100 font-semibold' : ''}`}
+            {/* Label — only on hover of active */}
+            <span
+              className={`mr-2 text-[10px] font-handwriting italic transition-opacity duration-500 ${isDark ? 'text-moonlight/60' : 'text-coffee/50'} ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`}
             >
               {BOOKMARK_LABELS[index]}
             </span>
-            
-            {/* Ribbon */}
-            <motion.div 
-              className={`h-2 rounded-l-sm shadow-sm ${isActive ? 'w-10 bg-golden' : isDark ? 'w-4 bg-white/20' : 'w-4 bg-brown/20 group-hover:bg-brown/40'}`}
-              layoutId={isActive ? undefined : `ribbon-${index}`}
-              style={{
-                transformOrigin: 'right center'
-              }}
-              animate={{
-                rotate: isActive ? 0 : [0, 1, 0, -1, 0]
-              }}
-              transition={{
-                rotate: { repeat: Infinity, duration: 4 + index, ease: "easeInOut" }
-              }}
+
+            {/* Ribbon — barely-there unless active */}
+            <motion.div
+              className={`h-[5px] rounded-l-sm ${
+                isActive
+                  ? 'w-8 bg-golden/55 shadow-[0_1px_3px_rgba(0,0,0,0.08)]'
+                  : isDark
+                    ? 'w-3 bg-white/8 group-hover:bg-white/14'
+                    : 'w-3 bg-brown/10 group-hover:bg-brown/20'
+              }`}
+              style={{ transformOrigin: 'right center' }}
+              animate={{ rotate: isActive ? 0 : [0, 0.6, 0, -0.6, 0] }}
+              transition={{ rotate: { repeat: Infinity, duration: 5 + index, ease: 'easeInOut' } }}
             />
           </motion.button>
         );

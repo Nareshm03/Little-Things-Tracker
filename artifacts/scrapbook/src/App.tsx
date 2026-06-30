@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Volume2, VolumeX } from 'lucide-react';
 import Cover from './chapters/Cover';
 import Dedication from './chapters/Dedication';
 import BeforeWeBegin from './chapters/BeforeWeBegin';
@@ -103,14 +102,32 @@ function App() {
   return (
     <div className="min-h-[100dvh] w-full overflow-hidden relative selection:bg-golden selection:text-white">
 
-      {/* Audio Toggle — hidden during closing */}
+      {/* Audio Toggle — vintage paper-tab style */}
       {hasStarted && !isClosing && (
         <button
           onClick={() => setIsMuted(!isMuted)}
-          className="fixed top-6 right-6 z-50 p-3 bg-white/50 backdrop-blur-sm rounded-full shadow-sm hover:bg-white/80 transition-all text-brown hover:text-coffee"
           aria-label={isMuted ? 'Unmute' : 'Mute'}
+          className="fixed top-0 right-8 z-50 flex flex-col items-center pt-1 pb-2 px-3 bg-warm-white/80 border border-t-0 border-sandstone/30 shadow-[0_2px_6px_rgba(0,0,0,0.08)] hover:bg-warm-white transition-colors duration-300"
+          style={{ borderRadius: '0 0 4px 4px' }}
         >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {/* Vintage speaker SVG */}
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brown/60 mt-1" aria-hidden="true">
+            {/* Speaker body */}
+            <path d="M4 7H2a1 1 0 00-1 1v4a1 1 0 001 1h2l5 4V3L4 7z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            {/* Sound waves — shown when unmuted */}
+            {!isMuted && <>
+              <path d="M13 7.5a3.5 3.5 0 010 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+              <path d="M15.5 5.5a6.5 6.5 0 010 9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeOpacity="0.5" fill="none"/>
+            </>}
+            {/* X mark — shown when muted */}
+            {isMuted && <>
+              <line x1="13" y1="7" x2="17" y2="13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+              <line x1="17" y1="7" x2="13" y2="13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </>}
+          </svg>
+          <span className="font-handwriting text-[9px] text-brown/40 leading-none mt-0.5">
+            {isMuted ? 'sound' : 'sound'}
+          </span>
         </button>
       )}
 
