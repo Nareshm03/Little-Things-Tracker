@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChapterProps } from '../App';
 import birthdayPhoto from '@assets/00003349-PHOTO-2026-03-11-20-20-02_1782729987549.jpg';
 import grandmomPhoto from '@assets/00002975-PHOTO-2026-03-06-17-36-51_1782730093726.jpg';
+import photoAutoPout from '@assets/FullSizeRender_1782795167754.jpeg';
 
 // ─── Tiny handwritten annotation ─────────────────────────────────────────────
 
@@ -585,6 +586,31 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
             <div style={{ position: 'absolute', top: 430, left: 5, zIndex: 6 }}>
               <WashiHidden delay={3.2} />
             </div>
+
+            {/* AUTO POUT PHOTO — she's in an auto, being herself */}
+            <motion.div
+              style={{ position: 'absolute', top: 572, left: 176, zIndex: 7, rotate: '2.5deg' }}
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3.6, duration: 1.1 }}
+            >
+              <div className="absolute -top-2.5 left-1/2 z-10 w-10 h-3.5"
+                style={{ backgroundColor: 'rgba(232,184,109,0.44)', transform: 'translateX(-50%) rotate(-1deg)' }}
+                aria-hidden="true" />
+              <div className="bg-white shadow-md border border-charcoal/5" style={{ padding: '5px 5px 20px 5px' }}>
+                <img
+                  src={photoAutoPout}
+                  alt="In an auto, being herself"
+                  style={{
+                    width: 118, height: 142,
+                    objectFit: 'cover', objectPosition: 'center top',
+                    filter: 'sepia(0.05) contrast(1.03)',
+                    display: 'block',
+                  }}
+                />
+                <p className="font-handwriting text-[7.5px] text-charcoal/35 text-center mt-1">auto rides 😂</p>
+              </div>
+              <Note delay={4.2} className="absolute -bottom-5 -left-2 -rotate-[2deg]">being herself.</Note>
+            </motion.div>
 
             {/* Ending — bottom, fades in last */}
             <motion.div

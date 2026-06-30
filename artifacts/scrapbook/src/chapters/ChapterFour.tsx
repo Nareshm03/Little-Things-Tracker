@@ -8,6 +8,8 @@ import photoFitcheckThem from '@assets/00005874-PHOTO-2026-04-07-17-58-34_178273
 import photoKurta        from '@assets/00007197-PHOTO-2026-04-14-16-03-52_1782736685949.jpg';
 import photoDesignTeam   from '@assets/00004675-PHOTO-2026-04-01-21-16-37_1782736224375.jpg';
 import photoSwayam       from '@assets/00011504-PHOTO-2026-04-26-03-39-46_1782736935016.jpg';
+import photoMirrorSelfie from '@assets/IMG_1154_1782795167755.JPG';
+import photoKundapur     from '@assets/IMG20250813134534_Original_1782795167756.JPG';
 
 // ─── Sunlight drift ──────────────────────────────────────────────────────────
 function SunlightDrift() {
@@ -418,7 +420,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
 
         {/* ═══════════ RIGHT PAGE — photos scattered like a real album ═══════════ */}
         <div className="flex-1 md:pl-10 py-8 z-10">
-          <div className="relative" style={{ minHeight: 760 }}>
+          <div className="relative" style={{ minHeight: 900 }}>
 
             {/* ROSE PHOTO — first rose, most prominent on right page */}
             <div className="absolute top-0 left-6">
@@ -509,6 +511,40 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 objectPosition="center top"
               />
               <Note delay={2.6} className="absolute -bottom-5 left-2 rotate-[1deg]">walking. talking. nothing in particular.</Note>
+            </div>
+
+            {/* MIRROR SELFIE — lavender, home days */}
+            <div className="absolute" style={{ top: 624, left: 0 }}>
+              <PhotoSlot
+                src={photoMirrorSelfie}
+                alt="Mirror selfie in lavender"
+                width={152}
+                height={198}
+                rotate={-2}
+                delay={1.8}
+                caption="lavender days."
+                captionDelay={2.7}
+                tapeColor="rgba(180,160,220,0.35)"
+                objectPosition="center top"
+                photoVariant="faded"
+              />
+            </div>
+
+            {/* KUNDAPUR — terrace, blue floral */}
+            <div className="absolute" style={{ top: 638, right: 0 }}>
+              <PhotoSlot
+                src={photoKundapur}
+                alt="Kundapur terrace — blue floral"
+                width={148}
+                height={165}
+                rotate={2}
+                delay={2.0}
+                caption="Kundapur 🌿"
+                captionDelay={2.9}
+                tapeColor="rgba(100,160,120,0.32)"
+                objectPosition="center top"
+                photoVariant="yellowed"
+              />
             </div>
 
             {/* Ending — fades in last */}

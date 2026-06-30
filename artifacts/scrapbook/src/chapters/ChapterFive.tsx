@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChapterProps } from '../App';
+import photoTempleTogether from '@assets/IMG_2441_1782795136760.jpg';
+import photoMeghanaTemple  from '@assets/IMG_2438_1782795136761.jpg';
+import photoGreenSareeLawn from '@assets/IMG_1739_Original_1782795136761.jpg';
+import photoTempleOutdoor  from '@assets/IMG_1497_1782795167756.JPG';
 
 // ─── Sunlight drift ──────────────────────────────────────────────────────────
 function SunlightDrift() {
@@ -640,6 +644,53 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
                 <em>I forgot to breathe</em>
               </p>
             </div>
+
+            {/* Temple photo polaroids */}
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 3.0, duration: 1.4 }}
+              className="grid grid-cols-2 gap-3 mt-4"
+            >
+              {[
+                { src: photoGreenSareeLawn,  caption: 'the lawn.', rotate: -2,   objectPos: 'center top' },
+                { src: photoTempleTogether,  caption: 'April 12–13.', rotate: 1.5, objectPos: 'center top' },
+                { src: photoMeghanaTemple,   caption: 'her smile.', rotate: 2,   objectPos: 'center' },
+                { src: photoTempleOutdoor,   caption: 'together.', rotate: -1.5, objectPos: 'center top' },
+              ].map(({ src, caption, rotate, objectPos }, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 3.2 + i * 0.18, duration: 0.9 }}
+                  className="relative"
+                  style={{ rotate: `${rotate}deg` }}
+                >
+                  {/* Washi tape */}
+                  <div
+                    className="absolute -top-2 left-1/2 z-10 w-8 h-3"
+                    style={{ backgroundColor: 'rgba(201,151,58,0.42)', transform: 'translateX(-50%)' }}
+                    aria-hidden="true"
+                  />
+                  <div className="bg-white shadow-sm border border-charcoal/5" style={{ padding: '5px 5px 18px 5px' }}>
+                    <img
+                      src={src}
+                      alt={caption}
+                      style={{
+                        width: '100%', height: 90,
+                        objectFit: 'cover',
+                        objectPosition: objectPos,
+                        filter: 'sepia(0.07) contrast(1.02)',
+                        display: 'block',
+                      }}
+                    />
+                    <p className="font-handwriting text-[8px] text-charcoal/38 text-center mt-1 leading-none">
+                      {caption}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 3.8, duration: 1.6 }}
