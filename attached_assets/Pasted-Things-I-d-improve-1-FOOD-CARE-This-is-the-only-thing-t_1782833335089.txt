@@ -1,0 +1,258 @@
+Things I'd improve
+1. FOOD & CARE
+
+This is the only thing that immediately broke immersion.
+
+It suddenly feels like...
+
+dashboard cards
+
+instead of
+
+scrapbook.
+
+These boxes are too clean.
+
+Too equal.
+
+Too UI.
+
+Instead...
+
+Imagine torn grocery paper.
+
+Like
+
+☐ Anna sambar
+
+☐ Fish curry
+
+☐ Dark chocolate
+
+☐ Kulfi
+
+☐ Momos
+
+Then small handwriting
+
+you always asked ❤️
+
+That would be infinitely stronger.
+
+2. Pills
+
+These
+
+Had breakfast?
+
+Drink water.
+
+Ride safe.
+
+
+look like mobile app tags.
+
+I'd remove the rounded pills completely.
+
+Instead
+
+make tiny paper strips.
+
+Like
+
+--------------------
+
+Had breakfast?
+
+--------------------
+
+Scattered.
+
+Half hidden.
+
+Maybe one under a photo.
+
+One sticking out.
+
+One tucked behind the receipt.
+
+3. Hero photo
+
+It still feels a little...
+
+too centered.
+
+I'd rotate it about
+
+-2°
+
+Move it
+
+20 px left
+
+15 px down
+
+so it feels placed by hand.
+
+4. The note
+
+The folded note is too clean.
+
+Folded paper usually has
+
+darker fold
+slight curve
+paper thickness
+
+Tiny things.
+
+5. The right column
+
+Everything is currently
+
+photo
+
+photo
+
+photo
+
+photo
+
+Instead I'd let one photo overlap another.
+
+Like
+
+      Photo
+
+  Photo
+
+           Photo
+
+Photo
+
+The randomness makes it believable.
+
+6. The blank space
+
+There is a lot of empty center space.
+
+Normally I'd say that's bad.
+
+Here...
+
+I actually like it.
+
+But I'd use that space for
+
+tiny handwritten things.
+
+Like
+
+:)
+
+
+or
+
+favorite day.
+
+
+or
+
+still smiling.
+
+
+Almost invisible.
+
+7. Wear
+
+Every photo still has
+
+almost identical white borders.
+
+I'd vary them.
+
+Example
+
+Hero
+
+slightly yellow.
+
+Lavender mirror
+
+newer print.
+
+Selfie
+
+corner bent.
+
+Kundapura
+
+small fingerprint.
+
+These tiny differences fool the eye.
+
+8. Shadow
+
+Still one thing across the project.
+
+Every object has roughly the same shadow.
+
+I'd vary them.
+
+Photo lying flat
+
+↓
+
+almost no shadow.
+
+Photo stacked
+
+↓
+
+large shadow.
+
+Receipt
+
+↓
+
+paper thin.
+
+9. Food section
+
+Honestly...
+
+I'd move it.
+
+It currently dominates the bottom left.
+
+Instead,
+
+I'd tuck it under the hero photo,
+
+almost like someone slipped it beneath the Polaroid.
+
+Then only half of it is visible.
+
+The user discovers it.
+
+10. Ending
+
+Perfect sentence.
+
+Some memories
+
+never needed words.
+
+Don't change it.
+
+Just make it smaller.
+
+Almost disappearing.
+
+Like
+
+Some memories
+
+never needed words.
+
+at
