@@ -24,14 +24,13 @@ function DateDivider({ date, delay }: { date: string; delay: number }) {
 // ─── Disappearing Messages Card ───────────────────────────────────────────────
 
 function DisappearingMessagesCard({ delay }: { delay: number }) {
-  const [isOn, setIsOn] = useState(true);
+  const [turnedOff, setTurnedOff] = useState(false);
   const [revealed, setRevealed] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
 
   function handleToggle() {
-    if (!isOn) return;
-    setIsOn(false);
-    setTimeout(() => setRevealed(true), 700);
+    if (turnedOff) return;
+    setTurnedOff(true);
+    setTimeout(() => setRevealed(true), 600);
   }
 
   return (
@@ -42,43 +41,28 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
       className="relative max-w-[248px]"
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
-      <div className="bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm">
-        <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-2.5 font-sans">
+      {/* Printed-screenshot style — no UI toggle */}
+      <button
+        onClick={handleToggle}
+        disabled={turnedOff}
+        aria-label={turnedOff ? 'Already turned off' : 'Turn off disappearing messages'}
+        className="w-full text-left bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coffee/40"
+      >
+        <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-3 font-sans">
           Chat settings
         </p>
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <motion.span
-              animate={isOn && !shouldReduceMotion ? { rotate: [0, 12, -12, 0] } : {}}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
-              className="text-base"
-              aria-hidden="true"
+        <div className="space-y-1.5">
+          <p className="text-[11px] font-medium text-charcoal/70 font-sans">Disappearing Messages</p>
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] text-charcoal/40 font-sans">7 Days</p>
+            <motion.p
+              className="text-[10px] font-sans font-medium"
+              animate={{ color: turnedOff ? 'rgba(111,78,55,0.7)' : 'rgba(45,45,45,0.3)' }}
+              transition={{ duration: 0.5 }}
             >
-              ⏱
-            </motion.span>
-            <div>
-              <p className="text-xs font-medium text-charcoal/80">Disappearing messages</p>
-              <motion.p
-                className="text-[10px] text-charcoal/40 font-sans"
-                animate={{ opacity: isOn ? 1 : 0.45 }}
-              >
-                {isOn ? '7 days' : 'Off'}
-              </motion.p>
-            </div>
+              {turnedOff ? '✓ OFF' : '· · ·'}
+            </motion.p>
           </div>
-          <button
-            onClick={handleToggle}
-            disabled={!isOn}
-            aria-label={isOn ? 'Turn off disappearing messages' : 'Already off'}
-            className="relative w-10 h-5 rounded-full flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-coffee/40 transition-colors duration-500"
-            style={{ backgroundColor: isOn ? '#25D366' : '#C8C8C8' }}
-          >
-            <motion.div
-              className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm"
-              animate={{ left: isOn ? '22px' : '2px' }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            />
-          </button>
         </div>
         <AnimatePresence>
           {revealed && (
@@ -92,7 +76,7 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
             </motion.p>
           )}
         </AnimatePresence>
-      </div>
+      </button>
     </motion.div>
   );
 }
@@ -112,8 +96,8 @@ function ChatPrintout({ delay }: { delay: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, rotate: 1.5 }}
-      animate={{ opacity: 1, y: 0, rotate: 1.5 }}
+      initial={{ opacity: 0, y: 10, rotate: -1 }}
+      animate={{ opacity: 1, y: 0, rotate: -1 }}
       transition={{ delay, duration: 1 }}
       className="relative max-w-[252px]"
     >
@@ -177,7 +161,7 @@ function MeghanaQuoteSlip({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 8, rotate: -1.5 }}
       animate={{ opacity: 1, y: 0, rotate: -1.5 }}
       transition={{ delay, duration: 1 }}
-      className="relative max-w-[244px]"
+      className="relative max-w-[232px]"
     >
       <div className="absolute -top-2.5 left-4 w-12 h-4 washi-tape rotate-[1deg]" />
       <div
@@ -269,11 +253,11 @@ function HackathonCard({ delay }: { delay: number }) {
       </p>
       <div className="grid grid-cols-2 gap-4 text-center mb-3">
         <div>
-          <p className="font-handwriting text-xs text-charcoal/45 mb-0.5">Her</p>
+          <p className="font-handwriting text-xs text-charcoal/45 mb-0.5">Meghana</p>
           <p className="font-sans text-xs font-medium text-charcoal/80">Maths Exam</p>
         </div>
         <div>
-          <p className="font-handwriting text-xs text-charcoal/45 mb-0.5">His</p>
+          <p className="font-handwriting text-xs text-charcoal/45 mb-0.5">Naresh</p>
           <p className="font-sans text-xs font-medium text-charcoal/80">Hackathon</p>
         </div>
       </div>
@@ -467,7 +451,10 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
           <DateDivider date="9 February 2026" delay={2.2} />
 
           <div className="space-y-5">
-            <PhotoAlbumCard delay={2.5} />
+            {/* Shared Album crosses the center fold by ~20px — feels naturally placed */}
+            <div style={{ marginLeft: '-20px' }}>
+              <PhotoAlbumCard delay={2.5} />
+            </div>
             <div className="relative">
               <HackathonCard delay={3.2} />
             </div>
@@ -486,8 +473,8 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
               transition={{ delay: 5.2, duration: 1.5 }}
               className="pt-2"
             >
-              <p className="font-handwriting text-sm text-charcoal/30 italic text-right">
-                Next → The First Kiss
+              <p className="font-handwriting text-base text-charcoal/28 italic text-right">
+                ...and then, 14 February.
               </p>
             </motion.div>
           </div>

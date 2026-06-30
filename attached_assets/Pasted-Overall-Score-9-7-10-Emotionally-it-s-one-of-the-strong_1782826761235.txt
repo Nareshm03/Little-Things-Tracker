@@ -1,0 +1,288 @@
+Overall
+
+Score: 9.7 / 10
+
+Emotionally, it's one of the strongest chapters.
+
+Visually, there are a few places where the eye gets "lost."
+
+These are not coding issues.
+
+They're art direction issues.
+
+⭐ First Impression
+
+The very first thing I noticed wasn't the chat.
+
+It was this:
+
+Nobody tells you the exact moment someone slowly becomes your favourite person.
+
+That means the hierarchy is working.
+
+Good.
+
+Left Page
+⭐⭐⭐⭐⭐ Introduction
+
+I LOVE this.
+
+Especially
+
+Maybe it was somewhere between
+
+"Had breakfast?"
+
+and
+
+"Drink water."
+
+That's exactly the tone this scrapbook needs.
+
+Don't touch it.
+
+Timeline
+
+This works well.
+
+The dates aren't shouting.
+
+They're guiding.
+
+Perfect.
+
+Chat Screenshot
+
+This is MUCH better than the first versions.
+
+It feels printed.
+
+Not like a UI component.
+
+One suggestion
+
+I'd slightly rotate it.
+
+Maybe
+
+-1°
+
+That's enough.
+
+Right now it still feels perfectly aligned.
+
+Real scrapbook items almost never are.
+
+Quote Card
+
+This:
+
+Even I miss you so much...
+
+Excellent placement.
+
+Maybe reduce its width about 5%.
+
+Tiny change.
+
+It'll feel even more like a paper note.
+
+Disappearing Messages Card
+
+This is the only thing I don't completely love.
+
+Not because of the interaction.
+
+Because...
+
+It still looks like
+
+WhatsApp Settings.
+
+Instead...
+
+I'd redesign it like a printed screenshot.
+
+No green switch.
+
+Instead
+
+Disappearing Messages
+
+7 Days
+
+✓ OFF
+
+Then the handwritten sentence underneath.
+
+It'll match the scrapbook much better.
+
+Right Page
+
+This page is MUCH stronger.
+
+Sticky Note
+
+Perfect.
+
+This instantly becomes the visual anchor.
+
+Don't move it.
+
+Shared Album
+
+Love it.
+
+The tape.
+
+The spacing.
+
+The size.
+
+Very nice.
+
+Hackathon Card
+
+Excellent.
+
+One thing though...
+
+Instead of
+
+His
+
+Hackathon
+
+I'd write
+
+Naresh
+
+Hackathon
+
+and
+
+Meghana
+
+Maths Exam
+
+It feels more personal.
+
+Bus Stop Timeline
+
+This is fantastic.
+
+Probably my favorite detail.
+
+Simple.
+
+Readable.
+
+Real.
+
+"Next → The First Kiss"
+
+This is the only thing on the page that feels like a website.
+
+I'd make it handwritten.
+
+Instead of
+
+Next →
+
+The First Kiss
+
+Maybe
+
+...and then
+
+14 February.
+
+or
+
+keep turning...
+
+Less navigation.
+
+More storytelling.
+
+Biggest Design Issue
+
+Everything is currently
+
+left
+
+↓
+
+left
+
+↓
+
+left
+
+↓
+
+left
+
+The page feels slightly heavy on the left.
+
+I would let ONE object slightly cross the center fold.
+
+Maybe the Shared Album.
+
+Just by
+
+20px.
+
+It creates the illusion that someone placed it without caring about page boundaries.
+
+That tiny imperfection makes scrapbooks feel real.
+
+Colors
+
+Absolutely nailed.
+
+No complaints.
+
+Typography
+
+Still one of the strongest parts of the project.
+
+Animation
+
+From the screenshots I can't judge the timing,
+
+but visually,
+
+nothing feels over-animated.
+
+That's a compliment.
+
+If I had ONE hour left
+
+I'd only do these:
+
+✅ Rotate chat screenshot
+
+-1°
+
+✅ Make Disappearing Messages look printed
+
+Not UI.
+
+Paper.
+
+✅ Add names
+
+Instead of
+
+His
+
+Her
+✅ Let one artifact cross the center
+
+Just a little.
+
+✅ Change
+Next → The First Kiss
+
+into something that feels like part of the scrapbook rather than navigation.
