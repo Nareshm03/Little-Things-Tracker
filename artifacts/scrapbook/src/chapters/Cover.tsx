@@ -1,22 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChapterProps } from '../App';
-import pressedFlower from '@assets/generated_images/pressed-flower.png';
+
+// Inline pressed-flower SVG — dried marigold/cosmo, no filter background bleed
+function PressedFlower() {
+  const uid = useId().replace(/:/g, '');
+  const outerAngles = [0,30,60,90,120,150,180,210,240,270,300,330];
+  const innerAngles = [15,45,75,105,135,165,195,225,255,285,315,345];
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-28 h-28"
+      aria-hidden="true"
+      style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.25))' }}
+    >
+      <defs>
+        <radialGradient id={`pg-a-${uid}`} cx="50%" cy="28%" r="72%">
+          <stop offset="0%" stopColor="#EDD08A" />
+          <stop offset="55%" stopColor="#C98D30" />
+          <stop offset="100%" stopColor="#7A5018" stopOpacity="0.85" />
+        </radialGradient>
+        <radialGradient id={`pg-b-${uid}`} cx="50%" cy="28%" r="72%">
+          <stop offset="0%" stopColor="#E0BC6A" />
+          <stop offset="55%" stopColor="#B87820" />
+          <stop offset="100%" stopColor="#6B4010" stopOpacity="0.8" />
+        </radialGradient>
+        <radialGradient id={`pg-c-${uid}`} cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stopColor="#4A2808" />
+          <stop offset="100%" stopColor="#1E0E02" />
+        </radialGradient>
+      </defs>
+
+      {/* Outer petals */}
+      {outerAngles.map((deg, i) => (
+        <ellipse
+          key={`op-${i}`}
+          cx="60" cy="42"
+          rx="8.5" ry="20"
+          fill={i % 2 === 0 ? `url(#pg-a-${uid})` : `url(#pg-b-${uid})`}
+          transform={`rotate(${deg} 60 60)`}
+          opacity={0.82 + (i % 3) * 0.06}
+        />
+      ))}
+
+      {/* Vein lines on outer petals */}
+      {outerAngles.map((deg, i) => (
+        <line
+          key={`vl-${i}`}
+          x1="60" y1="57" x2="60" y2="37"
+          stroke="#7A4A10"
+          strokeWidth="0.5"
+          opacity="0.3"
+          transform={`rotate(${deg} 60 60)`}
+        />
+      ))}
+
+      {/* Inner petals */}
+      {innerAngles.map((deg, i) => (
+        <ellipse
+          key={`ip-${i}`}
+          cx="60" cy="46"
+          rx="6.5" ry="15"
+          fill={i % 2 === 0 ? `url(#pg-b-${uid})` : `url(#pg-a-${uid})`}
+          transform={`rotate(${deg} 60 60)`}
+          opacity={0.7 + (i % 3) * 0.06}
+        />
+      ))}
+
+      {/* Centre disc */}
+      <circle cx="60" cy="60" r="13.5" fill={`url(#pg-c-${uid})`} opacity="0.96" />
+      {/* Centre seedhead dots */}
+      {[
+        [60,52],[56,54],[64,54],[58,57],[62,57],[55,59],[65,59],
+        [57,62],[63,62],[60,65],[59,56],[61,56]
+      ].map(([x,y],i) => (
+        <circle key={i} cx={x} cy={y} r="1.1" fill="#D4A040" opacity="0.55" />
+      ))}
+      {/* Centre highlight */}
+      <ellipse cx="56.5" cy="54.5" rx="4.5" ry="2.8" fill="rgba(255,230,150,0.16)" transform="rotate(-25 56.5 54.5)" />
+    </svg>
+  );
+}
 
 export default function Cover({ onNext }: ChapterProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up pending timer on unmount to prevent stale callbacks
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const handleClick = () => {
+    if (isOpening) return; // ignore repeated clicks during animation
     setIsOpening(true);
-    // Give the animation time to play before moving to next component
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       onNext();
     }, 3500);
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="absolute inset-0 flex items-center justify-center bg-cream w-full h-full overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -24,15 +112,12 @@ export default function Cover({ onNext }: ChapterProps) {
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
       {/* Sunlight beam effect */}
-      <motion.div 
+      <motion.div
         className="absolute top-0 left-0 w-[200%] h-[200%] pointer-events-none"
         style={{
           background: 'radial-gradient(circle at 30% 20%, rgba(232, 184, 109, 0.15) 0%, transparent 60%)',
         }}
-        animate={{
-          x: ["-5%", "0%", "-5%"],
-          y: ["-5%", "0%", "-5%"],
-        }}
+        animate={{ x: ["-5%", "0%", "-5%"], y: ["-5%", "0%", "-5%"] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
 
@@ -60,7 +145,7 @@ export default function Cover({ onNext }: ChapterProps) {
       ))}
 
       {/* The Book */}
-      <motion.div 
+      <motion.div
         className="relative cursor-pointer"
         role="button"
         tabIndex={0}
@@ -80,7 +165,7 @@ export default function Cover({ onNext }: ChapterProps) {
         transition={{ duration: isOpening ? 3 : 0.8, ease: "easeInOut" }}
       >
         {/* Book shadow */}
-        <motion.div 
+        <motion.div
           className="absolute -bottom-8 left-10 right-10 h-10 bg-black/10 blur-xl rounded-[100%]"
           animate={{
             opacity: isOpening ? 0 : (isHovered ? 0.3 : 0.15),
@@ -89,11 +174,37 @@ export default function Cover({ onNext }: ChapterProps) {
           transition={{ duration: isOpening ? 3 : 0.8, ease: "easeInOut" }}
         />
 
-        {/* Book Cover */}
-        <div className="relative w-[320px] md:w-[480px] h-[450px] md:h-[650px] bg-coffee rounded-r-3xl rounded-l-md shadow-2xl overflow-hidden border-l-8 border-[#523A28] paper-texture">
-          
-          {/* Leather texture overlay */}
-          <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.015\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
+        {/* Book Cover — slightly thicker left border + right edge highlight */}
+        <div className="relative w-[320px] md:w-[480px] h-[450px] md:h-[650px] bg-coffee rounded-r-3xl rounded-l-md shadow-2xl overflow-hidden border-l-[10px] border-[#3D2B1A]">
+
+          {/* ── Texture layer 1: paper fibers (SVG turbulence noise) ── */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 300 300\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'fibers\'%3E%3CfeTurbulence type=\'turbulence\' baseFrequency=\'0.65 0.15\' numOctaves=\'4\' seed=\'3\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'matrix\' values=\'0 0 0 0 0.18 0 0 0 0 0.1 0 0 0 0 0.04 0 0 0 0.04 0\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23fibers)\'/%3E%3C/svg%3E")',
+              backgroundSize: '300px 300px',
+              opacity: 1,
+              mixBlendMode: 'overlay',
+            }}
+          />
+
+          {/* ── Texture layer 2: tiny imperfection speckles ── */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.035\'/%3E%3C/svg%3E")',
+              opacity: 1,
+              mixBlendMode: 'multiply',
+            }}
+          />
+
+          {/* ── Edge vignette — darkens all four edges subtly ── */}
+          <div
+            className="absolute inset-0 pointer-events-none rounded-r-3xl"
+            style={{
+              background: 'radial-gradient(ellipse 85% 80% at 52% 50%, transparent 55%, rgba(20,10,4,0.18) 100%)',
+            }}
+          />
 
           {/* Leather sheen highlight — slow drift */}
           <motion.div
@@ -116,6 +227,12 @@ export default function Cover({ onNext }: ChapterProps) {
             aria-hidden="true"
           />
 
+          {/* Right-edge highlight — adds 1-2px physical depth illusion */}
+          <div
+            className="absolute top-4 right-0 bottom-4 w-[2px] pointer-events-none rounded-r-3xl"
+            style={{ background: 'linear-gradient(to bottom, rgba(255,220,150,0.18), rgba(255,220,150,0.08) 50%, transparent)' }}
+          />
+
           {/* Golden foil border — subtle breathing pulse */}
           <motion.div
             className="absolute inset-4 border border-golden/40 rounded-r-2xl pointer-events-none"
@@ -129,42 +246,41 @@ export default function Cover({ onNext }: ChapterProps) {
           />
 
           {/* Cover content */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center"
             animate={{ opacity: isOpening ? 0 : 1 }}
             transition={{ duration: 1 }}
           >
-            <motion.h1 
-              className="font-display text-4xl md:text-6xl text-warm-white font-medium tracking-wide mb-6 leading-tight drop-shadow-sm"
-              style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+            {/* Title — warm ivory tone, lighter shadow for readability on dark leather */}
+            <motion.h1
+              className="font-display text-4xl md:text-6xl font-medium tracking-wide mb-6 leading-tight"
+              style={{
+                color: '#EDD9A3',
+                textShadow: '0 1px 2px rgba(0,0,0,0.18)',
+              }}
             >
               The Little<br/>Things We<br/>Never Want<br/>To Forget
             </motion.h1>
 
-            {/* Pressed flower graphic */}
-            <motion.div 
-              className="relative my-8"
+            {/* Pressed flower — realistic inline SVG */}
+            <motion.div
+              className="relative my-8 drop-shadow-sm"
               animate={{ rotate: isHovered ? 2 : 0 }}
               transition={{ duration: 2, ease: "linear", repeat: isHovered ? Infinity : 0, repeatType: "reverse" }}
             >
-              <img 
-                src={pressedFlower} 
-                alt="Pressed flower decoration" 
-                className="w-24 h-24 object-contain opacity-80"
-                onError={(e) => {
-                  // Fallback if image not generated yet
-                  e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 14 4-4'/%3E%3Cpath d='M3.34 19a10 10 0 1 1 17.32 0'/%3E%3C/svg%3E";
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-warm-white/10 to-transparent mix-blend-overlay" />
+              <PressedFlower />
             </motion.div>
 
-            {/* A small hand-written note on tape */}
-            <motion.div 
-              className="absolute bottom-12 right-12 bg-warm-white px-4 py-2 rotate-[-4deg] shadow-md origin-bottom-right"
-              animate={{ 
+            {/* Dedication note — 6° tilt, softer tape-on-cover shadow */}
+            <motion.div
+              className="absolute bottom-12 right-12 bg-warm-white px-4 py-2 origin-bottom-right"
+              style={{
+                rotate: '-6deg',
+                boxShadow: '0 3px 12px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)',
+              }}
+              animate={{
                 y: isHovered ? -4 : 0,
-                rotate: isHovered ? -2 : -4 
+                rotate: isHovered ? -4 : -6,
               }}
               transition={{ duration: 0.5 }}
             >
@@ -174,27 +290,25 @@ export default function Cover({ onNext }: ChapterProps) {
           </motion.div>
 
           {/* Book opening page animation layer */}
-          <motion.div 
+          <motion.div
             className="absolute top-0 right-0 w-full h-full bg-cream rounded-r-3xl shadow-[-10px_0_20px_rgba(0,0,0,0.2)] origin-left"
             initial={{ rotateY: 0, opacity: 0 }}
-            animate={isOpening ? { 
-              rotateY: -160, 
+            animate={isOpening ? {
+              rotateY: -160,
               opacity: [0, 1, 1],
               zIndex: 50
-            } : { 
-              rotateY: 0, 
-              opacity: 0 
+            } : {
+              rotateY: 0,
+              opacity: 0
             }}
             transition={{ duration: 3, ease: [0.645, 0.045, 0.355, 1] }}
           />
 
           {/* Ribbon bookmark sticking out bottom */}
-          <motion.div 
+          <motion.div
             className="absolute -bottom-16 left-24 w-8 h-24 bg-golden shadow-md"
             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)' }}
-            animate={{
-              rotate: [0, 2, 0, -1, 0]
-            }}
+            animate={{ rotate: [0, 2, 0, -1, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
