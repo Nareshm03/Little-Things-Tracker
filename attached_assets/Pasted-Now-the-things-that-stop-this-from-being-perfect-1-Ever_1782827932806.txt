@@ -1,0 +1,308 @@
+Now the things that stop this from being perfect
+1. Everything still looks too clean.
+
+This is the biggest one.
+
+Real scrapbooks are messy.
+
+Right now every object is
+
+perfect rectangle
+
+perfect shadow
+
+perfect tape
+
+perfect rotation
+
+I would intentionally make them imperfect.
+
+Example
+
+Envelope
+
+rotate(-5deg)
+
+Recipe
+
+rotate(2deg)
+
+Sticky
+
+rotate(-8deg)
+
+Chocolate
+
+rotate(7deg)
+
+Candy
+
+rotate(-12deg)
+
+Some even overlap more.
+
+2. The chocolate wrapper
+
+Currently
+
+It feels like
+
+Chocolate wrapper
+
+↓
+
+Chat
+
+Instead...
+
+Make it actually cover the message.
+
+Like this
+
+████████████
+
+(peel)
+
+↓
+
+"I think dark chocolate..."
+
+
+The wrapper itself should hide the memory.
+
+3. Recipe card
+
+Right now
+
+looks like
+
+Recipe for us
+
+Love
+
+Giggles
+
+Cooking
+
+Cuddles
+
+That's cute.
+
+But it feels designed.
+
+I'd literally write
+
+Recipe
+
+2 people
+
+1 kitchen
+
+too much laughing
+
+a little burning
+
+∞ cuddles
+
+Much more human.
+
+4. The campus map
+
+This is one of my favorite ideas.
+
+But it looks digital.
+
+I would draw it.
+
+Literally.
+
+Like
+
+College
+
+|
+
+|
+
+|
+
+-----------
+
+Canteen
+
+↓
+
+"you came."
+
+Almost like it was drawn with a pen.
+
+5. The kiss note
+
+This is the biggest emotional miss.
+
+Currently
+
+The kiss was
+good good good...
+
+It doesn't land.
+
+Instead
+
+Imagine
+
+A tiny folded receipt.
+
+Open.
+
+Inside
+
+26 February
+
+"The kiss was so good
+good
+good
+good."
+
+
+No border.
+
+No card.
+
+Just paper.
+
+6. The ending
+
+I LOVE the words.
+
+February was over.
+
+Somehow,
+
+it already felt like home.
+
+Don't change them.
+
+Just move them.
+
+Instead of left aligned
+
+Put them almost in the middle.
+
+Tiny.
+
+Lots of empty space.
+
+Like
+
+*
+
+February
+was over.
+
+Somehow...
+
+it already felt
+like home.
+
+Then the chapter just fades.
+
+7. Shadows
+
+Every shadow is identical.
+
+Make them different.
+
+Envelope
+
+very soft
+
+Sticky
+
+almost no shadow
+
+Chocolate
+
+strong
+
+Recipe
+
+medium
+
+Candy
+
+paper thin
+
+Tiny differences fool the brain.
+
+8. The candy
+
+One tiny improvement.
+
+Instead of
+
+pull ↑
+
+make it
+
+pull gently
+
+Much softer.
+
+9. Hidden details
+
+Every chapter should reward people who stare.
+
+I'd add
+
+tiny handwriting
+
+😂😂😂
+
+next to chocolate.
+
+Tiny heart
+
+next to recipe.
+
+Tiny
+
+bangara.
+
+written sideways.
+
+Nobody notices first time.
+
+Second read...
+
+they smile.
+
+10. Motion
+
+The animations are still a little UI-like.
+
+Paper shouldn't
+
+scale
+
+opacity
+
+
+Paper should
+
+settle
+
+bend
+
+tilt
+
+drop
+
+
+Think
+
+physical.
+
+Not
+
+Framer Motion demo.

@@ -2,6 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion, useInView } from 'framer-motion';
 import { ChapterProps } from '../App';
 
+// ─── Motion helper ─────────────────────────────────────────────────────────────
+// Paper settles — drops and tilts into place. Not a UI fade.
+function paperSettle(targetRotate: number, delay: number) {
+  return {
+    initial: { opacity: 0, rotate: targetRotate + 7, y: 32 },
+    animate: { opacity: 1, rotate: targetRotate, y: 0 },
+    transition: {
+      opacity: { delay, duration: 0.4 },
+      rotate: { type: 'spring' as const, stiffness: 44, damping: 11, delay },
+      y: { type: 'spring' as const, stiffness: 44, damping: 11, delay },
+    },
+  };
+}
+
 // ─── Date Divider ─────────────────────────────────────────────────────────────
 
 function DateDivider({ date, delay = 0 }: { date: string; delay?: number }) {
@@ -20,23 +34,23 @@ function DateDivider({ date, delay = 0 }: { date: string; delay?: number }) {
 }
 
 // ─── INTERACTIVE 1: Envelope — First Kiss ─────────────────────────────────────
-// Only the date. Trust the memory.
+// rotate(-5deg). Very soft shadow.
 
 function EnvelopeCard({ delay }: { delay: number }) {
   const [opened, setOpened] = useState(false);
+  const settle = paperSettle(-5, delay);
 
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -2 }}
-      animate={{ opacity: 1, rotate: -2 }}
-      transition={{ delay, duration: 1 }}
+      {...settle}
       className="relative"
       style={{ width: 220 }}
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
 
       <div
-        className="bg-[#FDF6E8] border border-[#D4C4A8]/60 shadow-md overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/30"
+        className="bg-[#FDF6E8] border border-[#D4C4A8]/60 overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/30"
+        style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }}
         onClick={() => setOpened(v => !v)}
         role="button"
         tabIndex={0}
@@ -58,7 +72,6 @@ function EnvelopeCard({ delay }: { delay: number }) {
 
         {/* Body */}
         <div className="px-5 py-4 min-h-[80px] flex items-center justify-center">
-          {/* V-fold lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
             <line x1="0" y1="100%" x2="50%" y2="52" stroke="#D4C4A8" strokeWidth="0.5" opacity="0.35" />
             <line x1="100%" y1="100%" x2="50%" y2="52" stroke="#D4C4A8" strokeWidth="0.5" opacity="0.35" />
@@ -78,9 +91,8 @@ function EnvelopeCard({ delay }: { delay: number }) {
                 transition={{ delay: 0.35, duration: 0.8 }}
                 className="w-full flex flex-col items-center gap-3"
               >
-                {/* Polaroid — just the frame, no image needed */}
-                <div className="bg-white p-2 pb-7 shadow-sm border border-gray-100/80 relative"
-                  style={{ width: 110, transform: 'rotate(1deg)' }}>
+                <div className="bg-white p-2 pb-7 border border-gray-100/80 relative"
+                  style={{ width: 110, transform: 'rotate(1deg)', boxShadow: '1px 2px 8px rgba(0,0,0,0.09)' }}>
                   <div className="w-full bg-[#EDE3D8]" style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span className="text-2xl opacity-30" aria-hidden="true">💋</span>
                   </div>
@@ -95,36 +107,32 @@ function EnvelopeCard({ delay }: { delay: number }) {
   );
 }
 
-// ─── STATIC: Chocolate with Chat Beneath ──────────────────────────────────────
-// The wrapper is already half-open. The conversation is already visible under it.
-// No click needed. Just discovery.
+// ─── INTERACTIVE: Chocolate wrapper peels to reveal chat ──────────────────────
+// rotate(7deg). Strong shadow. Wrapper covers the memory — peel to read it.
 
 function ChocolateArtifact({ delay }: { delay: number }) {
+  const [peeled, setPeeled] = useState(false);
+  const settle = paperSettle(7, delay);
+
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 3 }}
-      animate={{ opacity: 1, rotate: 3 }}
-      transition={{ delay, duration: 1 }}
+      {...settle}
       className="relative"
       style={{ width: 200 }}
     >
       <div className="absolute -top-3 right-3 w-12 h-5 washi-tape -rotate-[3deg]" />
 
-      {/* Chat printed on paper — shows below the wrapper */}
-      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm">
-        {/* Wrapper — takes up top portion, leaves bottom open */}
-        <div className="bg-[#4A2C0A] px-4 py-3" style={{ borderRadius: '2px 2px 0 0' }}>
-          <div className="border border-[#C8924A]/35 px-3 py-2">
-            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[#C8924A]/70 text-center leading-none mb-0.5">Dark</p>
-            <p className="font-display text-sm text-[#F0D08A] text-center">Chocolate</p>
-          </div>
-          {/* Lifted corner effect */}
-          <div className="flex justify-end mt-1">
-            <div className="w-8 h-px bg-[#C8924A]/20" />
-          </div>
-        </div>
-
-        {/* Chat showing beneath */}
+      {/* Strong shadow */}
+      <div
+        className="bg-[#F9F6F0] border border-charcoal/10 overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/30"
+        style={{ boxShadow: '4px 8px 28px rgba(0,0,0,0.18)' }}
+        onClick={() => setPeeled(v => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={peeled ? 'Cover the message' : 'Peel the wrapper'}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPeeled(v => !v); } }}
+      >
+        {/* Chat always sits here — revealed when wrapper peels */}
         <div className="px-3 py-3" style={{ fontFamily: 'system-ui, sans-serif' }}>
           <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-2 font-sans">15 February 2026</p>
           <div className="flex justify-end">
@@ -134,54 +142,109 @@ function ChocolateArtifact({ delay }: { delay: number }) {
             </div>
           </div>
         </div>
+
+        {/* Wrapper peels upward from top */}
+        <motion.div
+          className="absolute inset-0 origin-bottom"
+          animate={{ scaleY: peeled ? 0.09 : 1 }}
+          transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+          style={{ zIndex: 10 }}
+        >
+          <div className="bg-[#4A2C0A] w-full h-full flex flex-col justify-center"
+            style={{ borderRadius: '2px' }}>
+            <div className="border border-[#C8924A]/35 mx-4 my-4 px-3 py-3">
+              <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[#C8924A]/70 text-center leading-none mb-0.5">Dark</p>
+              <p className="font-display text-sm text-[#F0D08A] text-center">Chocolate</p>
+            </div>
+            {!peeled && (
+              <p className="font-handwriting text-[9px] text-[#C8924A]/50 text-center pb-2">peel ↑</p>
+            )}
+          </div>
+        </motion.div>
       </div>
+
+      {/* Hidden detail: tiny 😂😂😂 almost invisible */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 2.2, duration: 2 }}
+        className="absolute -bottom-4 left-1 font-handwriting text-[9px] text-charcoal/18 select-none pointer-events-none"
+        aria-hidden="true"
+      >😂😂😂</motion.p>
     </motion.div>
   );
 }
 
-// ─── STATIC: Recipe Card ──────────────────────────────────────────────────────
-// Just sits there. No flip. You read it and feel it.
+// ─── STATIC: Recipe Card — handwritten, human ─────────────────────────────────
+// rotate(2deg). Medium shadow. Real recipe, not a designed list.
 
 function RecipeArtifact({ delay }: { delay: number }) {
+  const settle = paperSettle(2, delay);
+
+  const lines = [
+    { text: '2 people', indent: false },
+    { text: '1 kitchen', indent: false },
+    { text: 'too much laughing', indent: true },
+    { text: 'a little burning', indent: true },
+    { text: '∞ cuddles', indent: false },
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -1.5 }}
-      animate={{ opacity: 1, rotate: -1.5 }}
-      transition={{ delay, duration: 1 }}
+      {...settle}
       className="relative"
       style={{ width: 172 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-5 washi-tape rotate-[2deg]" />
-      <div className="bg-[#FEFCE8] border border-[#D4C89A]/50 px-5 py-4 shadow-sm">
-        <p className="font-handwriting text-sm text-coffee/65 text-center mb-2 border-b border-charcoal/10 pb-2">
-          Recipe for Us
+      <div
+        className="bg-[#FEFCE8] border border-[#D4C89A]/50 px-5 py-4"
+        style={{ boxShadow: '2px 4px 14px rgba(0,0,0,0.10)' }}
+      >
+        <p className="font-handwriting text-base text-coffee/70 mb-3 border-b border-charcoal/10 pb-2">
+          Recipe
         </p>
-        <ul className="space-y-1">
-          {['Love', 'Giggles', 'Cooking', 'Cuddles'].map(i => (
-            <li key={i} className="font-letter text-xs text-charcoal/65 flex items-center gap-1.5">
-              <span className="text-golden/50 text-xs">✦</span> {i}
-            </li>
+        <div className="space-y-1.5">
+          {lines.map((line, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: delay + 0.3 + i * 0.15, duration: 0.7 }}
+              className={`font-handwriting text-sm text-charcoal/62 ${line.indent ? 'pl-3' : ''}`}
+            >
+              {line.text}
+            </motion.p>
           ))}
-        </ul>
-        <p className="font-quote text-[10px] text-charcoal/45 italic mt-3 leading-snug">
-          "We both in kitchen cuddling giggling and cooking..."
-        </p>
+        </div>
       </div>
+
+      {/* Hidden: tiny heart */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 2.5, duration: 2 }}
+        className="absolute -bottom-4 right-3 font-handwriting text-[11px] text-[#C87070]/22 select-none pointer-events-none"
+        aria-hidden="true"
+      >♡</motion.p>
     </motion.div>
   );
 }
 
 // ─── STATIC: Sticky Note ──────────────────────────────────────────────────────
+// rotate(-8deg). Almost no shadow.
 
 function StickyArtifact({ delay }: { delay: number }) {
+  const settle = paperSettle(-8, delay);
+
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 4 }}
-      animate={{ opacity: 1, rotate: 4 }}
-      transition={{ delay, duration: 0.9 }}
+      {...settle}
       style={{ width: 176 }}
     >
-      <div className="bg-[#FEF08A] px-4 py-4 shadow-md">
+      <div
+        className="bg-[#FEF08A] px-4 py-4"
+        style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
+      >
         <p className="font-handwriting text-[10px] text-charcoal/35 mb-1.5">20 February 2026</p>
         <p className="font-letter text-xs text-charcoal/80 leading-snug">
           "I think I'll stop using my brain when I'm with you 😂"
@@ -192,70 +255,99 @@ function StickyArtifact({ delay }: { delay: number }) {
   );
 }
 
-// ─── STATIC: Campus Doodle ────────────────────────────────────────────────────
+// ─── STATIC: Campus Doodle — pen-drawn, not digital ──────────────────────────
 
 function CampusDoodle({ delay }: { delay: number }) {
+  const settle = paperSettle(1.5, delay);
+
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 1 }}
-      animate={{ opacity: 1, rotate: 1 }}
-      transition={{ delay, duration: 1 }}
+      {...settle}
       className="relative"
       style={{ width: 160 }}
     >
       <div className="absolute -top-3 left-3 w-12 h-5 washi-tape -rotate-[1deg]" />
-      <div className="bg-[#F5F0E8] border border-charcoal/12 p-2 shadow-sm">
-        <p className="font-handwriting text-[9px] text-charcoal/35 text-center mb-1">16 February 2026</p>
-        <svg viewBox="0 0 150 90" width="100%" className="block">
-          {/* faint grid */}
-          {[20, 45, 70].map(y => (
-            <line key={y} x1="0" y1={y} x2="150" y2={y} stroke="#B8A88A" strokeWidth="0.4" opacity="0.35" strokeDasharray="3 5" />
-          ))}
-          {/* Buildings */}
-          <rect x="5" y="10" width="38" height="28" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
-          <text x="24" y="28" textAnchor="middle" fontSize="6" fill="#7C6A4F" fontFamily="Georgia,serif">College</text>
-          <rect x="95" y="50" width="48" height="32" rx="2" fill="#E8DDD0" stroke="#B8A88A" strokeWidth="1" />
-          <text x="119" y="70" textAnchor="middle" fontSize="6" fill="#7C6A4F" fontFamily="Georgia,serif">Canteen</text>
-          {/* Path */}
+      <div
+        className="bg-[#F5F0E8] border border-charcoal/12 p-3"
+        style={{ boxShadow: '1px 3px 10px rgba(0,0,0,0.08)' }}
+      >
+        <p className="font-handwriting text-[9px] text-charcoal/35 text-center mb-2">16 February 2026</p>
+        <svg viewBox="0 0 144 96" width="100%" className="block">
+          {/* Hand-drawn boxes — slightly wobbly */}
+          {/* College building — top left */}
+          <path d="M6 8 Q6.5 8 44 8.5 Q44 8.5 44.5 34 Q44.5 34.5 6.5 34 Q6 34 6 8"
+            fill="#EDE3CC" stroke="#8B7355" strokeWidth="1.1" strokeLinejoin="round" />
+          <text x="25" y="24" textAnchor="middle" fontSize="7" fill="#6B5530"
+            fontFamily="Georgia,serif" fontStyle="italic">College</text>
+
+          {/* Canteen — bottom right */}
+          <path d="M92 58 Q92.5 58 138 58.5 Q138 58.5 138.5 90 Q138.5 90.5 92.5 90 Q92 90 92 58"
+            fill="#EDE3CC" stroke="#8B7355" strokeWidth="1.1" strokeLinejoin="round" />
+          <text x="115" y="76" textAnchor="middle" fontSize="7" fill="#6B5530"
+            fontFamily="Georgia,serif" fontStyle="italic">Canteen</text>
+
+          {/* Hand-drawn vertical path — like a pen line down then across */}
+          <path d="M25 34 L25.5 55 Q25.5 56 27 56 L91 57"
+            fill="none" stroke="#C86A2A" strokeWidth="1.3" strokeLinecap="round"
+            strokeLinejoin="round" />
+
+          {/* Destination marker — hand-drawn X */}
           <motion.path
-            d="M 24 38 Q 55 60 80 68 Q 90 72 100 66"
-            fill="none" stroke="#D4844A" strokeWidth="1.5" strokeDasharray="4 3" strokeLinecap="round"
+            d="M88 54 L94 60 M94 54 L88 60"
+            stroke="#C86A2A" strokeWidth="1.5" strokeLinecap="round"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ delay: delay + 0.6, duration: 1.4, ease: 'easeOut' }}
+            transition={{ delay: delay + 1.0, duration: 0.6 }}
           />
-          {/* Marker */}
-          <circle cx="100" cy="66" r="4.5" fill="#D4844A" opacity="0.8" />
-          <circle cx="100" cy="66" r="2" fill="white" />
-          <text x="100" y="84" textAnchor="middle" fontSize="5.5" fill="#7C6A4F" fontFamily="Georgia,serif">Entrance</text>
+
+          {/* Path drawn on animate */}
+          <motion.path
+            d="M25 34 L25.5 55 Q25.5 56 27 56 L88 57"
+            fill="none" stroke="#C86A2A" strokeWidth="1.3" strokeLinecap="round"
+            strokeLinejoin="round" opacity={0}
+            initial={{ pathLength: 0, opacity: 1 }}
+            animate={{ pathLength: 1, opacity: 0 }}
+            transition={{ delay: delay + 0.5, duration: 1.0, ease: 'easeOut' }}
+          />
+
+          {/* Animated draw over */}
+          <motion.path
+            d="M25 34 L25.5 55 Q25.5 56 27 56 L88 57"
+            fill="none" stroke="#C86A2A" strokeWidth="1.3" strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ delay: delay + 0.5, duration: 1.0, ease: 'easeOut' }}
+          />
         </svg>
         <p className="font-handwriting text-[9px] text-charcoal/38 text-center mt-1 italic">
-          "Come to canteen entrance."
+          "you came."
         </p>
       </div>
     </motion.div>
   );
 }
 
-// ─── INTERACTIVE 2: Sikkina Unde ─────────────────────────────────────────────
-// Already slightly opened. Tap to pull the paper back.
+// ─── INTERACTIVE: Sikkina Unde ────────────────────────────────────────────────
+// rotate(-12deg). Paper-thin shadow. "pull gently". Hidden "bangara." sideways.
 
 function SikkinaUnde({ delay }: { delay: number }) {
   const [pulled, setPulled] = useState(false);
+  const settle = paperSettle(-12, delay);
 
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -2 }}
-      animate={{ opacity: 1, rotate: -2 }}
-      transition={{ delay, duration: 1 }}
+      {...settle}
       className="relative"
       style={{ width: 192 }}
     >
       <div className="absolute -top-3 left-5 w-14 h-5 washi-tape rotate-[1deg]" />
-      <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm overflow-hidden">
+      <div
+        className="bg-[#F9F6F0] border border-charcoal/10 overflow-hidden"
+        style={{ boxShadow: '1px 2px 6px rgba(0,0,0,0.06)' }}
+      >
         <p className="font-handwriting text-[9px] text-charcoal/32 text-center pt-3 pb-1">23 February 2026</p>
 
-        {/* The slightly-open candy wrapper */}
         <div
           className="relative mx-auto my-2 cursor-pointer"
           style={{ width: 120, height: 80 }}
@@ -265,7 +357,7 @@ function SikkinaUnde({ delay }: { delay: number }) {
           aria-label={pulled ? 'Close sweet wrapper' : 'Pull open sweet wrapper'}
           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPulled(v => !v); } }}
         >
-          {/* Note beneath (always visible, partially covered) */}
+          {/* Note beneath */}
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FEFCE8] border border-[#D4C89A]/40 px-3 py-2">
             <AnimatePresence>
               {pulled && (
@@ -283,25 +375,22 @@ function SikkinaUnde({ delay }: { delay: number }) {
             </AnimatePresence>
           </div>
 
-          {/* Wrapper on top — peels back */}
+          {/* Wrapper peels back */}
           <motion.div
             className="absolute inset-0 origin-bottom"
             animate={{ scaleY: pulled ? 0.08 : 0.72 }}
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           >
             <svg viewBox="0 0 120 80" width="120" height="80">
-              {/* Twist ends */}
               <ellipse cx="7" cy="40" rx="7" ry="14" fill="#C8924A" opacity="0.6" />
               <ellipse cx="113" cy="40" rx="7" ry="14" fill="#C8924A" opacity="0.6" />
-              {/* Body */}
               <rect x="12" y="12" width="96" height="56" rx="12" fill="#E8A84A" />
               <rect x="18" y="18" width="84" height="44" rx="10" fill="#F0B84A" />
-              {/* Shine */}
               <ellipse cx="50" cy="26" rx="18" ry="6" fill="white" opacity="0.2" />
-              {/* Label */}
-              <text x="60" y="44" textAnchor="middle" fontSize="10" fill="#7C4A0A" fontFamily="Georgia,serif">Sikkina Unde</text>
-              {/* Hint text — visible only when not pulled */}
-              <text x="60" y="58" textAnchor="middle" fontSize="7" fill="#7C4A0A" fontFamily="Georgia,serif" opacity="0.5">pull ↑</text>
+              <text x="60" y="44" textAnchor="middle" fontSize="10" fill="#7C4A0A"
+                fontFamily="Georgia,serif">Sikkina Unde</text>
+              <text x="60" y="58" textAnchor="middle" fontSize="7" fill="#7C4A0A"
+                fontFamily="Georgia,serif" opacity="0.5">pull gently</text>
             </svg>
           </motion.div>
         </div>
@@ -319,33 +408,110 @@ function SikkinaUnde({ delay }: { delay: number }) {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Hidden: "bangara." written sideways, barely visible */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: delay + 2.8, duration: 2 }}
+        className="absolute -right-5 top-1/2 font-handwriting text-[9px] text-coffee/18 select-none pointer-events-none"
+        style={{ transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}
+        aria-hidden="true"
+      >bangara.</motion.p>
     </motion.div>
   );
 }
 
-// ─── STATIC: 26 Feb Note ─────────────────────────────────────────────────────
+// ─── INTERACTIVE: 26 Feb Kiss Note — folded receipt ───────────────────────────
+// No border. No card. Just paper. Tap to unfold and read the cascade.
 
 function FebQuoteNote({ delay }: { delay: number }) {
+  const [unfolded, setUnfolded] = useState(false);
+  const settle = paperSettle(2.5, delay);
+
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 3.5 }}
-      animate={{ opacity: 1, rotate: 3.5 }}
-      transition={{ delay, duration: 0.9 }}
-      style={{ width: 168 }}
+      {...settle}
+      style={{ width: 160 }}
+      className="relative"
     >
-      <div className="absolute -top-3 right-3 w-12 h-5 washi-tape -rotate-[2deg]" />
-      <div className="bg-[#F9F6F0] border border-charcoal/10 px-4 py-3 shadow-sm">
-        <p className="font-handwriting text-[9px] text-charcoal/32 mb-2">26 February 2026</p>
-        <p className="font-quote text-xs text-charcoal/65 italic leading-relaxed">
-          "The kiss was so good good good good good"
-        </p>
+      {/* Folded receipt — just cream paper, no border */}
+      <div
+        className="bg-[#FDFAF4] cursor-pointer focus-within:outline-none"
+        style={{ boxShadow: '1px 2px 8px rgba(0,0,0,0.07)' }}
+        onClick={() => setUnfolded(v => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={unfolded ? 'Fold the note' : 'Open the note'}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setUnfolded(v => !v); } }}
+      >
+        {/* Fold line visible at top — shows it's folded */}
+        <div className="border-b border-charcoal/8 px-4 py-2.5">
+          <p className="font-handwriting text-[9px] text-charcoal/28">
+            {unfolded ? '26 February' : 'tap to open ↓'}
+          </p>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {!unfolded && (
+            <motion.div
+              key="folded"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="overflow-hidden"
+            >
+              <div className="px-4 py-3">
+                {/* Folded paper lines — shows content is hidden */}
+                <div className="space-y-2">
+                  <div className="h-px bg-charcoal/8 w-4/5" />
+                  <div className="h-px bg-charcoal/5 w-3/5" />
+                  <div className="h-px bg-charcoal/8 w-4/5" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence initial={false}>
+          {unfolded && (
+            <motion.div
+              key="open"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="px-4 py-4">
+                {[
+                  { text: '"The kiss was so good', d: 0.1 },
+                  { text: 'good', d: 0.4, indent: 3 },
+                  { text: 'good', d: 0.7, indent: 5 },
+                  { text: 'good."', d: 1.0, indent: 7 },
+                ].map((line, i) => (
+                  <motion.p
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: line.d, duration: 0.8 }}
+                    className="font-handwriting text-sm text-charcoal/65 leading-relaxed"
+                    style={{ paddingLeft: `${(line as any).indent ?? 0}px` }}
+                  >
+                    {line.text}
+                  </motion.p>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
 }
 
-// ─── INTERACTIVE 3: Forgot the Hug ───────────────────────────────────────────
-// Empty. Silence. Then a whisper. Then the hug.
+// ─── INTERACTIVE: Forgot the Hug ─────────────────────────────────────────────
 
 function ForgotHug() {
   const [phase, setPhase] = useState<'empty' | 'whisper' | 'hug'>('empty');
@@ -361,9 +527,7 @@ function ForgotHug() {
 
   return (
     <div ref={ref} className="text-center py-6">
-      {/* Silent space */}
       <div className="h-6" />
-
       <AnimatePresence>
         {(phase === 'whisper' || phase === 'hug') && (
           <motion.div
@@ -393,25 +557,20 @@ function ForgotHug() {
             transition={{ duration: 1.4 }}
             className="mt-5"
           >
-            {/* Hug illustration */}
             <svg viewBox="0 0 130 75" width="130" height="75" className="mx-auto mb-3"
               aria-label="Two figures hugging">
-              {/* Her */}
               <circle cx="42" cy="17" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.4" />
               <path d="M42 26 L42 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
               <path d="M42 37 Q32 33 28 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
               <path d="M42 37 Q55 31 65 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
               <path d="M34 50 Q42 62 50 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
-              {/* Him */}
               <circle cx="88" cy="17" r="9" fill="none" stroke="#7C6A4F" strokeWidth="1.4" />
               <path d="M88 26 L88 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
               <path d="M88 37 Q75 31 65 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
               <path d="M88 37 Q98 33 102 37" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
               <path d="M80 50 Q88 62 96 50" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" fill="none" />
-              {/* Heart */}
               <text x="65" y="42" textAnchor="middle" fontSize="11" fill="#C87070" opacity="0.6">♥</text>
             </svg>
-
             <p className="font-quote text-sm text-charcoal/60 italic">
               "You missed something while going."
             </p>
@@ -448,19 +607,16 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
         {/* ═══════════ LEFT PAGE ═══════════ */}
         <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-12 flex flex-col py-8 z-10 relative">
 
-          {/* Background: coffee stain */}
+          {/* Background details */}
           <div
             className="absolute top-24 left-2 w-16 h-16 rounded-full border-2 border-[#C8924A]/12 pointer-events-none"
             style={{ boxShadow: 'inset 0 0 0 5px rgba(200,146,74,0.05)' }}
             aria-hidden="true"
           />
-          {/* Paper clip */}
           <svg className="absolute top-56 left-1 opacity-18 pointer-events-none" width="14" height="38" viewBox="0 0 14 38" aria-hidden="true">
             <path d="M7 2 Q13 2 13 8 L13 30 Q13 36 7 36 Q1 36 1 30 L1 10 Q1 6 4 6 Q7 6 7 10 L7 28 Q7 32 5 32" fill="none" stroke="#7C6A4F" strokeWidth="1.4" strokeLinecap="round" />
           </svg>
-          {/* Flower */}
           <div className="absolute bottom-44 left-2 text-base opacity-18 pointer-events-none" aria-hidden="true">🌸</div>
-          {/* Bus ticket stub */}
           <div className="absolute bottom-24 left-0 w-7 h-14 bg-[#E8DDD0] border border-[#C8B8A8]/25 opacity-14 pointer-events-none"
             style={{ rotate: '5deg' }} aria-hidden="true">
             <div className="w-full h-2.5 bg-[#C8924A]/20 mt-2" />
@@ -481,7 +637,7 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
             </motion.svg>
           </motion.div>
 
-          {/* Date timeline — minimal */}
+          {/* Date timeline */}
           <div className="space-y-0.5 flex-1">
             <DateDivider date="14 February 2026" delay={0.8} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 1 }}
@@ -518,56 +674,54 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
               className="font-handwriting text-sm text-charcoal/30 pl-2 italic">Something was forgotten.</motion.p>
           </div>
 
-          {/* Closing */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 5.5, duration: 2 }}
-            className="mt-10 border-t border-charcoal/10 pt-6">
-            <p className="font-quote text-base text-charcoal/52 leading-loose italic">
-              February was over.<br />Somehow,<br />it already felt like home.
+          {/* Closing — centered, tiny, lots of space around it */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ delay: 5.5, duration: 2 }}
+            className="mt-16 mb-8 flex flex-col items-center text-center"
+          >
+            <p className="font-quote text-[10px] text-charcoal/28 mb-3 tracking-widest">*</p>
+            <p className="font-quote text-sm text-charcoal/42 leading-[2.2] italic">
+              February was over.<br />
+              <span className="text-charcoal/32">Somehow,</span><br />
+              <span className="text-charcoal/38">it already felt like home.</span>
             </p>
           </motion.div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between pt-6 mt-4">
+          <div className="flex items-center justify-between pt-2 mt-2">
             <button onClick={onPrev} className="font-sans text-xs text-charcoal/35 hover:text-coffee transition-colors tracking-widest uppercase">← Chapter One</button>
             <button onClick={onNext} className="font-sans text-xs text-charcoal/45 hover:text-coffee transition-colors tracking-widest uppercase">Next →</button>
           </div>
         </div>
 
-        {/* ═══════════ RIGHT PAGE — organic scrapbook spread ════════════ */}
+        {/* ═══════════ RIGHT PAGE ═══════════ */}
         <div className="flex-1 md:pl-12 py-8">
 
-          {/* Desktop: organic scatter layout */}
-          <div className="hidden md:block relative" style={{ minHeight: 740 }}>
-            {/* Envelope — top left */}
+          {/* Desktop: organic scatter */}
+          <div className="hidden md:block relative" style={{ minHeight: 760 }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <EnvelopeCard delay={0.9} />
             </div>
-            {/* Chocolate — top right, overlapping slightly */}
-            <div style={{ position: 'absolute', top: 12, left: 230 }}>
+            <div style={{ position: 'absolute', top: 8, left: 232 }}>
               <ChocolateArtifact delay={1.3} />
             </div>
-            {/* Recipe card — left, mid */}
-            <div style={{ position: 'absolute', top: 200, left: 10 }}>
+            <div style={{ position: 'absolute', top: 204, left: 10 }}>
               <RecipeArtifact delay={1.8} />
             </div>
-            {/* Sticky note — right, mid-high */}
-            <div style={{ position: 'absolute', top: 160, left: 230 }}>
+            <div style={{ position: 'absolute', top: 152, left: 226 }}>
               <StickyArtifact delay={2.2} />
             </div>
-            {/* Campus doodle — left lower */}
-            <div style={{ position: 'absolute', top: 390, left: 20 }}>
+            <div style={{ position: 'absolute', top: 396, left: 18 }}>
               <CampusDoodle delay={2.6} />
             </div>
-            {/* Sikkina Unde — right lower */}
-            <div style={{ position: 'absolute', top: 350, left: 200 }}>
+            <div style={{ position: 'absolute', top: 344, left: 196 }}>
               <SikkinaUnde delay={3.0} />
             </div>
-            {/* 26 Feb quote — overlapping lower right */}
-            <div style={{ position: 'absolute', top: 555, left: 190 }} className="relative">
+            <div style={{ position: 'absolute', top: 558, left: 182 }} className="relative">
               <FebQuoteNote delay={3.6} />
             </div>
-            {/* Forgot Hug — bottom center */}
-            <div style={{ position: 'absolute', top: 560, left: 0, right: 0 }}>
+            <div style={{ position: 'absolute', top: 572, left: 0, right: 0 }}>
               <ForgotHug />
             </div>
           </div>
