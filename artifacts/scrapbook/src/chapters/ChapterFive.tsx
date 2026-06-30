@@ -5,6 +5,7 @@ import photoTempleTogether from '@assets/IMG_2441_1782795136760.jpg';
 import photoMeghanaTemple  from '@assets/IMG_2438_1782795136761.jpg';
 import photoGreenSareeLawn from '@assets/IMG_1739_Original_1782795136761.jpg';
 import photoTempleOutdoor  from '@assets/IMG_1497_1782795167756.JPG';
+import tobbyPhoto          from '@assets/00009077-STICKER-2026-04-20-10-59-12_1782736777144.webp';
 
 // ─── Sunlight drift ──────────────────────────────────────────────────────────
 function SunlightDrift() {
@@ -22,46 +23,56 @@ function SunlightDrift() {
   );
 }
 
-// ─── Coffee mug + ring stain + steam ─────────────────────────────────────────
+// ─── Coffee mug — ring stain, tiny spill, smaller steam ──────────────────────
 function CoffeeMug() {
   const shouldReduceMotion = useReducedMotion();
   return (
-    <div className="relative" style={{ width: 80, height: 96 }}>
-      <div
-        className="absolute bottom-0 left-1/2"
-        style={{
-          transform: 'translateX(-50%)',
-          width: 58, height: 58,
-          border: '2.5px solid rgba(101,67,33,0.085)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle at 35% 38%, rgba(101,67,33,0.028) 0%, transparent 65%)',
-        }}
+    <div className="relative" style={{ width: 100, height: 110 }}>
+      {/* Coffee ring stain — left on the page, not floating */}
+      <svg
+        width="80" height="22"
+        viewBox="0 0 80 22"
+        className="absolute"
+        style={{ bottom: -4, left: '50%', transform: 'translateX(-52%) rotate(-4deg)' }}
         aria-hidden="true"
-      />
+      >
+        {/* Outer ring */}
+        <ellipse cx="40" cy="11" rx="37" ry="9"
+          fill="none" stroke="rgba(101,67,33,0.14)" strokeWidth="2.5" />
+        {/* Inner ring — slight offset for realism */}
+        <ellipse cx="40" cy="11" rx="29" ry="6.5"
+          fill="none" stroke="rgba(101,67,33,0.07)" strokeWidth="1.2" />
+        {/* Tiny spill — drip to the right */}
+        <path d="M 72 12 C 76 14, 78 17, 76 20 C 74 22, 72 21, 73 18"
+          fill="rgba(101,67,33,0.09)" />
+        {/* Smear */}
+        <path d="M 42 19 C 50 20, 58 19.5, 63 18"
+          fill="none" stroke="rgba(101,67,33,0.06)" strokeWidth="1.5" />
+      </svg>
+
+      {/* One small steam wisp — much reduced from before */}
       {!shouldReduceMotion && (
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 0, width: 36, height: 30 }}>
-          {[0, 1, 2].map(i => (
-            <div
-              key={i}
-              className="absolute animate-steam"
-              style={{
-                left: `${22 + i * 20}%`,
-                bottom: 6,
-                width: 2,
-                height: 13,
-                borderRadius: 4,
-                background: 'rgba(180,150,120,0.28)',
-                animationDelay: `${i * 1.1}s`,
-              }}
-              aria-hidden="true"
-            />
-          ))}
+        <div className="absolute left-1/2" style={{ top: 2, width: 14, transform: 'translateX(-50%)' }}>
+          <div
+            className="absolute animate-steam"
+            style={{
+              left: '30%', bottom: 4,
+              width: 2, height: 9,
+              borderRadius: 4,
+              background: 'rgba(180,150,120,0.22)',
+              animationDelay: '0s',
+            }}
+            aria-hidden="true"
+          />
         </div>
       )}
+
+      {/* Mug body */}
       <svg
         width="52" height="52"
         viewBox="0 0 52 52"
-        className="absolute bottom-1 left-1/2 -translate-x-1/2"
+        className="absolute left-1/2"
+        style={{ bottom: 10, transform: 'translateX(-50%)' }}
         aria-label="Coffee mug" role="img"
       >
         <path d="M 9 10 L 9 40 Q 9 47 15 47 L 37 47 Q 43 47 43 40 L 43 10 Z" fill="#2C1810" opacity="0.72" />
@@ -74,7 +85,7 @@ function CoffeeMug() {
   );
 }
 
-// ─── Chocolate wrapper (peel interaction) ─────────────────────────────────────
+// ─── Chocolate wrapper — torn, crumpled, silver foil peek ─────────────────────
 function ChocolateWrapper({ delay }: { delay: number }) {
   const [peeled, setPeeled] = useState(false);
   const shouldReduceMotion = useReducedMotion();
@@ -82,10 +93,11 @@ function ChocolateWrapper({ delay }: { delay: number }) {
   return (
     <motion.div
       className="relative"
-      style={{ width: 158, height: 54 }}
+      style={{ width: 162, height: 58 }}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
     >
+      {/* Content revealed beneath wrapper */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" aria-hidden={!peeled}>
         <p className="font-letter text-[12px] text-charcoal/52 italic text-center leading-snug">
           I think dark chocolate...<br />
@@ -93,26 +105,48 @@ function ChocolateWrapper({ delay }: { delay: number }) {
         </p>
       </div>
 
+      {/* Wrapper — now looks torn and crumpled */}
       <motion.div
         className="absolute inset-0 z-10 cursor-pointer"
         style={{ transformOrigin: 'top center', transformPerspective: 600 }}
-        animate={!shouldReduceMotion ? { rotateX: peeled ? -162 : 0 } : {}}
+        animate={!shouldReduceMotion ? { rotateX: peeled ? -155 : 0 } : {}}
         transition={{ duration: 1.3, ease: [0.25, 0.1, 0.25, 1] }}
         onClick={() => setPeeled(v => !v)}
         role="button" tabIndex={0}
         aria-label={peeled ? 'Close chocolate wrapper' : 'Peel open chocolate wrapper'}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPeeled(v => !v); } }}
       >
+        {/* Silver foil strip at top */}
         <div
-          className="w-full h-full rounded-sm overflow-hidden relative"
-          style={{ background: 'linear-gradient(135deg, #2c1810 0%, #3d2410 48%, #2c1810 100%)', border: '1px solid rgba(15,8,3,0.35)' }}
+          className="absolute top-0 left-0 right-0 z-20"
+          style={{
+            height: 7,
+            background: 'linear-gradient(90deg, rgba(192,192,200,0.55) 0%, rgba(230,230,238,0.72) 35%, rgba(192,192,200,0.50) 70%, rgba(210,210,220,0.62) 100%)',
+            borderRadius: '1px 1px 0 0',
+          }}
+          aria-hidden="true"
+        />
+        {/* Wrapper body */}
+        <div
+          className="w-full h-full overflow-hidden relative"
+          style={{
+            background: 'linear-gradient(148deg, #2c1810 0%, #3d2410 45%, #2c1810 78%, #3a2010 100%)',
+            border: '1px solid rgba(15,8,3,0.38)',
+          }}
         >
-          {[20, 38, 56, 74].map(x => (
-            <div key={x} className="absolute top-0 bottom-0" style={{ left: `${x}%`, width: 1, background: 'rgba(255,255,255,0.04)' }} aria-hidden="true" />
-          ))}
-          <div className="absolute top-0 bottom-0 left-0 w-3" style={{ background: 'linear-gradient(90deg, rgba(192,185,168,0.16) 0%, transparent 100%)' }} aria-hidden="true" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="font-sans text-[7px] tracking-[0.25em] uppercase text-[#C0A882]/48 select-none">dark chocolate</p>
+          {/* Crinkle lines — not perfectly spaced */}
+          <div className="absolute top-0 bottom-0" style={{ left: '18%', width: 1, background: 'rgba(255,255,255,0.035)', transform: 'rotate(0.8deg)' }} aria-hidden="true" />
+          <div className="absolute top-0 bottom-0" style={{ left: '41%', width: 1, background: 'rgba(255,255,255,0.028)', transform: 'rotate(-0.5deg)' }} aria-hidden="true" />
+          <div className="absolute top-0 bottom-0" style={{ left: '67%', width: 1, background: 'rgba(255,255,255,0.022)', transform: 'rotate(1deg)' }} aria-hidden="true" />
+          {/* Folded corner — bottom right */}
+          <svg className="absolute bottom-0 right-0" width="18" height="16" viewBox="0 0 18 16" aria-hidden="true">
+            <path d="M 0 16 L 18 0 L 18 16 Z" fill="rgba(0,0,0,0.28)" />
+            <path d="M 0 16 L 18 0" stroke="rgba(192,192,200,0.20)" strokeWidth="0.8" />
+          </svg>
+          {/* Shiny highlight along left edge */}
+          <div className="absolute top-0 bottom-0 left-0 w-2.5" style={{ background: 'linear-gradient(90deg, rgba(192,185,168,0.14) 0%, transparent 100%)' }} aria-hidden="true" />
+          <div className="absolute inset-0 flex items-center justify-center pt-1">
+            <p className="font-sans text-[7px] tracking-[0.25em] uppercase text-[#C0A882]/40 select-none">dark chocolate</p>
           </div>
         </div>
       </motion.div>
@@ -130,59 +164,60 @@ function ChocolateWrapper({ delay }: { delay: number }) {
   );
 }
 
-// ─── Recipe card (flip interaction) ──────────────────────────────────────────
-function RecipeCard({ delay }: { delay: number }) {
-  const [flipped, setFlipped] = useState(false);
-
+// ─── Handwritten recipe paper — torn, with checkmarks ─────────────────────────
+function HandwrittenRecipe({ delay }: { delay: number }) {
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
-      className="relative cursor-pointer select-none"
-      style={{ width: 174, height: 118, perspective: 800, rotate: '-1.5deg' }}
-      onClick={() => setFlipped(v => !v)}
-      role="button" tabIndex={0}
-      aria-label={flipped ? 'Flip recipe card back' : 'Flip recipe card to see memory'}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(v => !v); } }}
+      className="relative"
+      style={{ width: 154, rotate: '-1.5deg' }}
     >
+      {/* Torn top edge */}
+      <svg width="154" height="11" viewBox="0 0 154 11" className="w-full block" aria-hidden="true">
+        <path d="M0,9 C9,2 22,10 36,6 C50,2 62,9 78,5 C94,1 108,8 122,4 C136,0 146,6 154,5 L154,11 L0,11 Z"
+          fill="#FFFEF6" />
+      </svg>
+      {/* Paper body */}
       <div
-        className="absolute -top-2.5 left-1/2 z-20 h-4 w-12"
-        style={{ backgroundColor: 'rgba(201,168,76,0.40)', transform: 'translateX(-50%) rotate(1deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.07)' }}
-        aria-hidden="true"
-      />
-
-      <motion.div
-        className="w-full h-full relative"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.88, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="border-x border-b border-charcoal/10 shadow-sm px-4 pb-4 pt-2"
+        style={{ backgroundColor: '#FFFEF6' }}
       >
-        <div
-          className="absolute inset-0 bg-[#FFFEF5] border border-[#C9A84C]/18 shadow-sm p-3 overflow-hidden"
-          style={{ backfaceVisibility: 'hidden' }}
-        >
-          <p className="font-sans text-[6.5px] tracking-[0.3em] uppercase text-[#8B6020]/26">Mom's recipe</p>
-          <p className="font-letter text-[15px] text-charcoal/65 mt-0.5 leading-tight">Fish Curry</p>
-          <div className="mt-2 space-y-px">
-            {['kokum', 'coconut', 'green chilli', 'curry leaves', 'ginger'].map(item => (
-              <p key={item} className="font-handwriting text-[8px] text-charcoal/36">· {item}</p>
-            ))}
-          </div>
-          <p className="absolute bottom-2 right-3 font-handwriting text-[7px] text-charcoal/16 italic">flip →</p>
+        {/* Ruled lines */}
+        <div className="absolute left-4 right-4" style={{ top: 11, height: '100%', backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 19px, rgba(180,160,140,0.12) 19px, rgba(180,160,140,0.12) 20px)', backgroundPosition: '0 24px' }} aria-hidden="true" />
+        <p className="font-sans text-[6px] tracking-[0.32em] uppercase text-charcoal/20 mb-2 relative">Mom's recipe</p>
+        <p className="font-handwriting text-[15px] text-charcoal/70 leading-tight mb-2.5 relative">Fish Curry</p>
+        <div className="space-y-1 relative">
+          {[
+            { item: 'coconut', checked: true },
+            { item: 'chilli', checked: true },
+            { item: 'curry leaves', checked: true },
+            { item: 'kokum', checked: false },
+          ].map(({ item, checked }) => (
+            <p key={item} className="font-handwriting text-[11px] text-charcoal/55 flex items-center gap-1.5 leading-tight">
+              <span
+                className="font-handwriting text-[13px] leading-none"
+                style={{ color: checked ? 'rgba(60,120,60,0.65)' : 'rgba(80,60,40,0.30)' }}
+              >
+                {checked ? '✓' : '○'}
+              </span>
+              <span style={{ textDecoration: checked ? 'none' : 'none' }}>{item}</span>
+            </p>
+          ))}
         </div>
-
-        <div
-          className="absolute inset-0 bg-[#FFFEF5] border border-[#C9A84C]/18 shadow-sm flex flex-col items-center justify-center p-4"
-          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-        >
-          <p className="font-letter text-[12.5px] text-charcoal/58 leading-relaxed text-center">
-            We both in kitchen<br />
-            <span className="text-charcoal/44 italic">cuddling</span><br />
-            <span className="text-charcoal/38 italic">giggling</span><br />
-            <span className="text-charcoal/33 italic text-[11px]">and cooking.</span>
+        {/* Divider */}
+        <div className="border-t border-dashed border-charcoal/12 mt-3 pt-2.5 relative">
+          <p className="font-handwriting text-[11px] text-[#8B6020]/65 italic leading-snug">
+            We'll cook together.
           </p>
         </div>
-      </motion.div>
+      </div>
+      {/* Washi tape strip holding it down */}
+      <div
+        className="absolute -top-2.5 left-1/2 z-20 h-3.5 w-14"
+        style={{ backgroundColor: 'rgba(201,168,76,0.38)', transform: 'translateX(-50%) rotate(1deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+        aria-hidden="true"
+      />
     </motion.div>
   );
 }
@@ -250,7 +285,7 @@ function GroceryNote({ delay }: { delay: number }) {
   );
 }
 
-// ─── Math notebook — with "delulu" doodled in the margin ─────────────────────
+// ─── Math notebook — messy, crossed, circled, underlined ─────────────────────
 function MathNotebook({ delay }: { delay: number }) {
   return (
     <motion.div
@@ -268,13 +303,24 @@ function MathNotebook({ delay }: { delay: number }) {
       {/* Margin line */}
       <div className="absolute top-0 bottom-0 left-10 border-l border-[#E8B4B4]/32" />
 
-      <div className="pl-12 pr-3 pt-2 pb-3">
+      <div className="pl-12 pr-3 pt-2 pb-3 relative">
+        {/* SVG annotations overlaid */}
+        <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%" style={{ left: 48 }} aria-hidden="true">
+          {/* Underline on first line */}
+          <line x1="0" y1="18" x2="130" y2="18" stroke="rgba(60,40,20,0.22)" strokeWidth="1.2" />
+          {/* Circle around Bayes theorem */}
+          <ellipse cx="60" cy="68" rx="58" ry="9" fill="none" stroke="rgba(60,40,20,0.15)" strokeWidth="1" strokeDasharray="2 1.5" />
+          {/* Squiggly underline on alarm line */}
+          <path d="M 0 176 C 8 172, 16 180, 24 176 C 32 172, 40 180, 48 176" fill="none" stroke="rgba(60,40,20,0.12)" strokeWidth="1" />
+        </svg>
+
         <div className="space-y-0">
           {[
-            { text: 'Probability — revision', opacity: 50 },
+            { text: 'Probability — revision', opacity: 50, underline: false },
             { text: 'P(A∩B) = P(A) · P(B)', opacity: 35 },
             { text: 'Bayes theorem...', opacity: 28 },
             { text: '', opacity: 0 },
+            { text: 'ask Meghana', opacity: 30, italic: true, strikethrough: true },
             { text: 'also send Maths PDF ←', opacity: 25, italic: true },
             { text: '', opacity: 0 },
             { text: 'alarm for 7am exam', opacity: 22, italic: true },
@@ -282,16 +328,25 @@ function MathNotebook({ delay }: { delay: number }) {
           ].map((line, i) => (
             <div key={i} className="h-6 border-b border-[#C0CCE0]/18 flex items-center">
               {line.text ? (
-                <p className={`font-handwriting text-[9px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}>
+                <p className={`font-handwriting text-[9px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}
+                  style={{ textDecoration: line.strikethrough ? 'line-through' : 'none', textDecorationColor: 'rgba(60,40,20,0.35)' }}>
                   {line.text}
                 </p>
               ) : null}
             </div>
           ))}
         </div>
+        {/* Small annotation bubble — "??" */}
+        <p
+          className="absolute font-handwriting text-[9px] text-charcoal/22 pointer-events-none select-none"
+          style={{ right: 6, top: 46 }}
+          aria-hidden="true"
+        >
+          ??
+        </p>
       </div>
 
-      {/* "drink water." — faint, rotated vertically in the outer margin */}
+      {/* "drink water." — faint, rotated vertically */}
       <p
         className="absolute font-handwriting text-[6px] text-charcoal/10 pointer-events-none select-none"
         style={{ left: 1, top: '36%', transform: 'rotate(-90deg)', transformOrigin: 'left center', whiteSpace: 'nowrap' }}
@@ -300,7 +355,7 @@ function MathNotebook({ delay }: { delay: number }) {
         drink water.
       </p>
 
-      {/* "delulu 😂" — doodled in margin corner, like an idle scribble */}
+      {/* "delulu 😂" — doodled in margin corner */}
       <motion.p
         className="absolute font-handwriting text-[8.5px] text-charcoal/22 pointer-events-none select-none"
         style={{ left: 28, bottom: 10, rotate: '-8deg', transformOrigin: 'left bottom' }}
@@ -315,7 +370,7 @@ function MathNotebook({ delay }: { delay: number }) {
   );
 }
 
-// ─── Printed message slip — looks like a paper strip cut from a printer ───────
+// ─── Printed message slip ─────────────────────────────────────────────────────
 function PrintedSlip({
   text, rotate = 0, delay = 0,
 }: {
@@ -333,7 +388,6 @@ function PrintedSlip({
         boxShadow: '0 2px 6px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)',
         padding: '5px 10px 6px 10px',
         display: 'inline-block',
-        // subtle printer-paper dot texture via outline
       }}
     >
       <p className="font-letter text-[11px] text-charcoal/60 leading-tight whitespace-nowrap">{text}</p>
@@ -341,7 +395,7 @@ function PrintedSlip({
   );
 }
 
-// ─── Tiny torn sticky note for good boy / good girl ───────────────────────────
+// ─── Tiny torn sticky note ─────────────────────────────────────────────────────
 function TinyTornNote({
   text, color = '#FFFDE7', rotate = 0, delay = 0,
 }: {
@@ -357,25 +411,16 @@ function TinyTornNote({
     >
       {/* torn top */}
       <svg width="70" height="7" viewBox="0 0 70 7" style={{ display: 'block' }} aria-hidden="true">
-        <path
-          d="M0,5 C5,1 12,6 20,3 C28,0 35,5 43,3 C51,1 58,5 70,4 L70,7 L0,7 Z"
-          fill={color}
-        />
+        <path d="M0,5 C5,1 12,6 20,3 C28,0 35,5 43,3 C51,1 58,5 70,4 L70,7 L0,7 Z" fill={color} />
       </svg>
-      <div
-        style={{
-          backgroundColor: color,
-          padding: '2px 8px 6px 8px',
-          boxShadow: '0 1px 5px rgba(0,0,0,0.08)',
-        }}
-      >
+      <div style={{ backgroundColor: color, padding: '2px 8px 6px 8px', boxShadow: '0 1px 5px rgba(0,0,0,0.08)' }}>
         <p className="font-handwriting text-[10px] text-charcoal/55 leading-tight">{text}</p>
       </div>
     </motion.div>
   );
 }
 
-// ─── Tobby photo (lift to reveal) ────────────────────────────────────────────
+// ─── Tobby photo — real photo, lift to reveal ────────────────────────────────
 function TobbyPhoto({ delay }: { delay: number }) {
   const [lifted, setLifted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
@@ -423,12 +468,18 @@ function TobbyPhoto({ delay }: { delay: number }) {
           style={{ backgroundColor: 'rgba(232,184,109,0.40)', transform: 'translateX(-50%) rotate(-1.5deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.07)' }}
           aria-hidden="true"
         />
-        <div className="overflow-hidden bg-[#F5F0E8]" style={{ width: 86, height: 86 }}>
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <p className="text-4xl select-none" aria-label="Dog">🐶</p>
-            <p className="font-handwriting text-[7px] text-charcoal/32 mt-1 tracking-wide">Tobby</p>
-          </div>
-        </div>
+        {/* Real Tobby photo */}
+        <img
+          src={tobbyPhoto}
+          alt="Tobby"
+          style={{
+            width: 86, height: 86,
+            objectFit: 'cover',
+            objectPosition: 'center',
+            display: 'block',
+            filter: 'sepia(0.08) contrast(1.04)',
+          }}
+        />
         <p className="font-handwriting text-[8px] text-charcoal/32 text-center mt-1.5">our boy.</p>
       </motion.div>
 
@@ -487,29 +538,29 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
           {/* Scattered table objects */}
           <div className="relative flex-1 mt-4" style={{ minHeight: 480 }}>
 
-            {/* Coffee mug */}
+            {/* Coffee mug — with ring stain grounded beneath it */}
             <div className="absolute top-0 left-4">
               <CoffeeMug />
             </div>
 
-            {/* "Had breakfast?" — printed slip, left side */}
+            {/* "Had breakfast?" — printed slip */}
             <div className="absolute top-6 right-10">
               <PrintedSlip text="had breakfast? 🥺" rotate={-2.5} delay={0.8} />
             </div>
 
-            {/* "drink water." — printed slip, slightly lower */}
+            {/* "drink water." — printed slip */}
             <div className="absolute top-[78px] right-4">
               <PrintedSlip text="drink water." rotate={1.5} delay={1.0} />
             </div>
 
-            {/* Chocolate wrapper */}
+            {/* Chocolate wrapper — now torn/crumpled */}
             <div className="absolute left-6" style={{ top: 148 }}>
               <ChocolateWrapper delay={0.9} />
             </div>
 
-            {/* Recipe card */}
+            {/* Handwritten recipe paper — replaces old flip card */}
             <div className="absolute right-0" style={{ top: 176 }}>
-              <RecipeCard delay={1.1} />
+              <HandwrittenRecipe delay={1.1} />
             </div>
 
             {/* Grocery note */}
@@ -541,12 +592,12 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:pl-10 py-8 z-10">
           <div className="relative" style={{ minHeight: 660 }}>
 
-            {/* Math notebook — now has "delulu" doodled in margin */}
+            {/* Math notebook — messier: crossed, underlined, "ask Meghana" struck */}
             <div className="absolute top-0 left-0">
               <MathNotebook delay={0.7} />
             </div>
 
-            {/* Tobby photo */}
+            {/* Tobby — real photo, not emoji */}
             <div className="absolute top-6 right-8">
               <TobbyPhoto delay={1} />
             </div>
@@ -563,18 +614,20 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               </StickyNote>
             </div>
 
-            {/* ── Printed message slips — scattered, not grouped ── */}
-            <div className="absolute" style={{ top: 242, left: 0 }}>
-              <PrintedSlip text="ok ok" rotate={-3} delay={1.3} />
+            {/* ── Message slips — scattered with overlaps, one tucked under notebook ── */}
+            {/* One peeking from UNDER the notebook (lower z, overlaps top-left of notebook) */}
+            <div className="absolute z-0" style={{ top: 188, left: -8 }}>
+              <PrintedSlip text="ok ok" rotate={-5} delay={1.3} />
             </div>
-            <div className="absolute" style={{ top: 282, left: 24 }}>
-              <PrintedSlip text="haan haan 😅" rotate={2} delay={1.5} />
+            {/* The rest scattered irregularly */}
+            <div className="absolute" style={{ top: 254, left: 22 }}>
+              <PrintedSlip text="haan haan 😅" rotate={3.5} delay={1.5} />
             </div>
-            <div className="absolute" style={{ top: 316, left: 4 }}>
-              <PrintedSlip text="ride safe 🙏" rotate={-1.5} delay={1.7} />
+            <div className="absolute" style={{ top: 298, left: -4 }}>
+              <PrintedSlip text="ride safe 🙏" rotate={-2} delay={1.7} />
             </div>
-            <div className="absolute" style={{ top: 356, left: 18 }}>
-              <PrintedSlip text="reached PG ✓" rotate={2.5} delay={1.9} />
+            <div className="absolute" style={{ top: 322, left: 38 }}>
+              <PrintedSlip text="reached PG ✓" rotate={4} delay={1.9} />
             </div>
 
             {/* Exam alarm sticky */}
@@ -587,12 +640,12 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               </StickyNote>
             </div>
 
-            {/* "good boy 🥺" — tiny torn sticky, discovered quietly */}
+            {/* "good boy 🥺" — tiny torn sticky */}
             <div className="absolute" style={{ top: 470, right: 14 }}>
               <TinyTornNote text="good boy 🥺" color="#FFF9C4" rotate={-4} delay={3.0} />
             </div>
 
-            {/* Other inside-jokes, barely there */}
+            {/* Inside-jokes, barely there */}
             <motion.div
               className="absolute pointer-events-none select-none"
               style={{ top: 510, left: 6 }}
@@ -603,7 +656,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               <p className="font-handwriting text-[7px] text-charcoal/10 italic mt-1" style={{ rotate: '1deg' }}>witch magic ✨</p>
             </motion.div>
 
-            {/* Ending — quieter, more poetic */}
+            {/* Ending */}
             <motion.div
               className="absolute left-0 right-0 text-center"
               style={{ bottom: 6 }}
@@ -665,7 +718,6 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
                   className="relative"
                   style={{ rotate: `${rotate}deg` }}
                 >
-                  {/* Washi tape */}
                   <div
                     className="absolute -top-2 left-1/2 z-10 w-8 h-3"
                     style={{ backgroundColor: 'rgba(201,151,58,0.42)', transform: 'translateX(-50%)' }}

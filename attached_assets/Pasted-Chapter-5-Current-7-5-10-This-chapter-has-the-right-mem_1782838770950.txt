@@ -1,0 +1,301 @@
+Chapter 5
+
+Current: 7.5/10
+
+This chapter has the right memories.
+
+It just doesn't feel lived in.
+
+Problems
+Coffee
+
+It floats by itself.
+
+It should feel like it was actually left on the page.
+
+Add
+
+coffee ring
+tiny spill
+steam much smaller
+Chocolate
+
+Way too clean.
+
+Use
+
+torn wrapper
+folded edge
+little silver foil visible
+
+instead of a perfect rectangle.
+
+Recipe
+
+Currently
+
+perfect square note
+
+Instead
+
+handwritten recipe paper
+
+with
+
+Fish curry
+
+✓ coconut
+
+✓ chilli
+
+✓ curry leaves
+
+
+Then below
+
+"We'll cook together."
+Study page
+
+This notebook is almost empty.
+
+Real notebook pages are messy.
+
+Cross things.
+
+Underline.
+
+Circle.
+
+Write
+
+ask Meghana
+
+
+then strike it.
+
+Tiny things.
+
+Message slips
+
+Huge improvement.
+
+But...
+
+they are still evenly spaced.
+
+Scatter them.
+
+Overlap them.
+
+One should stick halfway under the notebook.
+
+Tobby
+
+Replace emoji.
+
+Use the real Tobby photo.
+
+You already have one.
+
+That instantly increases emotion.
+
+Chapter 6
+
+This one has the biggest issue.
+
+Current:
+
+6.5/10
+
+It feels like
+
+productivity board
+
+instead of
+
+scrapbook.
+
+Bucket list
+
+Instead of
+
+☐ IELTS
+
+☐ Abroad
+
+☐ Passport
+
+
+make it
+
+real notebook paper.
+
+With
+
+Passport
+
+✓
+
+IELTS
+
+?
+
+Abroad
+
+one day...
+
+
+Much more human.
+
+Passport
+
+Instead of vector passport
+
+make it
+
+passport application print
+
+or
+
+passport photo strip
+
+Calendar
+
+Needs coffee stain.
+
+Pen.
+
+Highlighter.
+
+Crosses.
+
+Phone number.
+
+Veloura
+
+Don't make it centered.
+
+Sketches never are.
+
+SDC card
+
+Currently
+
+too perfect.
+
+Clip it.
+
+Rotate it.
+
+Hide half behind notebook.
+
+Chapter 7
+
+This chapter actually has a brilliant concept.
+
+But...
+
+the layout kills it.
+
+Right now
+
+everything is on the right.
+
+Left page is almost empty.
+
+It becomes
+
+blank
+
+blank
+
+blank
+
+photos
+
+quotes
+
+
+instead of
+
+memory spread
+
+I'd do this.
+
+Left page
+
+Pressed flower
+
+Old ticket
+
+Tiny rose
+
+One photo
+
+Little note
+
+Right page
+
+Three photos
+
+One quote
+
+Hidden interaction
+
+Balance.
+
+Biggest issue overall
+
+This is what I'd tell the Replit AI.
+
+Stop designing chapters.
+
+Start designing desks.
+
+Every chapter should look like someone emptied their backpack onto a table.
+
+Not someone aligned components inside a Figma frame.
+
+Whenever two objects line up perfectly...
+
+move one.
+
+Whenever three objects have equal spacing...
+
+break it.
+
+Whenever everything is readable...
+
+hide 10%.
+
+Scrapbooks are discovered.
+
+They're never scanned.
+
+One more thing
+
+I think your project is missing one unforgettable moment.
+
+Right now, people flip pages.
+
+Smile.
+
+Keep reading.
+
+That's good.
+
+But there isn't a single moment where someone instinctively stops.
+
+If this were my project, I'd add one interaction somewhere around Chapters 5–7:
+
+A folded letter that takes 3–4 seconds to fully unfold, revealing a handwritten note.
+A cassette tape that plays a 10-second real voice message when clicked.
+A tiny envelope hidden behind a Polaroid containing a single line that only appears if the reader lifts the photo.
+
+One deeply emotional interaction is more memorable than twenty clever animations.
+
+Overall
+Chapters 1–4: 9.5–10/10. They feel intimate and authentic.
+Chapters 5–7: 7–8.5/10. The content is strong, but the layouts drift back toward polished UI instead of tactile scrapbook pages.
+
+You're much closer than you were at the start. The remaining work is less about adding features and more about making each page feel like it has been handled, annotated, and lived with over time.

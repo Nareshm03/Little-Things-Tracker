@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion, useReducedMotion, type Transition } from 'framer-motion';
 import { ChapterProps } from '../App';
-import usPhoto from '@assets/00003349-PHOTO-2026-03-11-20-20-02_1782729987549.jpg';
+import usPhoto          from '@assets/00003349-PHOTO-2026-03-11-20-20-02_1782729987549.jpg';
+import photoTemple      from '@assets/IMG_2441_1782795136760.jpg';
+import photoGreenSaree  from '@assets/IMG_1739_Original_1782795136761.jpg';
+import tobbyPhoto       from '@assets/00009077-STICKER-2026-04-20-10-59-12_1782736777144.webp';
 
 // ─── Tiny objects — each one a memory ─────────────────────────────────────────
 
@@ -25,30 +28,33 @@ function BreakfastSticky() {
 
 function ChocolateWrapper() {
   return (
-    <div style={{ width: 72, rotate: '3deg' }}>
+    <div style={{ width: 76, rotate: '3.5deg' }}>
+      {/* Silver foil peek at top */}
       <div
-        className="border border-charcoal/12 overflow-hidden shadow-sm"
-        style={{ backgroundColor: '#3B1F0E', borderRadius: 1 }}
+        style={{
+          height: 5,
+          background: 'linear-gradient(90deg, rgba(192,192,200,0.55) 0%, rgba(230,230,238,0.70) 40%, rgba(192,192,200,0.50) 100%)',
+          borderRadius: '1px 1px 0 0',
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="border border-charcoal/12 overflow-hidden shadow-sm relative"
+        style={{ backgroundColor: '#3B1F0E', borderRadius: '0 0 1px 1px' }}
       >
         <div className="px-2 py-1.5">
-          <p className="font-sans text-[5.5px] tracking-[0.22em] uppercase text-white/32 text-center">Dairy Milk</p>
-          <div
-            className="mt-1 grid grid-cols-3 gap-px"
-            aria-hidden="true"
-          >
+          <p className="font-sans text-[5.5px] tracking-[0.22em] uppercase text-white/30 text-center">Dairy Milk</p>
+          <div className="mt-1 grid grid-cols-3 gap-px" aria-hidden="true">
             {Array.from({ length: 6 }, (_, i) => (
-              <div
-                key={i}
-                className="rounded-sm"
-                style={{ height: 8, backgroundColor: 'rgba(90,45,15,0.8)' }}
-              />
+              <div key={i} className="rounded-sm" style={{ height: 8, backgroundColor: 'rgba(90,45,15,0.8)' }} />
             ))}
           </div>
         </div>
-        <div
-          className="h-1.5"
-          style={{ background: 'linear-gradient(90deg, #C9A84C44, #FFF3CD55, #C9A84C44)' }}
-        />
+        {/* Folded corner */}
+        <svg className="absolute bottom-0 right-0" width="12" height="10" viewBox="0 0 12 10" aria-hidden="true">
+          <path d="M 0 10 L 12 0 L 12 10 Z" fill="rgba(0,0,0,0.25)" />
+        </svg>
+        <div className="h-1.5" style={{ background: 'linear-gradient(90deg, #C9A84C44, #FFF3CD55, #C9A84C44)' }} />
       </div>
     </div>
   );
@@ -57,47 +63,34 @@ function ChocolateWrapper() {
 function TinyRose() {
   return (
     <svg width="44" height="56" viewBox="0 0 44 56" aria-label="Pressed rose" role="img" style={{ rotate: '5deg' }}>
-      {/* Stem */}
       <path d="M 22 54 C 20 46, 18 38, 20 28" stroke="#6B7C3A" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55" />
-      {/* Small leaf */}
       <ellipse cx="16" cy="38" rx="5" ry="2.5" transform="rotate(-40 16 38)" fill="#7B8C42" opacity="0.38" />
-      {/* Petals — layered ellipses */}
       <ellipse cx="22" cy="20" rx="10" ry="7" fill="#C98A95" opacity="0.28" />
       <ellipse cx="22" cy="18" rx="8"  ry="6"  fill="#D4A0A8" opacity="0.32" />
       <ellipse cx="22" cy="16" rx="6"  ry="4.5" fill="#DDB0B8" opacity="0.38" />
       <ellipse cx="22" cy="15" rx="4"  ry="3.5" fill="#E8C0C6" opacity="0.45" />
-      {/* Centre */}
       <circle cx="22" cy="14" r="2.5" fill="#C9A84C" opacity="0.50" />
     </svg>
   );
 }
 
-function TobbyPhoto() {
+function TobbyPolaroid() {
   return (
     <div
       className="bg-white border border-charcoal/10 shadow-sm"
-      style={{ padding: '4px 4px 14px 4px', width: 62, rotate: '2.5deg' }}
+      style={{ padding: '4px 4px 14px 4px', width: 68, rotate: '2.5deg' }}
     >
-      <div
-        className="flex flex-col items-center justify-center bg-[#EDE4D8]"
-        style={{ width: 54, height: 50 }}
-      >
-        {/* Tobby silhouette — simple dog shape */}
-        <svg width="32" height="30" viewBox="0 0 32 30" aria-label="Tobby" role="img">
-          {/* Body */}
-          <ellipse cx="16" cy="20" rx="9" ry="7" fill="#8B6914" opacity="0.30" />
-          {/* Head */}
-          <circle cx="16" cy="11" r="6" fill="#8B6914" opacity="0.30" />
-          {/* Ears */}
-          <ellipse cx="10" cy="8" rx="3" ry="4.5" fill="#7A5C10" opacity="0.28" />
-          <ellipse cx="22" cy="8" rx="3" ry="4.5" fill="#7A5C10" opacity="0.28" />
-          {/* Tail */}
-          <path d="M 24 18 Q 30 12, 28 8" stroke="#8B6914" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.25" />
-          {/* Paws */}
-          <ellipse cx="10" cy="27" rx="3" ry="2" fill="#7A5C10" opacity="0.22" />
-          <ellipse cx="22" cy="27" rx="3" ry="2" fill="#7A5C10" opacity="0.22" />
-        </svg>
-      </div>
+      <img
+        src={tobbyPhoto}
+        alt="Tobby"
+        style={{
+          width: 60, height: 56,
+          objectFit: 'cover',
+          objectPosition: 'center',
+          display: 'block',
+          filter: 'sepia(0.10) contrast(1.03)',
+        }}
+      />
       <p className="font-handwriting text-[7px] text-charcoal/30 text-center mt-1.5">Tobby</p>
     </div>
   );
@@ -106,7 +99,6 @@ function TobbyPhoto() {
 function TempleReceipt() {
   return (
     <div style={{ width: 78, rotate: '-3deg' }}>
-      {/* Torn top */}
       <svg width="78" height="8" viewBox="0 0 78 8" className="w-full block" aria-hidden="true">
         <path d="M0,6 C8,1 16,6 24,3 C32,0 40,5 48,2 C56,0 64,5 78,4 L78,8 L0,8 Z" fill="#FDFAF4" />
       </svg>
@@ -121,7 +113,6 @@ function TempleReceipt() {
           <p className="font-handwriting text-[7px] text-charcoal/22 italic text-right">2025</p>
         </div>
       </div>
-      {/* Torn bottom */}
       <svg width="78" height="8" viewBox="0 0 78 8" className="w-full block" aria-hidden="true">
         <path d="M0,0 C10,5 20,1 30,4 C40,7 50,2 60,5 C68,7 72,3 78,2 L78,0 Z" fill="#FDFAF4" />
       </svg>
@@ -129,13 +120,32 @@ function TempleReceipt() {
   );
 }
 
-// ─── Real photo — tucked into the last page ───────────────────────────────────
+function LittleNote() {
+  return (
+    <div
+      style={{
+        backgroundColor: '#FFF0F0',
+        width: 80,
+        padding: '7px 9px 12px 9px',
+        rotate: '1.5deg',
+        boxShadow: '0 2px 7px rgba(0,0,0,0.06)',
+      }}
+    >
+      <p className="font-handwriting text-[10px] text-charcoal/50 italic leading-snug">
+        ride safe 🙏<br />
+        <span className="text-[8.5px] text-charcoal/32">— always</span>
+      </p>
+    </div>
+  );
+}
+
+// ─── Real photo — polaroid ────────────────────────────────────────────────────
 function RealPhoto() {
   return (
     <div
       className="bg-white shadow-md"
       style={{
-        padding: '4px 4px 18px 4px',
+        padding: '4px 4px 20px 4px',
         width: 110,
         rotate: '-2.5deg',
         boxShadow: '0 3px 12px rgba(0,0,0,0.10)',
@@ -147,46 +157,31 @@ function RealPhoto() {
         alt="Naresh and Meghana — a natural moment together"
         style={{ width: '100%', height: 96, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
       />
+      <p className="font-handwriting text-[7px] text-charcoal/28 text-center mt-1.5">us.</p>
     </div>
   );
 }
 
-function TinyBucketList() {
+// ─── Right page photos ────────────────────────────────────────────────────────
+function RightPhoto({ src, caption, rotate, objectPos }: {
+  src: string; caption: string; rotate: number; objectPos: string;
+}) {
   return (
     <div
-      className="bg-[#FDFCF8] border border-charcoal/10 shadow-sm px-3 py-2.5"
-      style={{ width: 92, rotate: '1.5deg' }}
+      className="bg-white shadow-sm"
+      style={{ padding: '4px 4px 18px 4px', width: 108, rotate: `${rotate}deg`, boxShadow: '0 3px 10px rgba(0,0,0,0.09)' }}
     >
-      <p className="font-sans text-[5px] tracking-[0.3em] uppercase text-charcoal/18 mb-1.5">Bucket List</p>
-      <div className="space-y-1">
-        {[
-          { text: 'Tirupati ride', done: true },
-          { text: 'IELTS', done: false },
-          { text: 'Abroad together', done: false },
-        ].map(({ text, done }, i) => (
-          <p key={i} className="font-handwriting text-[8.5px] text-charcoal/42 flex items-center gap-1.5">
-            <span className="text-[10px] text-charcoal/28">{done ? '☑' : '☐'}</span>
-            <span className={done ? 'line-through text-charcoal/22' : ''}>{text}</span>
-          </p>
-        ))}
-      </div>
+      <img
+        src={src}
+        alt={caption}
+        style={{ width: '100%', height: 86, objectFit: 'cover', objectPosition: objectPos, display: 'block', filter: 'sepia(0.06) contrast(1.02)' }}
+      />
+      <p className="font-handwriting text-[7.5px] text-charcoal/30 text-center mt-1.5">{caption}</p>
     </div>
   );
 }
 
-// ─── The seven tiny objects, each arriving at its own pace ────────────────────
-const OBJECTS: Array<{ el: React.ReactNode; delay: number; label: string }> = [
-  { el: <BreakfastSticky />,  delay: 1.4,  label: 'Breakfast sticky — Had breakfast?' },
-  { el: <ChocolateWrapper />, delay: 2.8,  label: 'Chocolate wrapper' },
-  { el: <TinyRose />,         delay: 4.2,  label: 'Pressed rose' },
-  { el: <TobbyPhoto />,       delay: 5.6,  label: 'Tobby photo' },
-  { el: <TempleReceipt />,    delay: 7.0,  label: 'Temple receipt from Tirupati' },
-  { el: <TinyBucketList />,   delay: 8.4,  label: 'Tiny bucket list' },
-  { el: <RealPhoto />,        delay: 9.8,  label: 'A photo of the two of us' },
-];
-
-// ─── Right page — reflections ─────────────────────────────────────────────────
-// Each block is a poem fragment: [text, font class, delay, opacity class]
+// ─── Reflections — the poem ────────────────────────────────────────────────────
 type ReflectionLine = {
   text: string;
   font: 'display' | 'letter' | 'handwriting';
@@ -196,37 +191,25 @@ type ReflectionLine = {
 };
 
 const REFLECTIONS: ReflectionLine[] = [
-  { text: 'We thought', font: 'letter', delay: 2.0 },
-  { text: 'the important memories', font: 'letter', delay: 2.6 },
-  { text: 'would be', font: 'letter', delay: 3.0 },
-  { text: 'birthdays... trips...', font: 'letter', delay: 3.6, dim: true },
-  { text: 'big surprises.', font: 'letter', delay: 4.0, dim: true },
-  { pause: true, text: '', font: 'letter', delay: 4.4 },
-  { text: 'Instead...', font: 'handwriting', delay: 5.4 },
-  { pause: true, text: '', font: 'letter', delay: 5.6 },
-  { text: 'they became', font: 'letter', delay: 6.4 },
-  { pause: true, text: '', font: 'letter', delay: 6.6 },
-  { text: 'drink water.', font: 'handwriting', delay: 7.2 },
-  { text: 'ride safe.', font: 'handwriting', delay: 7.8 },
-  { text: 'had breakfast.', font: 'handwriting', delay: 8.4 },
-  { text: 'good night.', font: 'handwriting', delay: 9.0 },
-  { text: 'see you tomorrow.', font: 'handwriting', delay: 9.6 },
-  { pause: true, text: '', font: 'letter', delay: 10.2 },
-  { text: 'If someone asked me', font: 'letter', delay: 11.0 },
-  { text: 'what I remember most...', font: 'letter', delay: 11.5 },
-  { pause: true, text: '', font: 'letter', delay: 11.9 },
-  { text: 'it wouldn\'t be', font: 'letter', delay: 12.5, dim: true },
-  { text: 'the special days.', font: 'letter', delay: 12.9, dim: true },
-  { pause: true, text: '', font: 'letter', delay: 13.3 },
-  { text: 'It would be', font: 'letter', delay: 14.0 },
-  { text: 'the ordinary ones.', font: 'handwriting', delay: 14.5 },
-  { pause: true, text: '', font: 'letter', delay: 15.0 },
-  { text: 'Love', font: 'display', delay: 16.0 },
-  { text: 'was never', font: 'letter', delay: 16.5 },
-  { text: 'one big moment.', font: 'letter', delay: 16.9, dim: true },
-  { pause: true, text: '', font: 'letter', delay: 17.3 },
-  { text: 'It was', font: 'letter', delay: 17.9 },
-  { text: 'thousands of tiny ones.', font: 'display', delay: 18.5 },
+  { text: 'We thought', font: 'letter', delay: 3.8 },
+  { text: 'the important memories', font: 'letter', delay: 4.3 },
+  { text: 'would be', font: 'letter', delay: 4.7 },
+  { text: 'birthdays... trips...', font: 'letter', delay: 5.2, dim: true },
+  { text: 'big surprises.', font: 'letter', delay: 5.6, dim: true },
+  { pause: true, text: '', font: 'letter', delay: 6.0 },
+  { text: 'Instead...', font: 'handwriting', delay: 6.8 },
+  { pause: true, text: '', font: 'letter', delay: 7.0 },
+  { text: 'drink water.', font: 'handwriting', delay: 7.6 },
+  { text: 'ride safe.', font: 'handwriting', delay: 8.1 },
+  { text: 'had breakfast.', font: 'handwriting', delay: 8.6 },
+  { text: 'good night.', font: 'handwriting', delay: 9.1 },
+  { pause: true, text: '', font: 'letter', delay: 9.6 },
+  { text: 'Love', font: 'display', delay: 10.4 },
+  { text: 'was never', font: 'letter', delay: 10.9 },
+  { text: 'one big moment.', font: 'letter', delay: 11.3, dim: true },
+  { pause: true, text: '', font: 'letter', delay: 11.7 },
+  { text: 'It was', font: 'letter', delay: 12.3 },
+  { text: 'thousands of tiny ones.', font: 'display', delay: 12.9 },
 ];
 
 // ─── Chapter Seven ────────────────────────────────────────────────────────────
@@ -248,7 +231,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
       transition={{ duration: 1.8, ease: 'easeInOut' }}
       aria-label="Chapter Seven: The Little Things We Never Want To Forget"
     >
-      {/* Very soft morning warmth — barely there */}
+      {/* Very soft morning warmth */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -258,7 +241,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
         aria-hidden="true"
       />
 
-      {/* Paper texture — cream noise */}
+      {/* Paper texture */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{
@@ -270,10 +253,10 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
       <div className="relative z-10 max-w-6xl mx-auto min-h-full p-6 md:p-14 flex flex-col md:flex-row gap-0">
 
-        {/* ═══════════ LEFT PAGE ═══════════ */}
+        {/* ═══════════ LEFT PAGE — objects scattered like an emptied backpack ═════ */}
         <div
-          className="flex-1 md:border-r md:border-charcoal/8 md:pr-14 py-10 flex flex-col"
-          style={{ minHeight: '100%' }}
+          className="flex-1 md:border-r md:border-charcoal/8 md:pr-14 py-10"
+          style={{ minHeight: '100%', position: 'relative' }}
         >
           {/* Chapter label */}
           <motion.p
@@ -283,7 +266,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             Chapter Seven
           </motion.p>
 
-          {/* Large handwritten title — the whole chapter name */}
+          {/* Large handwritten title */}
           <motion.h2
             {...fadeIn(0.7, 2.4)}
             className="font-handwriting text-[2.4rem] md:text-[2.8rem] text-charcoal/72 leading-snug"
@@ -294,35 +277,98 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             To Forget
           </motion.h2>
 
-          {/* Breathing space */}
-          <div className="flex-1" style={{ minHeight: 48 }} aria-hidden="true" />
+          {/* Objects — scattered absolutely across the page */}
+          <div className="relative mt-10" style={{ minHeight: 580 }}>
 
-          {/* Seven tiny objects — appear one by one, no interaction */}
-          <div
-            className="flex flex-wrap gap-5 items-end"
-            role="list"
-            aria-label="Seven little memories"
-          >
-            {OBJECTS.map(({ el, delay, label }, i) => (
-              <motion.div
-                key={i}
-                {...fadeIn(delay, 2.8)}
-                role="listitem"
-                aria-label={label}
-              >
-                {el}
-              </motion.div>
-            ))}
+            {/* Pressed rose — top left, arrives early */}
+            <motion.div
+              {...fadeIn(1.4, 2.8)}
+              className="absolute"
+              style={{ top: 0, left: 8 }}
+              aria-label="Pressed rose"
+            >
+              <TinyRose />
+            </motion.div>
+
+            {/* Real photo — top area, slightly overlapping rose */}
+            <motion.div
+              {...fadeIn(2.2, 2.8)}
+              className="absolute"
+              style={{ top: 10, left: 48 }}
+              aria-label="A photo of the two of us"
+            >
+              <RealPhoto />
+            </motion.div>
+
+            {/* Temple receipt / old ticket */}
+            <motion.div
+              {...fadeIn(3.6, 2.8)}
+              className="absolute"
+              style={{ top: 8, right: 6 }}
+              aria-label="Temple receipt from Tirupati"
+            >
+              <TempleReceipt />
+            </motion.div>
+
+            {/* Tobby polaroid — mid left */}
+            <motion.div
+              {...fadeIn(5.0, 2.8)}
+              className="absolute"
+              style={{ top: 156, left: 0 }}
+              aria-label="Tobby photo"
+            >
+              <TobbyPolaroid />
+            </motion.div>
+
+            {/* Breakfast sticky — mid, overlapping Tobby a little */}
+            <motion.div
+              {...fadeIn(6.4, 2.8)}
+              className="absolute"
+              style={{ top: 148, left: 66 }}
+              aria-label="Breakfast sticky — Had breakfast?"
+            >
+              <BreakfastSticky />
+            </motion.div>
+
+            {/* Little note — lower right of cluster */}
+            <motion.div
+              {...fadeIn(7.8, 2.8)}
+              className="absolute"
+              style={{ top: 162, right: 4 }}
+              aria-label="Ride safe note"
+            >
+              <LittleNote />
+            </motion.div>
+
+            {/* Chocolate wrapper — lower left, standalone */}
+            <motion.div
+              {...fadeIn(9.2, 2.8)}
+              className="absolute"
+              style={{ top: 290, left: 14 }}
+              aria-label="Chocolate wrapper"
+            >
+              <ChocolateWrapper />
+            </motion.div>
+
+            {/* Ghost handwriting — barely visible, near bottom */}
+            <motion.div
+              className="absolute pointer-events-none select-none"
+              style={{ bottom: 32, left: 6 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: shouldReduceMotion ? 0.4 : 11.0, duration: 3.0 }}
+              aria-hidden="true"
+            >
+              <p className="font-handwriting text-[8px] text-charcoal/12 italic" style={{ rotate: '-1deg' }}>
+                every ordinary day...
+              </p>
+            </motion.div>
+
           </div>
-
-          {/* Breathing space below */}
-          <div className="h-10" aria-hidden="true" />
         </div>
 
-        {/* ═══════════ RIGHT PAGE ═══════════ */}
+        {/* ═══════════ RIGHT PAGE — three photos + quote + hidden interaction ══════ */}
         <div className="flex-1 md:pl-14 py-10 flex flex-col">
 
-          {/* Chapter byline — matches left page rhythm */}
           <motion.p
             {...fadeIn(0.3, 1.6)}
             className="font-sans text-[9px] tracking-[0.42em] uppercase text-coffee/28 mb-5"
@@ -330,11 +376,54 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             June 2026
           </motion.p>
 
-          {/* Reflections — each line arrives in its own time */}
+          {/* Three scattered photos at the top of the right page */}
+          <div className="relative mb-8" style={{ minHeight: 140 }}>
+            {/* Photo 1 — far left, tilted left */}
+            <motion.div
+              {...fadeIn(1.2, 2.4)}
+              className="absolute"
+              style={{ top: 0, left: 0 }}
+            >
+              <RightPhoto
+                src={photoGreenSaree}
+                caption="green saree."
+                rotate={-3}
+                objectPos="center top"
+              />
+            </motion.div>
+            {/* Photo 2 — centre, rotated right, overlapping first */}
+            <motion.div
+              {...fadeIn(1.8, 2.4)}
+              className="absolute"
+              style={{ top: 14, left: 80 }}
+            >
+              <RightPhoto
+                src={usPhoto}
+                caption="us."
+                rotate={2}
+                objectPos="top center"
+              />
+            </motion.div>
+            {/* Photo 3 — right, tilted left, overlapping second */}
+            <motion.div
+              {...fadeIn(2.4, 2.4)}
+              className="absolute"
+              style={{ top: 4, right: 0 }}
+            >
+              <RightPhoto
+                src={photoTemple}
+                caption="together."
+                rotate={-1.5}
+                objectPos="center top"
+              />
+            </motion.div>
+          </div>
+
+          {/* Reflections poem */}
           <div className="flex flex-col gap-0.5 max-w-sm" role="article" aria-label="Reflections">
             {REFLECTIONS.map((line, i) => {
               if (line.pause) {
-                return <div key={i} className="h-5" aria-hidden="true" />;
+                return <div key={i} className="h-4" aria-hidden="true" />;
               }
               const fontClass =
                 line.font === 'display'
@@ -342,7 +431,6 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
                   : line.font === 'handwriting'
                   ? 'font-handwriting text-2xl md:text-3xl text-coffee/72 italic'
                   : `font-letter text-xl md:text-2xl ${line.dim ? 'text-charcoal/35' : 'text-charcoal/55'}`;
-
               return (
                 <motion.p
                   key={i}
@@ -356,11 +444,11 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           </div>
 
           {/* Breathing space */}
-          <div className="flex-1" style={{ minHeight: 60 }} aria-hidden="true" />
+          <div className="flex-1" style={{ minHeight: 48 }} aria-hidden="true" />
 
-          {/* Final line — before the turn */}
+          {/* Final lines */}
           <motion.div
-            {...fadeIn(20.0, 3.0)}
+            {...fadeIn(14.8, 3.0)}
             className="max-w-xs"
           >
             <div className="w-16 border-t border-charcoal/12 mb-5" aria-hidden="true" />
@@ -378,9 +466,9 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             </p>
           </motion.div>
 
-          {/* Hidden interaction — almost invisible, personal, very bottom */}
+          {/* Hidden interaction — whispered, barely visible */}
           <motion.div
-            {...fadeIn(22.5, 3.5)}
+            {...fadeIn(17.0, 3.5)}
             className="mt-12 mb-2"
           >
             <button
@@ -394,7 +482,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           </motion.div>
 
           {/* Back — barely visible */}
-          <motion.div {...fadeIn(23.0, 2.0)}>
+          <motion.div {...fadeIn(17.5, 2.0)}>
             <button
               onClick={onPrev}
               className="font-sans text-[9px] tracking-widest uppercase text-charcoal/14 hover:text-charcoal/32 transition-colors duration-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden"
