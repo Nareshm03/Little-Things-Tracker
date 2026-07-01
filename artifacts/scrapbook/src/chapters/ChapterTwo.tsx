@@ -27,7 +27,7 @@ function DateDivider({ date, delay = 0 }: { date: string; delay?: number }) {
       className="flex items-center gap-3 my-4"
     >
       <div className="w-4 h-px bg-charcoal/10" />
-      <p className="font-handwriting text-xs text-charcoal/38 whitespace-nowrap tracking-wide">{date}</p>
+      <p className="font-handwriting text-[15px] text-charcoal/38 whitespace-nowrap tracking-wide">{date}</p>
       <div className="flex-1 h-px bg-charcoal/12" />
     </motion.div>
   );
@@ -193,7 +193,7 @@ function RecipeArtifact({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 170 }}
+      style={{ width: 220 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-5 washi-tape rotate-[2deg]" />
       <div
@@ -239,7 +239,7 @@ function StickyArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 178 }}
+      style={{ width: 224 }}
     >
       <div
         className="bg-[#FEF08A] px-4 py-4"
@@ -264,7 +264,7 @@ function CampusDoodle({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 162 }}
+      style={{ width: 206 }}
     >
       <div className="absolute -top-3 left-3 w-12 h-5 washi-tape -rotate-[1deg]" />
       <div
@@ -432,7 +432,7 @@ function FebQuoteNote({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 162 }}
+      style={{ width: 206 }}
       className="relative"
     >
       {/* Folded receipt — just cream paper, no border */}
@@ -641,37 +641,37 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
           <div className="space-y-0.5 flex-1">
             <DateDivider date="14 February 2026" delay={0.8} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/42 pl-2 pb-3">The first one.</motion.p>
+              className="font-handwriting text-lg text-charcoal/42 pl-2 pb-3">The first one.</motion.p>
 
             <DateDivider date="15 February 2026" delay={1.4} />
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7, duration: 1 }}
-              className="pl-2 pb-3 space-y-0.5">
-              <p className="font-handwriting text-sm text-charcoal/38">She said dark chocolate.</p>
-              <p className="font-handwriting text-sm text-charcoal/32 italic">Then she dreamed of a kitchen.</p>
+              className="pl-2 pb-3 space-y-1">
+              <p className="font-handwriting text-lg text-charcoal/38">She said dark chocolate.</p>
+              <p className="font-handwriting text-lg text-charcoal/32 italic">Then she dreamed of a kitchen.</p>
             </motion.div>
 
             <DateDivider date="16 February 2026" delay={2.0} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.3, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/38 pl-2 pb-3">4:30 PM at the canteen entrance.</motion.p>
+              className="font-handwriting text-lg text-charcoal/38 pl-2 pb-3">4:30 PM at the canteen entrance.</motion.p>
 
             <DateDivider date="20 February 2026" delay={2.6} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.9, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/35 pl-2 pb-3 italic">She stopped using her brain.<br />It's fine. Same.</motion.p>
+              className="font-handwriting text-lg text-charcoal/35 pl-2 pb-3 italic">She stopped using her brain.<br />It's fine. Same.</motion.p>
 
             <DateDivider date="23 February 2026" delay={3.2} />
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5, duration: 1 }}
               className="pl-2 pb-3">
-              <p className="font-handwriting text-sm text-charcoal/38">Sikkina Unde.</p>
-              <p className="font-handwriting text-sm text-coffee/55">Bangara.</p>
+              <p className="font-handwriting text-lg text-charcoal/38">Sikkina Unde.</p>
+              <p className="font-handwriting text-lg text-coffee/55">Bangara.</p>
             </motion.div>
 
             <DateDivider date="26 February 2026" delay={3.8} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4.1, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/35 pl-2 pb-3 italic">"...so good good good good good."</motion.p>
+              className="font-handwriting text-lg text-charcoal/35 pl-2 pb-3 italic">"...so good good good good good."</motion.p>
 
             <DateDivider date="27 February 2026" delay={4.4} />
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4.7, duration: 1 }}
-              className="font-handwriting text-sm text-charcoal/30 pl-2 italic">Something was forgotten.</motion.p>
+              className="font-handwriting text-lg text-charcoal/30 pl-2 italic">Something was forgotten.</motion.p>
           </div>
 
           {/* Closing — centered, tiny, lots of space around it */}
@@ -681,7 +681,7 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
             className="mt-16 mb-8 flex flex-col items-center text-center"
           >
             <p className="font-quote text-[16px] text-charcoal/28 mb-3 tracking-widest">*</p>
-            <p className="font-quote text-sm text-charcoal/42 leading-[2.2] italic">
+            <p className="font-quote text-base text-charcoal/42 leading-[2.2] italic">
               February was over.<br />
               <span className="text-charcoal/32">Somehow,</span><br />
               <span className="text-charcoal/38">it already felt like home.</span>

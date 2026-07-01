@@ -675,10 +675,10 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 4, duration: 2.4 }}
             >
-              <p className="font-quote text-sm text-charcoal/28 italic leading-relaxed">
+              <p className="font-quote text-base text-charcoal/28 italic leading-relaxed">
                 One day...<br />
                 <span className="text-charcoal/22">we stopped noticing</span><br />
-                <span className="text-charcoal/18 text-xs">these little things.</span>
+                <span className="text-charcoal/18 text-sm">these little things.</span>
               </p>
             </motion.div>
 

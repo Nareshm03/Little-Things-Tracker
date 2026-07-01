@@ -464,7 +464,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 1.6, duration: 1 }}
-            className="font-letter text-sm text-charcoal/52 ml-2 leading-relaxed"
+            className="font-letter text-base text-charcoal/52 ml-2 leading-relaxed"
           >
             Some places become special<br />
             <span className="ml-4 text-charcoal/38">because of who stood beside you.</span>
@@ -543,8 +543,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoFitcheckThem}
                 alt="Fitcheck together"
-                width={175}
-                height={140}
+                width={218}
+                height={174}
                 rotate={-2.5}
                 delay={1.2}
                 caption="just us."
@@ -561,8 +561,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoDesignTeam}
                 alt="Swayam design team"
-                width={195}
-                height={150}
+                width={247}
+                height={190}
                 rotate={1.5}
                 delay={1.4}
                 caption="her team."
@@ -603,8 +603,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoSwayam}
                 alt="Swayam Fest together"
-                width={192}
-                height={152}
+                width={255}
+                height={203}
                 rotate={2}
                 delay={1.5}
                 caption="late April."

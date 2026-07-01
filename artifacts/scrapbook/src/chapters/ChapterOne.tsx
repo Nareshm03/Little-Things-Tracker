@@ -38,7 +38,7 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
       initial={{ opacity: 0, rotate: -1.5, y: 8 }}
       animate={{ opacity: 1, rotate: -1.5, y: 0 }}
       transition={{ delay, duration: 1 }}
-      className="relative max-w-[210px]"
+      className="relative max-w-[248px]"
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
       {/* Printed-screenshot style — no UI toggle */}
@@ -70,7 +70,7 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9 }}
-              className="font-handwriting text-sm text-coffee/70 mt-3 pt-3 border-t border-charcoal/10 leading-snug"
+              className="font-handwriting text-base text-coffee/70 mt-3 pt-3 border-t border-charcoal/10 leading-snug"
             >
               "Some conversations deserved to stay forever."
             </motion.p>
@@ -161,7 +161,7 @@ function MeghanaQuoteSlip({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 8, rotate: -1.5 }}
       animate={{ opacity: 1, y: 0, rotate: -1.5 }}
       transition={{ delay, duration: 1 }}
-      className="relative max-w-[192px]"
+      className="relative max-w-[232px]"
     >
       <div className="absolute -top-2.5 left-4 w-12 h-4 washi-tape rotate-[1deg]" />
       <div
@@ -209,7 +209,7 @@ function PhotoAlbumCard({ delay }: { delay: number }) {
             </div>
           )}
         </div>
-        <p className="font-handwriting text-sm text-center mt-2 text-charcoal/70">
+        <p className="font-handwriting text-base text-center mt-2 text-charcoal/70">
           Shared Album
         </p>
       </motion.button>
@@ -223,10 +223,10 @@ function PhotoAlbumCard({ delay }: { delay: number }) {
             transition={{ duration: 0.7 }}
             className="mt-3 pl-2"
           >
-            <p className="font-handwriting text-sm text-charcoal/65 leading-snug">
+            <p className="font-handwriting text-base text-charcoal/65 leading-snug">
               This was the beginning of our collection.
             </p>
-            <p className="font-handwriting text-xs text-coffee/50 mt-1 italic">
+            <p className="font-handwriting text-sm text-coffee/50 mt-1 italic">
               First photo. Definitely not the last.
             </p>
           </motion.div>
@@ -244,7 +244,7 @@ function HackathonCard({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.9 }}
-      className="bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm max-w-[196px]"
+      className="bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm max-w-[248px]"
       style={{ rotate: '1deg' }}
     >
       <div className="absolute -top-3 right-4 w-12 h-5 washi-tape rotate-[2deg]" />
@@ -303,11 +303,11 @@ function FirstOutingTimeline({ delay }: { delay: number }) {
             {/* Dot */}
             <div className="absolute -left-5 top-1.5 w-2.5 h-2.5 rounded-full bg-golden/50 border border-golden/30" />
             {stop.time && (
-              <p className="font-handwriting text-xs text-charcoal/38 leading-none">
+              <p className="font-handwriting text-[15px] text-charcoal/38 leading-none">
                 {stop.time}
               </p>
             )}
-            <p className={`font-sans text-sm text-charcoal/75 ${stop.time ? 'mt-0.5' : 'mt-0'}`}>
+            <p className={`font-sans text-base text-charcoal/75 ${stop.time ? 'mt-0.5' : 'mt-0'}`}>
               {stop.label}
             </p>
           </motion.div>

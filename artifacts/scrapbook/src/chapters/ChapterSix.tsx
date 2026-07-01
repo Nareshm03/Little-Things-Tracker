@@ -395,7 +395,7 @@ function IELTSNotes({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 172, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
+      style={{ width: 214, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
       className="relative border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Aged paper tint — slight yellowing from being kept */}
@@ -435,7 +435,7 @@ function VelouraSketch({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 165 }}
+      style={{ width: 206 }}
     >
       {/* Logo sketch paper — deliberately not centred */}
       <div
@@ -489,7 +489,7 @@ function NotebookFragment({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 185, rotate: '0.5deg' }}
+      style={{ width: 246, rotate: '0.5deg' }}
       className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Spiral holes */}
@@ -751,12 +751,12 @@ export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 4.4, duration: 2.6 }}
             >
-              <p className="font-quote text-sm text-charcoal/25 italic leading-relaxed">
+              <p className="font-quote text-base text-charcoal/25 italic leading-relaxed">
                 The future<br />
                 <span className="text-charcoal/19">was no longer</span><br />
-                <span className="text-charcoal/15 text-xs">something we imagined.</span>
+                <span className="text-charcoal/15 text-sm">something we imagined.</span>
               </p>
-              <p className="font-quote text-xs text-charcoal/12 italic mt-2">
+              <p className="font-quote text-sm text-charcoal/12 italic mt-2">
                 It had started.
               </p>
             </motion.div>
