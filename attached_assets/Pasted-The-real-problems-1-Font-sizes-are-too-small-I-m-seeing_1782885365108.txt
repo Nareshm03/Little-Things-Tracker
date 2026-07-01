@@ -1,0 +1,235 @@
+The real problems
+❌ 1. Font sizes are too small
+
+I'm seeing fonts around 8px–11px in many places.
+
+On a laptop that's almost impossible to comfortably read.
+
+Use something like:
+
+Titles: 52–64px
+Chapter subtitles: 22–28px
+Main handwritten notes: 18–22px
+Body text: 16–18px
+Captions: 14–16px
+Tiny annotations: 11–12px minimum
+
+Nothing important should ever be below 14px.
+
+❌ 2. Objects are too tiny
+
+Example:
+
+Chapter 4.
+
+You have 7–8 photos.
+
+Each photo occupies maybe
+
+140 × 180
+
+on a huge page.
+
+That's way too small.
+
+Instead:
+
+Hero photo = 30–40% of the page
+Secondary photos = larger
+Supporting photos = medium
+
+Think album, not thumbnail gallery.
+
+❌ 3. Too much empty space
+
+Some pages are literally
+
+photo
+
+
+
+photo
+
+
+
+quote
+
+
+
+photo
+
+That's not breathing room.
+
+That's wasted canvas.
+
+❌ 4. Chapters don't fill the spread
+
+You're designing for
+
+1920px
+
+but only using
+
+900px
+
+of it.
+
+The scrapbook should fill almost the entire spread.
+
+What I'd change
+
+Instead of
+
+---------------------------
+
+title
+
+               photo
+
+note
+
+                         photo
+
+                 quote
+
+---------------------------
+
+Do
+
+---------------------------
+
+BIG TITLE
+
+photo overlaps note
+
+ticket overlaps photo
+
+quote beside photo
+
+receipt underneath
+
+annotation
+
+---------------------------
+
+Much denser.
+
+Much richer.
+
+Chapter by chapter
+Chapter 1
+
+Increase:
+
+poem size
+chat screenshot
+sticky note
+
+by 30%.
+
+Chapter 2
+
+The envelope
+
+The recipe
+
+The chocolate
+
+Everything can be
+
+25% bigger.
+
+Chapter 3
+
+The letter should dominate.
+
+Movie ticket bigger.
+
+Photos bigger.
+
+Chapter 4
+
+This is the biggest offender.
+
+Photos are tiny.
+
+I'd make
+
+Hero photo almost 2× bigger.
+
+Chapter 5
+
+Notebook
+
+Recipe
+
+Coffee
+
+Everything bigger.
+
+Especially the handwritten recipe.
+
+Chapter 6
+
+Passport
+
+Notebook
+
+Calendar
+
+Bucket list
+
+Need to occupy the page.
+
+Currently they float.
+
+Chapter 7
+
+Half the page is empty.
+
+Increase photo sizes.
+
+Increase poem font.
+
+Reduce dead space.
+
+Give Replit this instead
+The scrapbook has become too minimal.
+
+DO NOT add more whitespace.
+
+Instead:
+
+Increase readability across every chapter.
+
+Rules:
+
+• Increase all body text by 20–35%.
+
+• Increase handwritten notes by 25%.
+
+• Increase photo sizes by 25–40%.
+
+• Hero photos should dominate the page.
+
+• Reduce unnecessary empty space.
+
+• Fill 75–85% of every spread with meaningful content.
+
+• Keep breathing room, but remove wasted space.
+
+• Scrapbooks are rich and layered—not sparse galleries.
+
+• Every chapter should comfortably fill the two-page spread.
+
+• No important text smaller than 14px.
+
+• Quotes should be immediately readable without zooming.
+
+• Captions should be readable from normal desktop viewing distance.
+
+• Rebalance layouts after scaling so nothing overlaps incorrectly.
+
+The goal is:
+
+When someone opens a chapter, they should immediately see and read the memories without leaning toward the screen o

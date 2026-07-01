@@ -27,7 +27,7 @@ function SunlightDrift() {
 function CoffeeMug() {
   const shouldReduceMotion = useReducedMotion();
   return (
-    <div className="relative" style={{ width: 100, height: 110 }}>
+    <div className="relative" style={{ width: 126, height: 138 }}>
       {/* Coffee ring stain — left on the page, not floating */}
       <svg
         width="80" height="22"
@@ -93,15 +93,15 @@ function ChocolateWrapper({ delay }: { delay: number }) {
   return (
     <motion.div
       className="relative"
-      style={{ width: 162, height: 58 }}
+      style={{ width: 210, height: 75 }}
       initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 42, damping: 10, delay } }}
     >
       {/* Content revealed beneath wrapper */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" aria-hidden={!peeled}>
-        <p className="font-letter text-[12px] text-charcoal/52 italic text-center leading-snug">
+        <p className="font-letter text-[15px] text-charcoal/52 italic text-center leading-snug">
           I think dark chocolate...<br />
-          <span className="text-charcoal/35 text-[11px]">you?</span>
+          <span className="text-charcoal/35 text-[14px]">you?</span>
         </p>
       </div>
 
@@ -146,7 +146,7 @@ function ChocolateWrapper({ delay }: { delay: number }) {
           {/* Shiny highlight along left edge */}
           <div className="absolute top-0 bottom-0 left-0 w-2.5" style={{ background: 'linear-gradient(90deg, rgba(192,185,168,0.14) 0%, transparent 100%)' }} aria-hidden="true" />
           <div className="absolute inset-0 flex items-center justify-center pt-1">
-            <p className="font-sans text-[7px] tracking-[0.25em] uppercase text-[#C0A882]/40 select-none">dark chocolate</p>
+            <p className="font-sans text-[14px] tracking-[0.25em] uppercase text-[#C0A882]/40 select-none">dark chocolate</p>
           </div>
         </div>
       </motion.div>
@@ -155,7 +155,7 @@ function ChocolateWrapper({ delay }: { delay: number }) {
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: delay + 1.6, duration: 1 }}
-          className="absolute -bottom-5 right-1 font-handwriting text-[7.5px] text-charcoal/18 italic pointer-events-none select-none"
+          className="absolute -bottom-5 right-1 font-handwriting text-[14px] text-charcoal/18 italic pointer-events-none select-none"
         >
           peel open ↑
         </motion.p>
@@ -171,7 +171,7 @@ function HandwrittenRecipe({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 154, rotate: '-1.5deg' }}
+      style={{ width: 200, rotate: '-1.5deg' }}
     >
       {/* Torn top edge */}
       <svg width="154" height="11" viewBox="0 0 154 11" className="w-full block" aria-hidden="true">
@@ -185,7 +185,7 @@ function HandwrittenRecipe({ delay }: { delay: number }) {
       >
         {/* Ruled lines */}
         <div className="absolute left-4 right-4" style={{ top: 11, height: '100%', backgroundImage: 'repeating-linear-gradient(to bottom, transparent, transparent 19px, rgba(180,160,140,0.12) 19px, rgba(180,160,140,0.12) 20px)', backgroundPosition: '0 24px' }} aria-hidden="true" />
-        <p className="font-sans text-[6px] tracking-[0.32em] uppercase text-charcoal/20 mb-2 relative">Mom's recipe</p>
+        <p className="font-sans text-[16px] tracking-[0.32em] uppercase text-charcoal/20 mb-2 relative">Mom's recipe</p>
         <p className="font-handwriting text-[15px] text-charcoal/70 leading-tight mb-2.5 relative">Fish Curry</p>
         <div className="space-y-1 relative">
           {[
@@ -194,9 +194,9 @@ function HandwrittenRecipe({ delay }: { delay: number }) {
             { item: 'curry leaves', checked: true },
             { item: 'kokum', checked: false },
           ].map(({ item, checked }) => (
-            <p key={item} className="font-handwriting text-[11px] text-charcoal/55 flex items-center gap-1.5 leading-tight">
+            <p key={item} className="font-handwriting text-[14px] text-charcoal/55 flex items-center gap-1.5 leading-tight">
               <span
-                className="font-handwriting text-[13px] leading-none"
+                className="font-handwriting text-[16px] leading-none"
                 style={{ color: checked ? 'rgba(60,120,60,0.65)' : 'rgba(80,60,40,0.30)' }}
               >
                 {checked ? '✓' : '○'}
@@ -207,7 +207,7 @@ function HandwrittenRecipe({ delay }: { delay: number }) {
         </div>
         {/* Divider */}
         <div className="border-t border-dashed border-charcoal/12 mt-3 pt-2.5 relative">
-          <p className="font-handwriting text-[11px] text-[#8B6020]/65 italic leading-snug">
+          <p className="font-handwriting text-[14px] text-[#8B6020]/65 italic leading-snug">
             We'll cook together.
           </p>
         </div>
@@ -252,7 +252,7 @@ function GroceryNote({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 136, rotate: '2.5deg' }}
+      style={{ width: 176, rotate: '2.5deg' }}
     >
       {/* torn top edge */}
       <svg width="136" height="12" viewBox="0 0 136 12" className="w-full block" aria-hidden="true">
@@ -272,7 +272,7 @@ function GroceryNote({ delay }: { delay: number }) {
           }}
           aria-hidden="true"
         />
-        <p className="font-handwriting text-[8px] text-charcoal/30 mb-2 tracking-wider relative">this week —</p>
+        <p className="font-handwriting text-[14px] text-charcoal/30 mb-2 tracking-wider relative">this week —</p>
         <div className="space-y-1">
           {[
             { text: 'fish curry 🐟', checked: true },
@@ -280,16 +280,16 @@ function GroceryNote({ delay }: { delay: number }) {
             { text: 'paratha', checked: true },
             { text: 'curd rice', checked: false },
           ].map(({ text, checked }, i) => (
-            <p key={i} className="font-handwriting text-[11px] text-charcoal/55 leading-relaxed flex items-center gap-1.5">
-              <span className="text-charcoal/38 text-[13px]">{checked ? '☑' : '☐'}</span>
+            <p key={i} className="font-handwriting text-[14px] text-charcoal/55 leading-relaxed flex items-center gap-1.5">
+              <span className="text-charcoal/38 text-[16px]">{checked ? '☑' : '☐'}</span>
               <span style={{ textDecoration: checked ? 'line-through' : 'none', textDecorationColor: 'rgba(60,40,20,0.25)' }}>{text}</span>
             </p>
           ))}
           <div className="flex items-baseline gap-1.5 pt-0.5">
-            <p className="font-handwriting text-[11px] text-charcoal/50 flex items-center gap-1.5">
-              <span className="text-[13px]">☐</span> momos 🥟
+            <p className="font-handwriting text-[14px] text-charcoal/50 flex items-center gap-1.5">
+              <span className="text-[16px]">☐</span> momos 🥟
             </p>
-            <p className="font-handwriting text-[8px] text-[#C9A84C]/70 italic">(after exams!!)</p>
+            <p className="font-handwriting text-[14px] text-[#C9A84C]/70 italic">(after exams!!)</p>
           </div>
         </div>
       </div>
@@ -303,7 +303,7 @@ function MathNotebook({ delay }: { delay: number }) {
     <motion.div
       initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 224, rotate: '1deg' }}
+      style={{ width: 290, rotate: '1deg' }}
       className="relative bg-white border border-charcoal/12 shadow-sm overflow-hidden"
     >
       {/* Spiral holes */}
@@ -340,7 +340,7 @@ function MathNotebook({ delay }: { delay: number }) {
           ].map((line, i) => (
             <div key={i} className="h-6 border-b border-[#C0CCE0]/18 flex items-center">
               {line.text ? (
-                <p className={`font-handwriting text-[9px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}
+                <p className={`font-handwriting text-[15px] text-charcoal/${line.opacity} ${line.italic ? 'italic' : ''}`}
                   style={{ textDecoration: line.strikethrough ? 'line-through' : 'none', textDecorationColor: 'rgba(60,40,20,0.35)' }}>
                   {line.text}
                 </p>
@@ -350,7 +350,7 @@ function MathNotebook({ delay }: { delay: number }) {
         </div>
         {/* Small annotation bubble — "??" */}
         <p
-          className="absolute font-handwriting text-[9px] text-charcoal/22 pointer-events-none select-none"
+          className="absolute font-handwriting text-[15px] text-charcoal/22 pointer-events-none select-none"
           style={{ right: 6, top: 46 }}
           aria-hidden="true"
         >
@@ -360,7 +360,7 @@ function MathNotebook({ delay }: { delay: number }) {
 
       {/* "drink water." — faint, rotated vertically */}
       <p
-        className="absolute font-handwriting text-[6px] text-charcoal/10 pointer-events-none select-none"
+        className="absolute font-handwriting text-[16px] text-charcoal/10 pointer-events-none select-none"
         style={{ left: 1, top: '36%', transform: 'rotate(-90deg)', transformOrigin: 'left center', whiteSpace: 'nowrap' }}
         aria-hidden="true"
       >
@@ -369,7 +369,7 @@ function MathNotebook({ delay }: { delay: number }) {
 
       {/* "delulu 😂" — doodled in margin corner */}
       <motion.p
-        className="absolute font-handwriting text-[8.5px] text-charcoal/22 pointer-events-none select-none"
+        className="absolute font-handwriting text-[15px] text-charcoal/22 pointer-events-none select-none"
         style={{ left: 28, bottom: 10, rotate: '-8deg', transformOrigin: 'left bottom' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -402,7 +402,7 @@ function PrintedSlip({
         display: 'inline-block',
       }}
     >
-      <p className="font-letter text-[11px] text-charcoal/60 leading-tight whitespace-nowrap">{text}</p>
+      <p className="font-letter text-[14px] text-charcoal/60 leading-tight whitespace-nowrap">{text}</p>
     </motion.div>
   );
 }
@@ -426,7 +426,7 @@ function TinyTornNote({
         <path d="M0,5 C5,1 12,6 20,3 C28,0 35,5 43,3 C51,1 58,5 70,4 L70,7 L0,7 Z" fill={color} />
       </svg>
       <div style={{ backgroundColor: color, padding: '2px 8px 6px 8px', boxShadow: '0 1px 5px rgba(0,0,0,0.08)' }}>
-        <p className="font-handwriting text-[10px] text-charcoal/55 leading-tight">{text}</p>
+        <p className="font-handwriting text-[16px] text-charcoal/55 leading-tight">{text}</p>
       </div>
     </motion.div>
   );
@@ -442,7 +442,7 @@ function TobbyPhoto({ delay }: { delay: number }) {
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
       className="relative"
-      style={{ width: 96 }}
+      style={{ width: 130 }}
     >
       <div className="absolute bottom-7 left-0 right-0 flex justify-center pointer-events-none" aria-hidden={!lifted}>
         <AnimatePresence>
@@ -450,7 +450,7 @@ function TobbyPhoto({ delay }: { delay: number }) {
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ delay: 0.22, duration: 0.6 }}
-              className="font-handwriting text-[9px] text-charcoal/52 text-center whitespace-nowrap"
+              className="font-handwriting text-[15px] text-charcoal/52 text-center whitespace-nowrap"
             >
               He is more handsome 😂
             </motion.p>
@@ -492,14 +492,14 @@ function TobbyPhoto({ delay }: { delay: number }) {
             filter: 'sepia(0.08) contrast(1.04)',
           }}
         />
-        <p className="font-handwriting text-[8px] text-charcoal/32 text-center mt-1.5">our boy.</p>
+        <p className="font-handwriting text-[14px] text-charcoal/32 text-center mt-1.5">our boy.</p>
       </motion.div>
 
       {!lifted && (
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: delay + 1.4, duration: 1 }}
-          className="absolute -bottom-5 right-0 font-handwriting text-[7.5px] text-charcoal/16 italic pointer-events-none select-none"
+          className="absolute -bottom-5 right-0 font-handwriting text-[14px] text-charcoal/16 italic pointer-events-none select-none"
         >
           lift ↑
         </motion.p>
@@ -535,7 +535,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
 
           {/* Chapter header */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#8B6020]/36 mb-1">Chapter Five · May 2026</p>
+            <p className="font-sans text-[15px] tracking-[0.4em] uppercase text-[#8B6020]/36 mb-1">Chapter Five · May 2026</p>
             <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">
               The Little Things<br />That Became Everything
             </h2>
@@ -548,7 +548,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
           </motion.div>
 
           {/* Scattered table objects */}
-          <div className="relative flex-1 mt-4" style={{ minHeight: 480 }}>
+          <div className="relative flex-1 mt-4" style={{ minHeight: 640 }}>
 
             {/* Coffee mug — with ring stain grounded beneath it */}
             <div className="absolute top-0 left-4">
@@ -602,7 +602,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
 
         {/* ═══════════ RIGHT PAGE — study desk + temple + messages ═══════════ */}
         <div className="flex-1 md:pl-10 py-8 z-10">
-          <div className="relative" style={{ minHeight: 660 }}>
+          <div className="relative" style={{ minHeight: 840 }}>
 
             {/* Math notebook — messier: crossed, underlined, "ask Meghana" struck */}
             <div className="absolute top-0 left-0">
@@ -617,11 +617,11 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
             {/* Maths PDF / help sticky */}
             <div className="absolute" style={{ top: 220, right: 4 }}>
               <StickyNote color="#EEF5FF" rotate={2} delay={1.1} width={122}>
-                <p className="font-handwriting text-[10px] text-charcoal/55 leading-relaxed">
+                <p className="font-handwriting text-[16px] text-charcoal/55 leading-relaxed">
                   ✓ Maths PDF<br />
                   ✓ Inscribe help<br />
                   ✓ SDC notes<br />
-                  <span className="text-[7.5px] text-charcoal/28 italic">she asked. I sent.</span>
+                  <span className="text-[14px] text-charcoal/28 italic">she asked. I sent.</span>
                 </p>
               </StickyNote>
             </div>
@@ -645,9 +645,9 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
             {/* Exam alarm sticky */}
             <div className="absolute" style={{ top: 392, right: 0 }}>
               <StickyNote color="#FFF0F0" rotate={-2} delay={1.6} width={110}>
-                <p className="font-handwriting text-[10px] text-charcoal/52 leading-relaxed">
+                <p className="font-handwriting text-[16px] text-charcoal/52 leading-relaxed">
                   alarm set ✓<br />
-                  <span className="text-[8.5px] text-charcoal/32">for her exam 🕖</span>
+                  <span className="text-[15px] text-charcoal/32">for her exam 🕖</span>
                 </p>
               </StickyNote>
             </div>
@@ -664,8 +664,8 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 3.4, duration: 1.8 }}
             >
-              <p className="font-handwriting text-[7.5px] text-charcoal/14 italic" style={{ rotate: '-1.5deg' }}>kundapur mental 😂</p>
-              <p className="font-handwriting text-[7px] text-charcoal/10 italic mt-1" style={{ rotate: '1deg' }}>witch magic ✨</p>
+              <p className="font-handwriting text-[14px] text-charcoal/14 italic" style={{ rotate: '-1.5deg' }}>kundapur mental 😂</p>
+              <p className="font-handwriting text-[14px] text-charcoal/10 italic mt-1" style={{ rotate: '1deg' }}>witch magic ✨</p>
             </motion.div>
 
             {/* Ending */}
@@ -690,20 +690,20 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
             transition={{ delay: 2.8, duration: 1.4 }}
             className="mt-8 pt-6 border-t border-charcoal/8"
           >
-            <p className="font-sans text-[7.5px] tracking-[0.3em] uppercase text-[#C9A84C]/55 mb-3 text-center">
+            <p className="font-sans text-[14px] tracking-[0.3em] uppercase text-[#C9A84C]/55 mb-3 text-center">
               April 12–13, 2026 · Halasuru Temple, Bangalore
             </p>
             <p className="font-display text-xl text-charcoal/60 text-center italic mb-4 leading-snug">
               "Some days didn't need words."
             </p>
             <div className="space-y-2 text-center">
-              <p className="font-letter text-[11.5px] text-charcoal/42 leading-loose">
+              <p className="font-letter text-[14px] text-charcoal/42 leading-loose">
                 vibhuti on foreheads<br />
                 temple bells, quiet prayers<br />
                 <em>you, beside me</em>
               </p>
               <div className="w-8 h-px bg-[#C9A84C]/25 mx-auto my-3" />
-              <p className="font-letter text-[11.5px] text-charcoal/38 leading-loose">
+              <p className="font-letter text-[14px] text-charcoal/38 leading-loose">
                 green saree, morning sun<br />
                 the lawn never looked so good<br />
                 <em>I forgot to breathe</em>
@@ -747,7 +747,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
                         display: 'block',
                       }}
                     />
-                    <p className="font-handwriting text-[8px] text-charcoal/38 text-center mt-1 leading-none">
+                    <p className="font-handwriting text-[14px] text-charcoal/38 text-center mt-1 leading-none">
                       {caption}
                     </p>
                   </div>
@@ -770,7 +770,7 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
             transition={{ delay: 3.2, duration: 1.4 }}
             className="mt-8 pt-6 border-t border-charcoal/8 space-y-4"
           >
-            <p className="font-sans text-[7.5px] tracking-[0.3em] uppercase text-[#8B6020]/30 mb-1">
+            <p className="font-sans text-[14px] tracking-[0.3em] uppercase text-[#8B6020]/30 mb-1">
               words that stayed
             </p>
             {[
@@ -803,10 +803,10 @@ export default function ChapterFive({ onNext, onPrev }: ChapterProps) {
                   style={{ color: `${accent}12` }}
                   aria-hidden="true"
                 >"</span>
-                <p className="font-quote text-[11px] text-charcoal/62 italic leading-relaxed relative z-10">
+                <p className="font-quote text-[14px] text-charcoal/62 italic leading-relaxed relative z-10">
                   {text}
                 </p>
-                <p className="font-sans text-[7px] tracking-[0.2em] uppercase mt-2" style={{ color: `${accent}80` }}>
+                <p className="font-sans text-[14px] tracking-[0.2em] uppercase mt-2" style={{ color: `${accent}80` }}>
                   {attr}
                 </p>
               </motion.div>

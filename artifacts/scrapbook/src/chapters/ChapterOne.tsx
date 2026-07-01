@@ -48,15 +48,15 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
         aria-label={turnedOff ? 'Already turned off' : 'Turn off disappearing messages'}
         className="w-full text-left bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coffee/40"
       >
-        <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-3 font-sans">
+        <p className="text-[15px] tracking-widest uppercase text-charcoal/28 mb-3 font-sans">
           Chat settings
         </p>
         <div className="space-y-1.5">
-          <p className="text-[11px] font-medium text-charcoal/70 font-sans">Disappearing Messages</p>
+          <p className="text-[14px] font-medium text-charcoal/70 font-sans">Disappearing Messages</p>
           <div className="flex items-center justify-between">
-            <p className="text-[10px] text-charcoal/40 font-sans">7 Days</p>
+            <p className="text-[16px] text-charcoal/40 font-sans">7 Days</p>
             <motion.p
-              className="text-[10px] font-sans font-medium"
+              className="text-[16px] font-sans font-medium"
               animate={{ color: turnedOff ? 'rgba(111,78,55,0.7)' : 'rgba(45,45,45,0.3)' }}
               transition={{ duration: 0.5 }}
             >
@@ -105,7 +105,7 @@ function ChatPrintout({ delay }: { delay: number }) {
       <div className="absolute -top-3 right-3 w-14 h-5 washi-tape rotate-[3deg]" />
       <div className="bg-[#F9F6F0] border border-charcoal/10 shadow-sm overflow-hidden">
         <div className="bg-charcoal/5 text-center py-1.5">
-          <span className="text-[9px] tracking-widest uppercase text-charcoal/38 font-sans">
+          <span className="text-[15px] tracking-widest uppercase text-charcoal/38 font-sans">
             a day in our chat
           </span>
         </div>
@@ -121,7 +121,7 @@ function ChatPrintout({ delay }: { delay: number }) {
                 className={`flex flex-col ${isNaresh ? 'items-end' : 'items-start'}`}
               >
                 <div
-                  className={`px-2.5 py-1 rounded-lg text-[11px] leading-snug max-w-[78%] ${
+                  className={`px-2.5 py-1 rounded-lg text-[14px] leading-snug max-w-[78%] ${
                     isNaresh
                       ? 'bg-[#DCF8C6] text-[#111] rounded-tr-sm'
                       : 'bg-white border border-gray-100 text-[#111] rounded-tl-sm'
@@ -130,10 +130,10 @@ function ChatPrintout({ delay }: { delay: number }) {
                 >
                   {msg.text}
                   {isNaresh && (
-                    <span className="ml-1 text-[8px] text-green-600/50">✓✓</span>
+                    <span className="ml-1 text-[14px] text-green-600/50">✓✓</span>
                   )}
                 </div>
-                <span className="text-[7.5px] text-charcoal/22 mt-0.5 font-sans px-0.5">
+                <span className="text-[14px] text-charcoal/22 mt-0.5 font-sans px-0.5">
                   {msg.time}
                 </span>
               </motion.div>
@@ -145,7 +145,7 @@ function ChatPrintout({ delay }: { delay: number }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: delay + 1.8, duration: 1 }}
-        className="font-handwriting text-[11px] text-coffee/45 mt-1.5 text-right mr-1 italic"
+        className="font-handwriting text-[14px] text-coffee/45 mt-1.5 text-right mr-1 italic"
       >
         this became every day ↑
       </motion.p>
@@ -168,10 +168,10 @@ function MeghanaQuoteSlip({ delay }: { delay: number }) {
         className="bg-[#FFFEF8] border-l-[3px] border-[#C9A84C]/55 shadow-sm px-4 py-3"
         style={{ borderLeftColor: '#C9A84C' }}
       >
-        <p className="font-quote text-[11.5px] text-charcoal/65 italic leading-relaxed">
+        <p className="font-quote text-[14px] text-charcoal/65 italic leading-relaxed">
           "Even I miss you so much… I used to remember yesterday's cute moments and blush myself 🥰"
         </p>
-        <p className="font-sans text-[7.5px] tracking-[0.2em] text-charcoal/28 uppercase mt-2">
+        <p className="font-sans text-[14px] tracking-[0.2em] text-charcoal/28 uppercase mt-2">
           — Meghana · 8 Feb 2026 · before we even met that day
         </p>
       </div>
@@ -205,7 +205,7 @@ function PhotoAlbumCard({ delay }: { delay: number }) {
           <span className="text-3xl" aria-hidden="true">📸</span>
           {!opened && (
             <div className="absolute inset-0 flex items-end justify-center pb-1.5">
-              <span className="text-[9px] text-charcoal/35 font-sans tracking-wide">tap to open</span>
+              <span className="text-[15px] text-charcoal/35 font-sans tracking-wide">tap to open</span>
             </div>
           )}
         </div>
@@ -248,7 +248,7 @@ function HackathonCard({ delay }: { delay: number }) {
       style={{ rotate: '1deg' }}
     >
       <div className="absolute -top-3 right-4 w-12 h-5 washi-tape rotate-[2deg]" />
-      <p className="text-[9px] tracking-widest uppercase text-charcoal/30 mb-3 font-sans text-center">
+      <p className="text-[15px] tracking-widest uppercase text-charcoal/30 mb-3 font-sans text-center">
         same afternoon, different rooms
       </p>
       <div className="grid grid-cols-2 gap-4 text-center mb-3">
@@ -358,9 +358,9 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1.4 }}
-            className="space-y-6 max-w-xs mb-10"
+            className="space-y-6 max-w-sm mb-10"
           >
-            <p className="font-display text-2xl text-charcoal font-light leading-[1.75]">
+            <p className="font-display text-3xl text-charcoal font-light leading-[1.75]">
               Nobody tells you<br />
               the exact moment<br />
               someone slowly becomes<br />
@@ -368,12 +368,12 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
             </p>
 
             <div className="space-y-2 pt-2">
-              <p className="font-quote text-sm text-charcoal/55 leading-loose">
+              <p className="font-quote text-base text-charcoal/55 leading-loose">
                 Maybe it was somewhere between
               </p>
-              <p className="font-handwriting text-xl text-coffee pl-3">"Had breakfast?"</p>
-              <p className="font-quote text-sm text-charcoal/45 pl-1">and</p>
-              <p className="font-handwriting text-xl text-coffee pl-3">"Drink water."</p>
+              <p className="font-handwriting text-2xl text-coffee pl-3">"Had breakfast?"</p>
+              <p className="font-quote text-base text-charcoal/45 pl-1">and</p>
+              <p className="font-handwriting text-2xl text-coffee pl-3">"Drink water."</p>
             </div>
           </motion.div>
 
@@ -438,7 +438,7 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
             className="inline-block self-start mb-2"
           >
             <div className="bg-[#FEF08A] px-6 py-5 shadow-md">
-              <p className="font-letter text-[1.65rem] text-charcoal/85">Had breakfast?</p>
+              <p className="font-letter text-[2.2rem] text-charcoal/85">Had breakfast?</p>
             </div>
           </motion.div>
 

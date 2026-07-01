@@ -113,9 +113,9 @@ const CARD_WIDTH = {
   sm: '148px',
 };
 const MEMORY_SIZE = {
-  xl: 'text-[12px]',
-  lg: 'text-[11.5px]',
-  md: 'text-[11px]',
+  xl: 'text-[15px]',
+  lg: 'text-[14px]',
+  md: 'text-[14px]',
   sm: 'text-[10.5px]',
 };
 
@@ -254,7 +254,7 @@ export default function ChapterNicknames({ onNext, onPrev }: ChapterProps) {
           transition={{ delay: 0.15, duration: 1 }}
           className="mb-4 flex-shrink-0"
         >
-          <p className="font-sans text-[9px] tracking-[0.42em] uppercase text-[#8B6020]/36 mb-2">
+          <p className="font-sans text-[15px] tracking-[0.42em] uppercase text-[#8B6020]/36 mb-2">
             our language
           </p>
           <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">
@@ -292,7 +292,7 @@ export default function ChapterNicknames({ onNext, onPrev }: ChapterProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.4, duration: 1.8 }}
-            className="absolute font-handwriting text-[11px] text-[#9B3A4A]/22 select-none pointer-events-none"
+            className="absolute font-handwriting text-[14px] text-[#9B3A4A]/22 select-none pointer-events-none"
             style={{ top: '53%', left: '34%', rotate: '-8deg' } as React.CSSProperties}
             aria-hidden="true"
           >
@@ -304,7 +304,7 @@ export default function ChapterNicknames({ onNext, onPrev }: ChapterProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.8, duration: 1.8 }}
-            className="absolute font-handwriting text-[9px] text-charcoal/20 italic select-none pointer-events-none"
+            className="absolute font-handwriting text-[15px] text-charcoal/20 italic select-none pointer-events-none"
             style={{ top: '74%', left: '18%' }}
             aria-hidden="true"
           >

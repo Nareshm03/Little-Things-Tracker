@@ -34,7 +34,7 @@ function Note({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay, duration: 1.2 }}
-      className={`font-handwriting text-[9px] text-[#8B2020]/48 pointer-events-none select-none ${className}`}
+      className={`font-handwriting text-[15px] text-[#8B2020]/48 pointer-events-none select-none ${className}`}
     >
       {children}
     </motion.p>
@@ -155,7 +155,7 @@ function PhotoSlot({
                 <circle cx="16" cy="11" r="4" fill="none" stroke="#9C7B4F" strokeWidth="1" />
                 <path d="M10 16 L14 11 L18 14 L21 10 L28 18" fill="none" stroke="#9C7B4F" strokeWidth="1" strokeLinejoin="round" />
               </svg>
-              <p className="font-handwriting text-[9px] text-[#9C7B4F]">{alt}</p>
+              <p className="font-handwriting text-[15px] text-[#9C7B4F]">{alt}</p>
             </div>
           )}
 
@@ -192,7 +192,7 @@ function PhotoSlot({
         </div>
 
         <motion.p
-          className="font-handwriting text-[10px] text-charcoal/38 text-center mt-1.5 leading-snug"
+          className="font-handwriting text-[16px] text-charcoal/38 text-center mt-1.5 leading-snug"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: captionDelay ?? delay + 1, duration: 0.8 }}
         >
@@ -217,12 +217,12 @@ function TempleReceipt({ delay }: { delay: number }) {
       <div className="bg-[#FFFEF8] border border-[#C9A84C]/25 overflow-hidden"
         style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <div className="bg-[#C9A84C]/10 px-3 py-1 border-b border-[#C9A84C]/15">
-          <p className="font-sans text-[6.5px] tracking-[0.25em] uppercase text-[#8B6020]/45 text-center">5 April 2026</p>
+          <p className="font-sans text-[16px] tracking-[0.25em] uppercase text-[#8B6020]/45 text-center">5 April 2026</p>
         </div>
         <div className="px-3 py-2.5">
-          <p className="font-letter text-[11px] text-charcoal/58 leading-relaxed">First temple together.</p>
+          <p className="font-letter text-[14px] text-charcoal/58 leading-relaxed">First temple together.</p>
           <div className="h-px border-t border-dashed border-[#C9A84C]/18 my-1.5" />
-          <p className="font-handwriting text-[8px] text-[#8B6020]/28 text-right italic">Hosakote</p>
+          <p className="font-handwriting text-[14px] text-[#8B6020]/28 text-right italic">Hosakote</p>
         </div>
       </div>
     </motion.div>
@@ -248,9 +248,9 @@ function FoldedNote({ delay }: { delay: number }) {
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpened(v => !v); } }}
       >
         <div className="px-4 pt-3 pb-2 border-b border-[#C9A84C]/12 flex items-center justify-between">
-          <p className="font-sans text-[7px] tracking-[0.28em] uppercase text-[#8B6020]/30">Note</p>
+          <p className="font-sans text-[14px] tracking-[0.28em] uppercase text-[#8B6020]/30">Note</p>
           <motion.span animate={{ rotate: opened ? 90 : 0 }} transition={{ duration: 0.4 }}
-            className="text-[10px] text-[#C9A84C]/30" aria-hidden="true">▷</motion.span>
+            className="text-[16px] text-[#C9A84C]/30" aria-hidden="true">▷</motion.span>
         </div>
 
         <AnimatePresence initial={false}>
@@ -285,7 +285,7 @@ function FoldedNote({ delay }: { delay: number }) {
                     <div key={i} className="h-px bg-[#C9A84C]/12" style={{ width: `${w / 4 * 100}%` }} />
                   ))}
                 </div>
-                <p className="font-handwriting text-[8px] text-charcoal/18 text-right mt-2 italic">tap to open</p>
+                <p className="font-handwriting text-[14px] text-charcoal/18 text-right mt-2 italic">tap to open</p>
               </div>
             </motion.div>
           )}
@@ -310,7 +310,7 @@ function FoldedNote({ delay }: { delay: number }) {
                 ].map((line, i) => (
                   <motion.p key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ delay: line.d, duration: 0.9 }}
-                    className="font-letter text-[13px] text-charcoal/62 leading-relaxed min-h-[18px]">
+                    className="font-letter text-[16px] text-charcoal/62 leading-relaxed min-h-[18px]">
                     {line.text}
                   </motion.p>
                 ))}
@@ -345,15 +345,15 @@ function GroceryPaper({ delay }: { delay: number }) {
       </svg>
       <div className="bg-[#FDF9F0] border-x border-b border-charcoal/10 px-3 py-3"
         style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-        <p className="font-handwriting text-[8px] text-charcoal/35 tracking-wide mb-2.5">April 2026</p>
+        <p className="font-handwriting text-[14px] text-charcoal/35 tracking-wide mb-2.5">April 2026</p>
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-2 mb-1.5">
-            <span className="font-sans text-[10px] text-charcoal/25 mt-px leading-none">☐</span>
-            <p className="font-letter text-[11px] text-charcoal/60 leading-tight">{item}</p>
+            <span className="font-sans text-[16px] text-charcoal/25 mt-px leading-none">☐</span>
+            <p className="font-letter text-[14px] text-charcoal/60 leading-tight">{item}</p>
           </div>
         ))}
         <div className="h-px bg-charcoal/8 mt-2.5 mb-1.5" />
-        <p className="font-handwriting text-[8px] text-[#8B2020]/40 text-right italic">you always asked ❤️</p>
+        <p className="font-handwriting text-[14px] text-[#8B2020]/40 text-right italic">you always asked ❤️</p>
       </div>
       {/* Torn bottom */}
       <svg viewBox="0 0 152 8" width="152" height="8" style={{ display: 'block', marginTop: -1 }} preserveAspectRatio="none" aria-hidden="true">
@@ -372,7 +372,7 @@ function CareStrip({ text, delay }: { text: string; delay: number }) {
     >
       <div className="h-px bg-charcoal/10" />
       <div className="bg-[#FFFFF8] border-x border-charcoal/8 px-2.5 py-1">
-        <p className="font-handwriting text-[10px] text-charcoal/55">{text}</p>
+        <p className="font-handwriting text-[16px] text-charcoal/55">{text}</p>
       </div>
       <div className="h-px bg-charcoal/10" />
     </motion.div>
@@ -408,7 +408,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
 
           {/* Chapter header */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#8B6020]/36 mb-1">Chapter Four · April 2026</p>
+            <p className="font-sans text-[15px] tracking-[0.4em] uppercase text-[#8B6020]/36 mb-1">Chapter Four · April 2026</p>
             <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">Where We Found<br />Peace</h2>
             <motion.svg className="w-44 h-4 mt-1.5" viewBox="0 0 180 12" aria-hidden="true">
               <motion.path d="M0 7 Q45 3 90 7 Q135 11 180 6"
@@ -419,18 +419,18 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
           </motion.div>
 
           {/* HERO PHOTO + Grocery paper tucked beneath — relative stacking block */}
-          <div className="relative" style={{ height: 330 }}>
+          <div className="relative" style={{ height: 430 }}>
 
             {/* Ghost annotation */}
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 2.8, duration: 2.5 }}
-              className="absolute -top-5 right-2 font-handwriting text-[9px] text-charcoal/18 italic pointer-events-none select-none rotate-[2deg] z-10"
+              className="absolute -top-5 right-2 font-handwriting text-[15px] text-charcoal/18 italic pointer-events-none select-none rotate-[2deg] z-10"
               aria-hidden="true"
             >our peaceful day.</motion.p>
 
             {/* Grocery paper — behind hero, peeking out beneath */}
-            <div style={{ position: 'absolute', top: 148, left: 20, zIndex: 1 }}>
+            <div style={{ position: 'absolute', top: 210, left: 20, zIndex: 1 }}>
               <GroceryPaper delay={2.4} />
             </div>
 
@@ -439,8 +439,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoSareeDhoti}
                 alt="Tamil New Year — saree and dhoti"
-                width={264}
-                height={210}
+                width={340}
+                height={270}
                 rotate={-2}
                 delay={0.6}
                 caption="14 April 2026"
@@ -453,7 +453,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 liftText={
                   <div className="text-center select-none">
                     <p className="font-handwriting text-sm text-[#7C4A10]/72">Tamil New Year</p>
-                    <p className="font-sans text-[9px] tracking-[0.28em] uppercase text-charcoal/32 mt-0.5">with Amma</p>
+                    <p className="font-sans text-[15px] tracking-[0.28em] uppercase text-charcoal/32 mt-0.5">with Amma</p>
                   </div>
                 }
               />
@@ -471,7 +471,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
           </motion.p>
 
           {/* Temple receipt + scattered care strips */}
-          <div className="relative" style={{ height: 180 }}>
+          <div className="relative" style={{ height: 240 }}>
 
             {/* Care strip 1 — half hidden behind receipt, peeks left */}
             <div style={{ position: 'absolute', top: 4, left: 0, zIndex: 0, transform: 'rotate(-3deg)', width: 120 }}>
@@ -517,15 +517,15 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
 
         {/* ═══════════ RIGHT PAGE — photos overlapping like a real album ═══════════ */}
         <div className="flex-1 md:pl-10 py-8 z-10">
-          <div className="relative" style={{ minHeight: 920 }}>
+          <div className="relative" style={{ minHeight: 1100 }}>
 
             {/* ROSE PHOTO — top left, prominent */}
             <div style={{ position: 'absolute', top: 0, left: 4, zIndex: 4 }}>
               <PhotoSlot
                 src={photoRose}
                 alt="First rose"
-                width={218}
-                height={170}
+                width={284}
+                height={222}
                 rotate={2.5}
                 delay={1}
                 caption="6 April 2026"
@@ -535,7 +535,7 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
                 photoVariant="bent"
                 shadowStrength="stacked"
               />
-              <Note delay={2.1} className="absolute -bottom-5 left-3 rotate-[1deg] !text-[10px]">first rose.</Note>
+              <Note delay={2.1} className="absolute -bottom-5 left-3 rotate-[1deg] !text-[16px]">first rose.</Note>
             </div>
 
             {/* FITCHECK — overlaps rose significantly, top right */}
@@ -543,8 +543,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoFitcheckThem}
                 alt="Fitcheck together"
-                width={168}
-                height={134}
+                width={218}
+                height={174}
                 rotate={-2.5}
                 delay={1.2}
                 caption="just us."
@@ -557,12 +557,12 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
             </div>
 
             {/* DESIGN TEAM — overlaps the bottom of rose */}
-            <div style={{ position: 'absolute', top: 186, left: -8, zIndex: 3 }}>
+            <div style={{ position: 'absolute', top: 246, left: -8, zIndex: 3 }}>
               <PhotoSlot
                 src={photoDesignTeam}
                 alt="Swayam design team"
-                width={190}
-                height={146}
+                width={247}
+                height={190}
                 rotate={1.5}
                 delay={1.4}
                 caption="her team."
@@ -579,8 +579,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoKurta}
                 alt="Tamil New Year fitcheck"
-                width={138}
-                height={183}
+                width={180}
+                height={238}
                 rotate={-1.5}
                 delay={1.3}
                 caption="dressed up."
@@ -594,17 +594,17 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
             </div>
 
             {/* Folded note — wedged between middle photos */}
-            <div style={{ position: 'absolute', top: 382, left: 20, zIndex: 4 }}>
+            <div style={{ position: 'absolute', top: 498, left: 20, zIndex: 4 }}>
               <FoldedNote delay={1.7} />
             </div>
 
             {/* SWAYAM FEST — lower right, flat lay */}
-            <div style={{ position: 'absolute', top: 418, right: 4, zIndex: 3 }}>
+            <div style={{ position: 'absolute', top: 534, right: 4, zIndex: 3 }}>
               <PhotoSlot
                 src={photoSwayam}
                 alt="Swayam Fest together"
-                width={196}
-                height={156}
+                width={255}
+                height={203}
                 rotate={2}
                 delay={1.5}
                 caption="late April."
@@ -620,8 +620,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 4.5, duration: 3 }}
-              className="absolute font-handwriting text-[11px] text-charcoal/12 italic pointer-events-none select-none"
-              style={{ top: 490, left: 68, transform: 'rotate(-1.5deg)' }}
+              className="absolute font-handwriting text-[14px] text-charcoal/12 italic pointer-events-none select-none"
+              style={{ top: 626, left: 68, transform: 'rotate(-1.5deg)' }}
               aria-hidden="true"
             >
               favorite day.
@@ -672,8 +672,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               transition={{ delay: 3.4, duration: 2 }}
             >
-              <p className="font-quote text-[11px] text-charcoal/22 italic">Some memories</p>
-              <p className="font-quote text-[11px] text-charcoal/15 italic">never needed words.</p>
+              <p className="font-quote text-[14px] text-charcoal/22 italic">Some memories</p>
+              <p className="font-quote text-[14px] text-charcoal/15 italic">never needed words.</p>
             </motion.div>
 
           </div>

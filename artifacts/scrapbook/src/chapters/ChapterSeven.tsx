@@ -13,13 +13,13 @@ function BreakfastSticky() {
     <div
       style={{
         backgroundColor: '#FFF9C4',
-        width: 88,
-        padding: '8px 10px 14px 10px',
+        width: 115,
+        padding: '10px 13px 18px 13px',
         rotate: '-2deg',
         boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
       }}
     >
-      <p className="font-handwriting text-[11px] text-charcoal/55 italic leading-snug">
+      <p className="font-handwriting text-[14px] text-charcoal/55 italic leading-snug">
         Had breakfast?
       </p>
     </div>
@@ -28,7 +28,7 @@ function BreakfastSticky() {
 
 function ChocolateWrapper() {
   return (
-    <div style={{ width: 76, rotate: '3.5deg' }}>
+    <div style={{ width: 100, rotate: '3.5deg' }}>
       {/* Silver foil peek at top */}
       <div
         style={{
@@ -62,7 +62,7 @@ function ChocolateWrapper() {
 
 function TinyRose() {
   return (
-    <svg width="44" height="56" viewBox="0 0 44 56" aria-label="Pressed rose" role="img" style={{ rotate: '5deg' }}>
+    <svg width="58" height="74" viewBox="0 0 44 56" aria-label="Pressed rose" role="img" style={{ rotate: '5deg' }}>
       <path d="M 22 54 C 20 46, 18 38, 20 28" stroke="#6B7C3A" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55" />
       <ellipse cx="16" cy="38" rx="5" ry="2.5" transform="rotate(-40 16 38)" fill="#7B8C42" opacity="0.38" />
       <ellipse cx="22" cy="20" rx="10" ry="7" fill="#C98A95" opacity="0.28" />
@@ -78,39 +78,39 @@ function TobbyPolaroid() {
   return (
     <div
       className="bg-white border border-charcoal/10 shadow-sm"
-      style={{ padding: '4px 4px 14px 4px', width: 68, rotate: '2.5deg' }}
+      style={{ padding: '4px 4px 18px 4px', width: 90, rotate: '2.5deg' }}
     >
       <img
         src={tobbyPhoto}
         alt="Tobby"
         style={{
-          width: 60, height: 56,
+          width: 78, height: 72,
           objectFit: 'cover',
           objectPosition: 'center',
           display: 'block',
           filter: 'sepia(0.10) contrast(1.03)',
         }}
       />
-      <p className="font-handwriting text-[7px] text-charcoal/30 text-center mt-1.5">Tobby</p>
+      <p className="font-handwriting text-[14px] text-charcoal/30 text-center mt-1.5">Tobby</p>
     </div>
   );
 }
 
 function TempleReceipt() {
   return (
-    <div style={{ width: 78, rotate: '-3deg' }}>
+    <div style={{ width: 106, rotate: '-3deg' }}>
       <svg width="78" height="8" viewBox="0 0 78 8" className="w-full block" aria-hidden="true">
         <path d="M0,6 C8,1 16,6 24,3 C32,0 40,5 48,2 C56,0 64,5 78,4 L78,8 L0,8 Z" fill="#FDFAF4" />
       </svg>
       <div className="bg-[#FDFAF4] border-x border-b border-charcoal/8 px-3 pb-3 pt-1.5">
         <p className="font-sans text-[5.5px] tracking-[0.3em] uppercase text-charcoal/20 mb-1.5 text-center">Tirupati</p>
         <div className="space-y-0.5">
-          <p className="font-handwriting text-[8px] text-charcoal/32">Laddu prasad × 2</p>
-          <p className="font-handwriting text-[8px] text-charcoal/32">Darshan ticket</p>
-          <p className="font-handwriting text-[8px] text-charcoal/32">Safe ride ❤️</p>
+          <p className="font-handwriting text-[14px] text-charcoal/32">Laddu prasad × 2</p>
+          <p className="font-handwriting text-[14px] text-charcoal/32">Darshan ticket</p>
+          <p className="font-handwriting text-[14px] text-charcoal/32">Safe ride ❤️</p>
         </div>
         <div className="border-t border-dashed border-charcoal/10 mt-2 pt-1.5">
-          <p className="font-handwriting text-[7px] text-charcoal/22 italic text-right">2025</p>
+          <p className="font-handwriting text-[14px] text-charcoal/22 italic text-right">2025</p>
         </div>
       </div>
       <svg width="78" height="8" viewBox="0 0 78 8" className="w-full block" aria-hidden="true">
@@ -125,15 +125,15 @@ function LittleNote() {
     <div
       style={{
         backgroundColor: '#FFF0F0',
-        width: 80,
-        padding: '7px 9px 12px 9px',
+        width: 108,
+        padding: '9px 12px 16px 12px',
         rotate: '1.5deg',
         boxShadow: '0 2px 7px rgba(0,0,0,0.06)',
       }}
     >
-      <p className="font-handwriting text-[10px] text-charcoal/50 italic leading-snug">
+      <p className="font-handwriting text-[16px] text-charcoal/50 italic leading-snug">
         ride safe 🙏<br />
-        <span className="text-[8.5px] text-charcoal/32">— always</span>
+        <span className="text-[15px] text-charcoal/32">— always</span>
       </p>
     </div>
   );
@@ -145,8 +145,8 @@ function RealPhoto() {
     <div
       className="bg-white shadow-md"
       style={{
-        padding: '4px 4px 20px 4px',
-        width: 110,
+        padding: '4px 4px 24px 4px',
+        width: 148,
         rotate: '-2.5deg',
         boxShadow: '0 3px 12px rgba(0,0,0,0.10)',
       }}
@@ -155,9 +155,9 @@ function RealPhoto() {
       <img
         src={usPhoto}
         alt="Naresh and Meghana — a natural moment together"
-        style={{ width: '100%', height: 96, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
+        style={{ width: '100%', height: 126, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
       />
-      <p className="font-handwriting text-[7px] text-charcoal/28 text-center mt-1.5">us.</p>
+      <p className="font-handwriting text-[14px] text-charcoal/28 text-center mt-1.5">us.</p>
     </div>
   );
 }
@@ -169,14 +169,14 @@ function RightPhoto({ src, caption, rotate, objectPos }: {
   return (
     <div
       className="bg-white shadow-sm"
-      style={{ padding: '4px 4px 18px 4px', width: 108, rotate: `${rotate}deg`, boxShadow: '0 3px 10px rgba(0,0,0,0.09)' }}
+      style={{ padding: '4px 4px 18px 4px', width: 148, rotate: `${rotate}deg`, boxShadow: '0 3px 10px rgba(0,0,0,0.09)' }}
     >
       <img
         src={src}
         alt={caption}
-        style={{ width: '100%', height: 86, objectFit: 'cover', objectPosition: objectPos, display: 'block', filter: 'sepia(0.06) contrast(1.02)' }}
+        style={{ width: '100%', height: 116, objectFit: 'cover', objectPosition: objectPos, display: 'block', filter: 'sepia(0.06) contrast(1.02)' }}
       />
-      <p className="font-handwriting text-[7.5px] text-charcoal/30 text-center mt-1.5">{caption}</p>
+      <p className="font-handwriting text-[14px] text-charcoal/30 text-center mt-1.5">{caption}</p>
     </div>
   );
 }
@@ -273,7 +273,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           {/* Chapter label */}
           <motion.p
             {...fadeIn(0.3, 1.6)}
-            className="font-sans text-[9px] tracking-[0.42em] uppercase text-coffee/28 mb-5"
+            className="font-sans text-[15px] tracking-[0.42em] uppercase text-coffee/28 mb-5"
           >
             Chapter Seven
           </motion.p>
@@ -290,7 +290,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           </motion.h2>
 
           {/* Objects — scattered absolutely across the page */}
-          <div className="relative mt-10" style={{ minHeight: 580 }}>
+          <div className="relative mt-10" style={{ minHeight: 750 }}>
 
             {/* Pressed rose — top left, arrives early */}
             <motion.div
@@ -370,7 +370,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
               transition={{ delay: shouldReduceMotion ? 0.4 : 11.0, duration: 3.0 }}
               aria-hidden="true"
             >
-              <p className="font-handwriting text-[8px] text-charcoal/12 italic" style={{ rotate: '-1deg' }}>
+              <p className="font-handwriting text-[14px] text-charcoal/12 italic" style={{ rotate: '-1deg' }}>
                 every ordinary day...
               </p>
             </motion.div>
@@ -383,13 +383,13 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
           <motion.p
             {...fadeIn(0.3, 1.6)}
-            className="font-sans text-[9px] tracking-[0.42em] uppercase text-coffee/28 mb-5"
+            className="font-sans text-[15px] tracking-[0.42em] uppercase text-coffee/28 mb-5"
           >
             June 2026
           </motion.p>
 
           {/* Three scattered photos at the top of the right page */}
-          <div className="relative mb-8" style={{ minHeight: 140 }}>
+          <div className="relative mb-8" style={{ minHeight: 280 }}>
             {/* Photo 1 — far left, tilted left */}
             <motion.div
               {...fadeIn(1.2, 2.4)}
@@ -407,7 +407,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             <motion.div
               {...fadeIn(1.8, 2.4)}
               className="absolute"
-              style={{ top: 14, left: 80 }}
+              style={{ top: 20, left: 120 }}
             >
               <RightPhoto
                 src={usPhoto}
@@ -497,7 +497,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           <motion.div {...fadeIn(17.5, 2.0)}>
             <button
               onClick={onPrev}
-              className="font-sans text-[9px] tracking-widest uppercase text-charcoal/14 hover:text-charcoal/32 transition-colors duration-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden"
+              className="font-sans text-[15px] tracking-widest uppercase text-charcoal/14 hover:text-charcoal/32 transition-colors duration-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-golden"
               aria-label="Go back to previous chapter"
             >
               ← back

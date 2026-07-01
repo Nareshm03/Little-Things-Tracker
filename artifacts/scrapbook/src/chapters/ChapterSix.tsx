@@ -34,7 +34,7 @@ function BucketList({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 206, rotate: '-1deg' }}
+      style={{ width: 260, rotate: '-1deg' }}
       className="relative"
     >
       {/* Torn top edge */}
@@ -58,37 +58,37 @@ function BucketList({ delay }: { delay: number }) {
         {/* Red margin line */}
         <div className="absolute top-0 bottom-0 left-10 border-l border-[#E8A0A0]/28" aria-hidden="true" />
 
-        <p className="font-handwriting text-[9px] text-charcoal/28 mb-3 ml-7 tracking-wide relative">things we want to do —</p>
+        <p className="font-handwriting text-[15px] text-charcoal/28 mb-3 ml-7 tracking-wide relative">things we want to do —</p>
 
         <div className="space-y-2.5 relative ml-2">
           {/* Passport — done, with big checkmark */}
           <div className="flex items-baseline gap-2.5">
             <span className="font-handwriting text-[16px] leading-none text-[#3A7C3A]/65 flex-shrink-0">✓</span>
-            <p className="font-handwriting text-[13px] text-charcoal/58">Passport</p>
+            <p className="font-handwriting text-[16px] text-charcoal/58">Passport</p>
           </div>
           {/* IELTS — uncertain */}
           <div className="flex items-baseline gap-2.5">
             <span className="font-handwriting text-[14px] leading-none text-charcoal/32 flex-shrink-0">?</span>
-            <p className="font-handwriting text-[13px] text-charcoal/52">IELTS</p>
-            <p className="font-handwriting text-[9px] text-charcoal/24 italic">(preparing...)</p>
+            <p className="font-handwriting text-[16px] text-charcoal/52">IELTS</p>
+            <p className="font-handwriting text-[15px] text-charcoal/24 italic">(preparing...)</p>
           </div>
           {/* Abroad — wishful, with trailing thought */}
           <div className="flex items-baseline gap-2.5">
             <span className="font-handwriting text-[14px] leading-none text-charcoal/22 flex-shrink-0">—</span>
-            <p className="font-handwriting text-[13px] text-charcoal/48">Abroad</p>
-            <p className="font-handwriting text-[10px] text-[#3A5C82]/45 italic">one day...</p>
+            <p className="font-handwriting text-[16px] text-charcoal/48">Abroad</p>
+            <p className="font-handwriting text-[16px] text-[#3A5C82]/45 italic">one day...</p>
           </div>
           {/* Build together */}
           <div className="flex items-baseline gap-2.5">
             <span className="font-handwriting text-[14px] leading-none text-charcoal/22 flex-shrink-0">—</span>
-            <p className="font-handwriting text-[13px] text-charcoal/44">Build something together</p>
+            <p className="font-handwriting text-[16px] text-charcoal/44">Build something together</p>
           </div>
 
           {/* Stay together — special, underlined, coloured */}
           <div className="pt-1 border-t border-charcoal/8 mt-1">
             <div className="flex items-baseline gap-2.5">
               <span className="font-handwriting text-[16px] leading-none text-[#3A5C82]/60 flex-shrink-0">✓</span>
-              <p className="font-handwriting text-[13px] text-[#3A5C82]/65" style={{ textDecoration: 'underline', textDecorationColor: 'rgba(58,92,130,0.22)', textUnderlineOffset: '3px' }}>
+              <p className="font-handwriting text-[16px] text-[#3A5C82]/65" style={{ textDecoration: 'underline', textDecorationColor: 'rgba(58,92,130,0.22)', textUnderlineOffset: '3px' }}>
                 Stay together ❤️
               </p>
             </div>
@@ -107,7 +107,7 @@ function PassportPhoto({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 72, rotate: '2.5deg' }}
+      style={{ width: 96, rotate: '2.5deg' }}
     >
       {/* Paperclip */}
       <svg width="14" height="40" viewBox="0 0 14 40" className="absolute -top-2 left-5 z-10"
@@ -131,7 +131,7 @@ function PassportPhoto({ delay }: { delay: number }) {
             style={{ backgroundColor: tint, width: 62, height: 28, marginBottom: i < 2 ? 2 : 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             {i === 0 && (
-              <p className="font-handwriting text-[9px] text-[#3A5C82]/48 leading-none">{label}</p>
+              <p className="font-handwriting text-[15px] text-[#3A5C82]/48 leading-none">{label}</p>
             )}
             {i > 0 && (
               <div style={{ width: 22, height: 22, borderRadius: '50%', border: '1px solid rgba(58,92,130,0.15)', opacity: 0.4 }} />
@@ -159,7 +159,7 @@ function DealSticky({ delay }: { delay: number }) {
         boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
       }}
     >
-      <p className="font-handwriting text-[12px] text-charcoal/58 italic">deal is deal.</p>
+      <p className="font-handwriting text-[15px] text-charcoal/58 italic">deal is deal.</p>
     </motion.div>
   );
 }
@@ -174,7 +174,7 @@ function PassportFolder({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 152, rotate: '1.5deg' }}
+      style={{ width: 195, rotate: '1.5deg' }}
     >
       <motion.div
         className="relative cursor-pointer overflow-hidden"
@@ -194,11 +194,11 @@ function PassportFolder({ delay }: { delay: number }) {
         <div className="px-4 py-3 flex flex-col items-center gap-1">
           <p className="font-sans text-[5.5px] tracking-[0.35em] uppercase text-white/28">Republic of India</p>
           <div className="w-7 h-7 rounded-full border border-white/14 flex items-center justify-center my-0.5">
-            <p className="text-[13px]" aria-hidden="true">⚜️</p>
+            <p className="text-[16px]" aria-hidden="true">⚜️</p>
           </div>
-          <p className="font-sans text-[7.5px] tracking-[0.2em] uppercase text-white/45">Passport</p>
+          <p className="font-sans text-[14px] tracking-[0.2em] uppercase text-white/45">Passport</p>
           {!open && (
-            <p className="font-handwriting text-[7px] text-white/18 italic mt-0.5">tap to open</p>
+            <p className="font-handwriting text-[14px] text-white/18 italic mt-0.5">tap to open</p>
           )}
         </div>
 
@@ -212,11 +212,11 @@ function PassportFolder({ delay }: { delay: number }) {
               style={{ transformOrigin: 'top' }}
               className="bg-[#FDFCF8] border-t border-white/10 px-4 py-4"
             >
-              <p className="font-sans text-[6px] tracking-[0.32em] uppercase text-charcoal/28 mb-2">Destination</p>
+              <p className="font-sans text-[16px] tracking-[0.32em] uppercase text-charcoal/28 mb-2">Destination</p>
               <p className="font-letter text-[22px] text-charcoal/55 leading-tight">Unknown.</p>
               <p className="font-letter text-[20px] text-charcoal/40 mt-0.5">Still planning.</p>
               <div className="mt-3 pt-2 border-t border-charcoal/8">
-                <p className="font-handwriting text-[10px] text-[#3A5C82]/45 italic">hopefully together ❤️</p>
+                <p className="font-handwriting text-[16px] text-[#3A5C82]/45 italic">hopefully together ❤️</p>
               </div>
             </motion.div>
           )}
@@ -237,10 +237,10 @@ function BikeSketch({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 42, damping: 11, delay } }}
       className="relative"
-      style={{ width: 182 }}
+      style={{ width: 234 }}
     >
       <div className="bg-[#FDFAF4] border border-charcoal/10 shadow-sm p-3" style={{ rotate: '-2deg' }}>
-        <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-charcoal/18 mb-1.5">Route Sketch</p>
+        <p className="font-sans text-[16px] tracking-[0.3em] uppercase text-charcoal/18 mb-1.5">Route Sketch</p>
         <svg width="156" height="68" viewBox="0 0 156 68" aria-label="Bike route sketch from start to Tirupati">
           <path d="M 8 58 C 30 52, 52 44, 72 34 C 92 24, 112 18, 134 20 C 148 21, 152 30, 150 42"
             fill="none" stroke="#3A5C82" strokeWidth="1.5" strokeLinecap="round"
@@ -254,10 +254,10 @@ function BikeSketch({ delay }: { delay: number }) {
           <text x="76" y="32" fontSize="9" opacity="0.32">🏍</text>
         </svg>
         <div className="mt-1.5 pt-1.5 border-t border-charcoal/8">
-          <p className="font-letter text-[13px] text-charcoal/55 leading-snug">
+          <p className="font-letter text-[16px] text-charcoal/55 leading-snug">
             Tirupati.<br />
             <span className="text-charcoal/42">After exams.</span><br />
-            <span className="font-handwriting text-[11px] text-[#C9A84C]/62 italic">Deal is deal.</span>
+            <span className="font-handwriting text-[14px] text-[#C9A84C]/62 italic">Deal is deal.</span>
           </p>
         </div>
       </div>
@@ -283,20 +283,20 @@ function BikeSketch({ delay }: { delay: number }) {
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLifted(v => !v); } }}
       >
         <div className="p-3">
-          <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-[#3A5C82]/18 mb-1.5">Route Sketch</p>
+          <p className="font-sans text-[16px] tracking-[0.3em] uppercase text-[#3A5C82]/18 mb-1.5">Route Sketch</p>
           <svg width="156" height="68" viewBox="0 0 156 68" aria-hidden="true">
             <path d="M 8 58 C 30 52, 52 44, 72 34 C 92 24, 112 18, 134 20 C 148 21, 152 30, 150 42"
               fill="none" stroke="#3A5C82" strokeWidth="1" strokeLinecap="round"
               strokeDasharray="3 2.5" opacity="0.12" />
           </svg>
-          <p className="font-handwriting text-[7.5px] text-[#3A5C82]/18 italic mt-1">lift ↑ to reveal</p>
+          <p className="font-handwriting text-[14px] text-[#3A5C82]/18 italic mt-1">lift ↑ to reveal</p>
         </div>
       </motion.div>
       {!lifted && (
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: delay + 1.8, duration: 1 }}
-          className="absolute -bottom-5 right-1 font-handwriting text-[7px] text-charcoal/16 italic pointer-events-none select-none"
+          className="absolute -bottom-5 right-1 font-handwriting text-[14px] text-charcoal/16 italic pointer-events-none select-none"
         >
           lift ↑
         </motion.p>
@@ -315,7 +315,7 @@ function SDCIdCard({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
       className="relative"
-      style={{ width: 160 }}
+      style={{ width: 200 }}
     >
       {/* Binder clip — sits on top edge */}
       <svg
@@ -361,15 +361,15 @@ function SDCIdCard({ delay }: { delay: number }) {
             </div>
             <div className="flex gap-2">
               <div className="bg-white/8 border border-white/10 flex items-center justify-center" style={{ width: 28, height: 36 }}>
-                <p className="text-[10px] text-white/28" aria-hidden="true">👤</p>
+                <p className="text-[16px] text-white/28" aria-hidden="true">👤</p>
               </div>
               <div>
-                <p className="font-handwriting text-[8px] text-white/32 mt-0.5">Member</p>
+                <p className="font-handwriting text-[14px] text-white/32 mt-0.5">Member</p>
                 <p className="font-letter text-[14px] text-white/52 leading-tight mt-0.5">SDC</p>
                 <p className="font-sans text-[5px] text-white/18 tracking-wider mt-1">2025–2026</p>
               </div>
             </div>
-            <p className="absolute bottom-2 right-2 font-handwriting text-[6.5px] text-white/14 italic">flip →</p>
+            <p className="absolute bottom-2 right-2 font-handwriting text-[16px] text-white/14 italic">flip →</p>
           </div>
           {/* Back */}
           <div
@@ -380,7 +380,7 @@ function SDCIdCard({ delay }: { delay: number }) {
               Welcome to SDC ❤️🔥
             </p>
             <div className="mt-2 h-px w-14 bg-charcoal/10" />
-            <p className="font-handwriting text-[7.5px] text-charcoal/26 italic mt-1.5">both of us. together.</p>
+            <p className="font-handwriting text-[14px] text-charcoal/26 italic mt-1.5">both of us. together.</p>
           </div>
         </motion.div>
       </div>
@@ -395,7 +395,7 @@ function IELTSNotes({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 166, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
+      style={{ width: 214, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
       className="relative border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Aged paper tint — slight yellowing from being kept */}
@@ -405,7 +405,7 @@ function IELTSNotes({ delay }: { delay: number }) {
         aria-hidden="true"
       />
       <div className="bg-[#E4EAF3] px-3 py-1.5 border-b border-charcoal/8 relative z-10">
-        <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-[#3A5C82]/40">IELTS Vocabulary</p>
+        <p className="font-sans text-[16px] tracking-[0.3em] uppercase text-[#3A5C82]/40">IELTS Vocabulary</p>
       </div>
       <div className="px-3 pt-2 pb-2.5 relative z-10" style={{ backgroundColor: '#FDFBF5' }}>
         {[
@@ -415,11 +415,11 @@ function IELTSNotes({ delay }: { delay: number }) {
           { word: 'aspire', def: 'to dream + work for it' },
         ].map(({ word, def }, i) => (
           <div key={i} className="flex gap-1.5 border-b border-charcoal/6 py-0.5 last:border-b-0">
-            <p className="font-letter text-[10px] text-[#3A5C82]/52 w-20 flex-shrink-0">{word}</p>
-            <p className="font-handwriting text-[8px] text-charcoal/32 italic">{def}</p>
+            <p className="font-letter text-[16px] text-[#3A5C82]/52 w-20 flex-shrink-0">{word}</p>
+            <p className="font-handwriting text-[14px] text-charcoal/32 italic">{def}</p>
           </div>
         ))}
-        <p className="font-handwriting text-[8px] text-charcoal/22 italic mt-2 pt-1 border-t border-charcoal/6">
+        <p className="font-handwriting text-[14px] text-charcoal/22 italic mt-2 pt-1 border-t border-charcoal/6">
           one step at a time...
         </p>
       </div>
@@ -435,7 +435,7 @@ function VelouraSketch({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 160 }}
+      style={{ width: 206 }}
     >
       {/* Logo sketch paper — deliberately not centred */}
       <div
@@ -472,7 +472,7 @@ function VelouraSketch({ delay }: { delay: number }) {
           boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
         }}
       >
-        <p className="font-handwriting text-[8.5px] text-charcoal/45 leading-relaxed">
+        <p className="font-handwriting text-[15px] text-charcoal/45 leading-relaxed">
           v1 ❌<br />
           v2 ✓?<br />
           v3?
@@ -489,7 +489,7 @@ function NotebookFragment({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 190, rotate: '0.5deg' }}
+      style={{ width: 246, rotate: '0.5deg' }}
       className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Spiral holes */}
@@ -501,29 +501,29 @@ function NotebookFragment({ delay }: { delay: number }) {
       <div className="absolute top-0 bottom-0 left-8 border-l border-[#E8B4B4]/25" />
       <div className="pl-10 pr-3 pt-2 pb-3">
         <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center">
-          <p className="font-handwriting text-[9px] text-charcoal/42">June goals —</p>
+          <p className="font-handwriting text-[15px] text-charcoal/42">June goals —</p>
         </div>
         <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
-          <p className="font-handwriting text-[9px] text-charcoal/20 line-through">NIC ideas</p>
-          <p className="font-handwriting text-[9px] text-charcoal/30">NIC campaign draft →</p>
+          <p className="font-handwriting text-[15px] text-charcoal/20 line-through">NIC ideas</p>
+          <p className="font-handwriting text-[15px] text-charcoal/30">NIC campaign draft →</p>
         </div>
         <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1">
-          <p className="font-handwriting text-[9px] text-charcoal/26 italic">Inscribe collab?</p>
-          <p className="font-handwriting text-[7px] text-charcoal/18 italic">(ask her)</p>
+          <p className="font-handwriting text-[15px] text-charcoal/26 italic">Inscribe collab?</p>
+          <p className="font-handwriting text-[14px] text-charcoal/18 italic">(ask her)</p>
         </div>
         <div className="h-5 border-b border-[#B0C4D8]/12" />
         <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
-          <p className="font-handwriting text-[9px] text-charcoal/28">SDC project list</p>
-          <p className="font-handwriting text-[7px] text-charcoal/18">← due when??</p>
+          <p className="font-handwriting text-[15px] text-charcoal/28">SDC project list</p>
+          <p className="font-handwriting text-[14px] text-charcoal/18">← due when??</p>
         </div>
         <div className="h-5 border-b border-[#B0C4D8]/12 flex items-center gap-1.5">
-          <p className="font-handwriting text-[9px] text-charcoal/16 italic line-through">Veloura logo</p>
-          <p className="font-handwriting text-[9px] text-charcoal/22 italic">brand deck</p>
+          <p className="font-handwriting text-[15px] text-charcoal/16 italic line-through">Veloura logo</p>
+          <p className="font-handwriting text-[15px] text-charcoal/22 italic">brand deck</p>
         </div>
         <div className="h-5 border-b border-[#B0C4D8]/12" />
       </div>
       <motion.p
-        className="absolute font-handwriting text-[6px] text-[#3A5C82]/16 pointer-events-none select-none"
+        className="absolute font-handwriting text-[16px] text-[#3A5C82]/16 pointer-events-none select-none"
         style={{ left: 0, top: '50%', transform: 'rotate(-90deg)', transformOrigin: 'left center', whiteSpace: 'nowrap' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -543,7 +543,7 @@ function CalendarPage({ delay }: { delay: number }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 106, rotate: '-2.5deg' }}
+      style={{ width: 138, rotate: '-2.5deg' }}
       className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Coffee ring stain — overlaid on the calendar */}
@@ -574,7 +574,7 @@ function CalendarPage({ delay }: { delay: number }) {
 
       {/* Calendar header */}
       <div className="bg-[#3A5C82] px-3 py-1.5 text-center">
-        <p className="font-sans text-[7px] tracking-[0.28em] uppercase text-white/55">June 2026</p>
+        <p className="font-sans text-[14px] tracking-[0.28em] uppercase text-white/55">June 2026</p>
       </div>
 
       <div className="p-2 relative">
@@ -613,8 +613,8 @@ function CalendarPage({ delay }: { delay: number }) {
         ))}
         {/* Handwritten notes + phone number */}
         <div className="mt-1 pt-1 border-t border-charcoal/6 relative">
-          <p className="font-handwriting text-[6px] text-charcoal/25 italic">← meeting</p>
-          <p className="font-handwriting text-[6px] text-[#3A5C82]/28 italic">↑ call?</p>
+          <p className="font-handwriting text-[16px] text-charcoal/25 italic">← meeting</p>
+          <p className="font-handwriting text-[16px] text-[#3A5C82]/28 italic">↑ call?</p>
           <p className="font-handwriting text-[5.5px] text-charcoal/18 mt-0.5">98765 43210</p>
         </div>
       </div>
@@ -657,7 +657,7 @@ export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:border-r md:border-charcoal/10 md:pr-10 py-8 z-10 relative flex flex-col">
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#3A5C82]/38 mb-1">Chapter Six · June 2026</p>
+            <p className="font-sans text-[15px] tracking-[0.4em] uppercase text-[#3A5C82]/38 mb-1">Chapter Six · June 2026</p>
             <h2 className="font-display text-3xl md:text-4xl text-[#1A3A5C] leading-tight">
               The Dreams We<br />Started Building
             </h2>
@@ -671,7 +671,7 @@ export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
             </motion.svg>
           </motion.div>
 
-          <div className="relative flex-1 mt-6" style={{ minHeight: 460 }}>
+          <div className="relative flex-1 mt-6" style={{ minHeight: 600 }}>
 
             {/* Bucket list — now real notebook paper style */}
             <div className="absolute top-0 left-0">
@@ -711,7 +711,7 @@ export default function ChapterSix({ onNext, onPrev }: ChapterProps) {
 
         {/* ═══════════ RIGHT PAGE ═══════════ */}
         <div className="flex-1 md:pl-10 py-8 z-10">
-          <div className="relative" style={{ minHeight: 660 }}>
+          <div className="relative" style={{ minHeight: 840 }}>
 
             {/* IELTS notes — top left */}
             <div className="absolute top-0 left-0">

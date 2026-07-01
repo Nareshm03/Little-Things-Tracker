@@ -37,10 +37,10 @@ function EmptyFrame({
             <circle cx="16" cy="11" r="4" fill="none" stroke="#9C8B6E" strokeWidth="0.9" />
             <path d="M10 17 L14 12 L18 15 L21 10 L28 18" fill="none" stroke="#9C8B6E" strokeWidth="0.9" strokeLinejoin="round" />
           </svg>
-          <p className="font-handwriting text-[8px] text-charcoal/25 mt-1.5 tracking-wide">soon.</p>
+          <p className="font-handwriting text-[14px] text-charcoal/25 mt-1.5 tracking-wide">soon.</p>
         </div>
         {/* Caption */}
-        <p className="font-handwriting text-[9px] text-charcoal/32 text-center mt-1 leading-snug">
+        <p className="font-handwriting text-[15px] text-charcoal/32 text-center mt-1 leading-snug">
           {label}
         </p>
       </div>
@@ -181,7 +181,7 @@ export default function ChapterFuture({ onNext, onPrev }: ChapterProps) {
 
           {/* Chapter header */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            <p className="font-sans text-[9px] tracking-[0.42em] uppercase text-[#8B6020]/36 mb-1">
+            <p className="font-sans text-[15px] tracking-[0.42em] uppercase text-[#8B6020]/36 mb-1">
               what's next
             </p>
             <h2 className="font-display text-3xl md:text-4xl text-[#7C4A10] leading-tight">
@@ -203,7 +203,7 @@ export default function ChapterFuture({ onNext, onPrev }: ChapterProps) {
             transition={{ delay: 0.9, duration: 1 }}
             className="mt-8 space-y-0"
           >
-            <p className="font-handwriting text-[8.5px] text-charcoal/28 uppercase tracking-[0.28em] mb-3">
+            <p className="font-handwriting text-[15px] text-charcoal/28 uppercase tracking-[0.28em] mb-3">
               in some order, probably
             </p>
             {[
@@ -222,7 +222,7 @@ export default function ChapterFuture({ onNext, onPrev }: ChapterProps) {
                 className="flex items-center gap-2.5 py-2 border-b border-charcoal/7"
               >
                 <span className="font-handwriting text-[14px] text-charcoal/32">{checked ? '☑' : '☐'}</span>
-                <p className="font-handwriting text-[13px] text-charcoal/58 leading-tight">{label}</p>
+                <p className="font-handwriting text-[16px] text-charcoal/58 leading-tight">{label}</p>
               </motion.div>
             ))}
           </motion.div>

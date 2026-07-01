@@ -44,7 +44,7 @@ function EnvelopeCard({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 220 }}
+      style={{ width: 280 }}
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
 
@@ -92,7 +92,7 @@ function EnvelopeCard({ delay }: { delay: number }) {
                 className="w-full flex flex-col items-center gap-3"
               >
                 <div className="bg-white p-2 pb-7 border border-gray-100/80 relative"
-                  style={{ width: 110, transform: 'rotate(1deg)', boxShadow: '1px 2px 8px rgba(0,0,0,0.09)' }}>
+                  style={{ width: 143, transform: 'rotate(1deg)', boxShadow: '1px 2px 8px rgba(0,0,0,0.09)' }}>
                   <div className="w-full bg-[#EDE3D8]" style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span className="text-2xl opacity-30" aria-hidden="true">💋</span>
                   </div>
@@ -118,7 +118,7 @@ function ChocolateArtifact({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 200 }}
+      style={{ width: 256 }}
     >
       <div className="absolute -top-3 right-3 w-12 h-5 washi-tape -rotate-[3deg]" />
 
@@ -134,11 +134,11 @@ function ChocolateArtifact({ delay }: { delay: number }) {
       >
         {/* Chat always sits here — revealed when wrapper peels */}
         <div className="px-3 py-3" style={{ fontFamily: 'system-ui, sans-serif' }}>
-          <p className="text-[9px] tracking-widest uppercase text-charcoal/28 mb-2 font-sans">15 February 2026</p>
+          <p className="text-[15px] tracking-widest uppercase text-charcoal/28 mb-2 font-sans">15 February 2026</p>
           <div className="flex justify-end">
-            <div className="bg-[#DCF8C6] px-2 py-1 rounded-lg rounded-tr-sm text-[11px] text-[#111] max-w-[80%]">
+            <div className="bg-[#DCF8C6] px-2 py-1 rounded-lg rounded-tr-sm text-[14px] text-[#111] max-w-[80%]">
               I think dark chocolate... you?
-              <span className="ml-1 text-[8px] text-green-600/50">✓✓</span>
+              <span className="ml-1 text-[14px] text-green-600/50">✓✓</span>
             </div>
           </div>
         </div>
@@ -153,11 +153,11 @@ function ChocolateArtifact({ delay }: { delay: number }) {
           <div className="bg-[#4A2C0A] w-full h-full flex flex-col justify-center"
             style={{ borderRadius: '2px' }}>
             <div className="border border-[#C8924A]/35 mx-4 my-4 px-3 py-3">
-              <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[#C8924A]/70 text-center leading-none mb-0.5">Dark</p>
+              <p className="font-sans text-[16px] tracking-[0.25em] uppercase text-[#C8924A]/70 text-center leading-none mb-0.5">Dark</p>
               <p className="font-display text-sm text-[#F0D08A] text-center">Chocolate</p>
             </div>
             {!peeled && (
-              <p className="font-handwriting text-[9px] text-[#C8924A]/50 text-center pb-2">peel ↑</p>
+              <p className="font-handwriting text-[15px] text-[#C8924A]/50 text-center pb-2">peel ↑</p>
             )}
           </div>
         </motion.div>
@@ -168,7 +168,7 @@ function ChocolateArtifact({ delay }: { delay: number }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: delay + 2.2, duration: 2 }}
-        className="absolute -bottom-4 left-1 font-handwriting text-[9px] text-charcoal/18 select-none pointer-events-none"
+        className="absolute -bottom-4 left-1 font-handwriting text-[15px] text-charcoal/18 select-none pointer-events-none"
         aria-hidden="true"
       >😂😂😂</motion.p>
     </motion.div>
@@ -193,7 +193,7 @@ function RecipeArtifact({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 172 }}
+      style={{ width: 220 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-5 washi-tape rotate-[2deg]" />
       <div
@@ -223,7 +223,7 @@ function RecipeArtifact({ delay }: { delay: number }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: delay + 2.5, duration: 2 }}
-        className="absolute -bottom-4 right-3 font-handwriting text-[11px] text-[#C87070]/22 select-none pointer-events-none"
+        className="absolute -bottom-4 right-3 font-handwriting text-[14px] text-[#C87070]/22 select-none pointer-events-none"
         aria-hidden="true"
       >♡</motion.p>
     </motion.div>
@@ -239,17 +239,17 @@ function StickyArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 176 }}
+      style={{ width: 224 }}
     >
       <div
         className="bg-[#FEF08A] px-4 py-4"
         style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
       >
-        <p className="font-handwriting text-[10px] text-charcoal/35 mb-1.5">20 February 2026</p>
+        <p className="font-handwriting text-[16px] text-charcoal/35 mb-1.5">20 February 2026</p>
         <p className="font-letter text-xs text-charcoal/80 leading-snug">
           "I think I'll stop using my brain when I'm with you 😂"
         </p>
-        <p className="font-handwriting text-[10px] text-charcoal/38 mt-2 text-right">— Meghana</p>
+        <p className="font-handwriting text-[16px] text-charcoal/38 mt-2 text-right">— Meghana</p>
       </div>
     </motion.div>
   );
@@ -264,14 +264,14 @@ function CampusDoodle({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 160 }}
+      style={{ width: 206 }}
     >
       <div className="absolute -top-3 left-3 w-12 h-5 washi-tape -rotate-[1deg]" />
       <div
         className="bg-[#F5F0E8] border border-charcoal/12 p-3"
         style={{ boxShadow: '1px 3px 10px rgba(0,0,0,0.08)' }}
       >
-        <p className="font-handwriting text-[9px] text-charcoal/35 text-center mb-2">16 February 2026</p>
+        <p className="font-handwriting text-[15px] text-charcoal/35 text-center mb-2">16 February 2026</p>
         <svg viewBox="0 0 144 96" width="100%" className="block">
           {/* Hand-drawn boxes — slightly wobbly */}
           {/* College building — top left */}
@@ -320,7 +320,7 @@ function CampusDoodle({ delay }: { delay: number }) {
             transition={{ delay: delay + 0.5, duration: 1.0, ease: 'easeOut' }}
           />
         </svg>
-        <p className="font-handwriting text-[9px] text-charcoal/38 text-center mt-1 italic">
+        <p className="font-handwriting text-[15px] text-charcoal/38 text-center mt-1 italic">
           "you came."
         </p>
       </div>
@@ -339,18 +339,18 @@ function SikkinaUnde({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 192 }}
+      style={{ width: 246 }}
     >
       <div className="absolute -top-3 left-5 w-14 h-5 washi-tape rotate-[1deg]" />
       <div
         className="bg-[#F9F6F0] border border-charcoal/10 overflow-hidden"
         style={{ boxShadow: '1px 2px 6px rgba(0,0,0,0.06)' }}
       >
-        <p className="font-handwriting text-[9px] text-charcoal/32 text-center pt-3 pb-1">23 February 2026</p>
+        <p className="font-handwriting text-[15px] text-charcoal/32 text-center pt-3 pb-1">23 February 2026</p>
 
         <div
           className="relative mx-auto my-2 cursor-pointer"
-          style={{ width: 120, height: 80 }}
+          style={{ width: 154, height: 102 }}
           onClick={() => setPulled(v => !v)}
           role="button"
           tabIndex={0}
@@ -401,7 +401,7 @@ function SikkinaUnde({ delay }: { delay: number }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="font-sans text-[9px] tracking-widest uppercase text-charcoal/28 text-center pb-3"
+              className="font-sans text-[15px] tracking-widest uppercase text-charcoal/28 text-center pb-3"
             >
               A small sweet. A big nickname.
             </motion.p>
@@ -414,7 +414,7 @@ function SikkinaUnde({ delay }: { delay: number }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: delay + 2.8, duration: 2 }}
-        className="absolute -right-5 top-1/2 font-handwriting text-[9px] text-coffee/18 select-none pointer-events-none"
+        className="absolute -right-5 top-1/2 font-handwriting text-[15px] text-coffee/18 select-none pointer-events-none"
         style={{ transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}
         aria-hidden="true"
       >bangara.</motion.p>
@@ -432,7 +432,7 @@ function FebQuoteNote({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 160 }}
+      style={{ width: 206 }}
       className="relative"
     >
       {/* Folded receipt — just cream paper, no border */}
@@ -447,7 +447,7 @@ function FebQuoteNote({ delay }: { delay: number }) {
       >
         {/* Fold line visible at top — shows it's folded */}
         <div className="border-b border-charcoal/8 px-4 py-2.5">
-          <p className="font-handwriting text-[9px] text-charcoal/28">
+          <p className="font-handwriting text-[15px] text-charcoal/28">
             {unfolded ? '26 February' : 'tap to open ↓'}
           </p>
         </div>
@@ -680,7 +680,7 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
             transition={{ delay: 5.5, duration: 2 }}
             className="mt-16 mb-8 flex flex-col items-center text-center"
           >
-            <p className="font-quote text-[10px] text-charcoal/28 mb-3 tracking-widest">*</p>
+            <p className="font-quote text-[16px] text-charcoal/28 mb-3 tracking-widest">*</p>
             <p className="font-quote text-sm text-charcoal/42 leading-[2.2] italic">
               February was over.<br />
               <span className="text-charcoal/32">Somehow,</span><br />
@@ -699,29 +699,29 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:pl-12 py-8">
 
           {/* Desktop: organic scatter */}
-          <div className="hidden md:block relative" style={{ minHeight: 760 }}>
+          <div className="hidden md:block relative" style={{ minHeight: 960 }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <EnvelopeCard delay={0.9} />
             </div>
-            <div style={{ position: 'absolute', top: 8, left: 232 }}>
+            <div style={{ position: 'absolute', top: 8, left: 294 }}>
               <ChocolateArtifact delay={1.3} />
             </div>
-            <div style={{ position: 'absolute', top: 204, left: 10 }}>
+            <div style={{ position: 'absolute', top: 256, left: 10 }}>
               <RecipeArtifact delay={1.8} />
             </div>
-            <div style={{ position: 'absolute', top: 152, left: 226 }}>
+            <div style={{ position: 'absolute', top: 152, left: 288 }}>
               <StickyArtifact delay={2.2} />
             </div>
-            <div style={{ position: 'absolute', top: 396, left: 18 }}>
+            <div style={{ position: 'absolute', top: 488, left: 18 }}>
               <CampusDoodle delay={2.6} />
             </div>
-            <div style={{ position: 'absolute', top: 344, left: 196 }}>
+            <div style={{ position: 'absolute', top: 434, left: 254 }}>
               <SikkinaUnde delay={3.0} />
             </div>
-            <div style={{ position: 'absolute', top: 558, left: 182 }} className="relative">
+            <div style={{ position: 'absolute', top: 700, left: 236 }} className="relative">
               <FebQuoteNote delay={3.6} />
             </div>
-            <div style={{ position: 'absolute', top: 572, left: 0, right: 0 }}>
+            <div style={{ position: 'absolute', top: 740, left: 0, right: 0 }}>
               <ForgotHug />
             </div>
           </div>
