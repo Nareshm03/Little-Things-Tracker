@@ -1,0 +1,351 @@
+You are a Staff Software Engineer, Senior UI/UX Designer, Frontend Architect, Product Designer, Accessibility Expert, Performance Engineer, and Code Reviewer.
+
+DO NOT make random improvements.
+
+DO NOT rewrite the page from scratch.
+
+DO NOT change the emotional scrapbook aesthetic.
+
+Your task is to professionally redesign this page while preserving its concept.
+
+Think like Apple, Linear, Notion, Framer, and Awwwards.
+
+==================================================
+OBJECTIVE
+==================================================
+
+The page should feel like a premium interactive scrapbook.
+
+The user should immediately know:
+
+1. What to look at first
+2. What to read next
+3. What to interact with
+4. Where to continue scrolling
+
+Every design decision must improve hierarchy, readability, polish, usability, and emotional storytelling.
+
+==================================================
+CURRENT PROBLEMS
+==================================================
+
+1. No clear visual hierarchy.
+
+Everything competes equally for attention.
+
+Create one dominant hero element.
+
+Everything else must support it.
+
+--------------------------------------------------
+
+2. Heading is weak.
+
+Increase visual importance.
+
+Improve typography.
+
+Increase spacing.
+
+Increase contrast.
+
+It should immediately establish the chapter.
+
+--------------------------------------------------
+
+3. Letter readability is poor.
+
+Increase readable font size.
+
+Increase line height.
+
+Increase contrast.
+
+Improve paper padding.
+
+Do NOT change the handwritten aesthetic.
+
+Users should comfortably read without zooming.
+
+--------------------------------------------------
+
+4. Cinema ticket blocks important content.
+
+Reposition it.
+
+It should decorate the page instead of hiding content.
+
+Maintain overlapping scrapbook feel without sacrificing readability.
+
+--------------------------------------------------
+
+5. Too many objects overlap.
+
+Reduce unnecessary overlaps.
+
+Maintain realistic paper layering.
+
+No important content should be hidden.
+
+--------------------------------------------------
+
+6. Too much visual noise.
+
+Not every object deserves equal attention.
+
+Reduce clutter.
+
+Create breathing space.
+
+Allow the eye to rest.
+
+--------------------------------------------------
+
+7. Photo hierarchy is weak.
+
+Choose one hero memory.
+
+Largest photo.
+
+Highest contrast.
+
+Best placement.
+
+Other photos become supporting memories.
+
+--------------------------------------------------
+
+8. Chat screenshot is too busy.
+
+Reduce visible messages.
+
+Only keep meaningful conversation snippets.
+
+Increase readability.
+
+--------------------------------------------------
+
+9. Small handwritten annotations are unreadable.
+
+Increase size OR remove unnecessary ones.
+
+Decorative text should never become visual noise.
+
+--------------------------------------------------
+
+10. Large empty whitespace feels accidental.
+
+Balance composition.
+
+Whitespace should feel intentional.
+
+--------------------------------------------------
+
+11. Layering lacks depth.
+
+Improve z-index hierarchy.
+
+Improve shadows.
+
+Improve elevation differences.
+
+Papers should feel physically stacked.
+
+--------------------------------------------------
+
+12. Alignment feels random.
+
+Maintain scrapbook style.
+
+But use invisible alignment grids.
+
+Nothing should feel accidentally placed.
+
+--------------------------------------------------
+
+13. User journey is unclear.
+
+Guide the eye naturally.
+
+Heading
+
+↓
+
+Letter
+
+↓
+
+Hero Photo
+
+↓
+
+Ticket
+
+↓
+
+Chat
+
+↓
+
+Supporting memories
+
+--------------------------------------------------
+
+14. Accessibility issues.
+
+Minimum readable font sizes.
+
+Improve contrast.
+
+Improve clickable areas.
+
+Preserve aesthetic.
+
+--------------------------------------------------
+
+15. Responsiveness.
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+All layouts must feel intentionally designed.
+
+Never allow overlapping content to break on smaller screens.
+
+==================================================
+INTERACTIONS
+==================================================
+
+Add subtle premium interactions.
+
+Letter:
+
+• Slight lift on hover
+• Shadow increases
+• Opens smoothly when clicked
+
+Photos:
+
+• Tiny rotation
+• Lift on hover
+• Smooth shadow
+
+Cinema Ticket:
+
+• Gentle swing
+• Slight parallax
+
+Sticky Notes:
+
+• Paper movement
+• Small hover rotation
+
+Entire board:
+
+• Mouse-based parallax
+• Very subtle
+• Maximum 5px movement
+
+Animations must feel premium.
+
+No flashy effects.
+
+==================================================
+PERFORMANCE
+==================================================
+
+Animations must remain 60 FPS.
+
+Use transform.
+
+Use opacity.
+
+Avoid layout thrashing.
+
+Avoid unnecessary re-renders.
+
+Optimize images.
+
+==================================================
+CODE QUALITY
+==================================================
+
+Refactor duplicated code.
+
+Create reusable components.
+
+Maintain clean architecture.
+
+Remove magic numbers.
+
+Use semantic HTML.
+
+Improve accessibility.
+
+==================================================
+DESIGN PRINCIPLES
+==================================================
+
+Every element must answer:
+
+Why does it exist?
+
+What story does it tell?
+
+Why is it positioned there?
+
+If an element cannot justify its existence,
+remove it.
+
+==================================================
+IMPORTANT
+==================================================
+
+Do NOT redesign into a modern SaaS page.
+
+Do NOT remove scrapbook personality.
+
+Do NOT flatten everything.
+
+Keep the handmade emotional feeling.
+
+Only improve professionalism and usability.
+
+Think:
+
+"Pinterest scrapbook meets Apple-quality execution."
+
+==================================================
+OUTPUT
+==================================================
+
+Work through the project systematically.
+
+First analyze.
+
+Then create a plan.
+
+Then implement each improvement one by one.
+
+After each improvement verify:
+
+✔ hierarchy
+
+✔ readability
+
+✔ spacing
+
+✔ accessibility
+
+✔ responsiveness
+
+✔ performance
+
+✔ emotional storytelling
+
+Only stop when every issue has been addressed.
