@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion, useInView } from 'framer-motion';
 import { ChapterProps } from '../App';
+import feb1 from '@assets/generated_images/polaroid-1.jpg';
+import feb2 from '@assets/generated_images/polaroid-2.jpg';
+import feb3 from '@assets/generated_images/polaroid-3.jpg';
+import feb4 from '@assets/generated_images/polaroid-4.jpg';
+import feb5 from '@assets/00002906-PHOTO-2026-03-06-17-36-24_1782730126470.jpg';
 
 // ─── Motion helper ─────────────────────────────────────────────────────────────
 // Paper settles — drops and tilts into place. Not a UI fade.
@@ -582,6 +587,50 @@ function ForgotHug() {
   );
 }
 
+// ─── February Polaroid ────────────────────────────────────────────────────────
+
+function FebPolaroid({
+  src,
+  caption,
+  rotate,
+  delay,
+  objectPos = 'center',
+}: {
+  src: string;
+  caption: string;
+  rotate: number;
+  delay: number;
+  objectPos?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotate: rotate + 6, y: 20 }}
+      animate={{ opacity: 1, rotate, y: 0 }}
+      transition={{
+        opacity: { delay, duration: 0.5 },
+        y: { type: 'spring', stiffness: 40, damping: 10, delay },
+        rotate: { type: 'spring', stiffness: 40, damping: 10, delay },
+      }}
+      style={{ width: 140 }}
+    >
+      {/* Washi tape */}
+      <div
+        className="absolute -top-2.5 left-1/2 -translate-x-1/2 h-4 w-11 z-10"
+        style={{ backgroundColor: 'rgba(232,184,109,0.38)', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+        aria-hidden="true"
+      />
+      <div className="bg-white p-1.5 pb-7 shadow-md border border-charcoal/6">
+        <img
+          src={src}
+          alt={caption}
+          style={{ width: '100%', height: 108, objectFit: 'cover', objectPosition: objectPos, display: 'block' }}
+        />
+      </div>
+      <p className="font-handwriting text-[15px] text-charcoal/38 text-center mt-1.5">{caption}</p>
+    </motion.div>
+  );
+}
+
 // ─── Chapter Two ──────────────────────────────────────────────────────────────
 
 export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
@@ -699,7 +748,7 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
         <div className="flex-1 md:pl-12 py-8">
 
           {/* Desktop: organic scatter */}
-          <div className="hidden md:block relative" style={{ minHeight: 960 }}>
+          <div className="hidden md:block relative" style={{ minHeight: 1200 }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <EnvelopeCard delay={0.9} />
             </div>
@@ -724,6 +773,23 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
             <div style={{ position: 'absolute', top: 740, left: 0, right: 0 }}>
               <ForgotHug />
             </div>
+
+            {/* ── February photos ── */}
+            <div style={{ position: 'absolute', top: 820, left: 0 }}>
+              <FebPolaroid src={feb1} caption="14 Feb. 💌" rotate={-3} delay={4.2} />
+            </div>
+            <div style={{ position: 'absolute', top: 800, left: 165 }}>
+              <FebPolaroid src={feb2} caption="the first week" rotate={2.5} delay={4.6} />
+            </div>
+            <div style={{ position: 'absolute', top: 820, left: 320 }}>
+              <FebPolaroid src={feb5} caption="16 Feb." rotate={-2} delay={5.0} />
+            </div>
+            <div style={{ position: 'absolute', top: 970, left: 30 }}>
+              <FebPolaroid src={feb3} caption="23 Feb. 🌟" rotate={3} delay={5.4} />
+            </div>
+            <div style={{ position: 'absolute', top: 960, left: 210 }}>
+              <FebPolaroid src={feb4} caption="bangara. 🍬" rotate={-4} delay={5.8} />
+            </div>
           </div>
 
           {/* Mobile: natural flow */}
@@ -736,6 +802,13 @@ export default function ChapterTwo({ onNext, onPrev }: ChapterProps) {
             <SikkinaUnde delay={2.4} />
             <FebQuoteNote delay={2.7} />
             <ForgotHug />
+            <div className="flex flex-wrap gap-5 pt-4">
+              <FebPolaroid src={feb1} caption="14 Feb. 💌" rotate={-2} delay={3.2} />
+              <FebPolaroid src={feb2} caption="the first week" rotate={2} delay={3.5} />
+              <FebPolaroid src={feb5} caption="16 Feb." rotate={-1} delay={3.8} />
+              <FebPolaroid src={feb3} caption="23 Feb. 🌟" rotate={3} delay={4.1} />
+              <FebPolaroid src={feb4} caption="bangara. 🍬" rotate={-3} delay={4.4} />
+            </div>
           </div>
 
         </div>
