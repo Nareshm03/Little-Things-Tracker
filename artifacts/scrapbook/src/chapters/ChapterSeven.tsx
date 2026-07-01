@@ -140,47 +140,6 @@ function LittleNote() {
 }
 
 // ─── Real photo — polaroid ────────────────────────────────────────────────────
-function RealPhoto() {
-  return (
-    <div
-      className="bg-white shadow-md"
-      style={{
-        padding: '5px 5px 28px 5px',
-        width: 218,
-        rotate: '-2.5deg',
-        boxShadow: '0 6px 22px rgba(0,0,0,0.13)',
-      }}
-      aria-label="A candid photo of the two of us"
-    >
-      <img
-        src={usPhoto}
-        alt="Naresh and Meghana — a natural moment together"
-        style={{ width: '100%', height: 178, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
-      />
-      <p className="font-handwriting text-[14px] text-charcoal/28 text-center mt-1.5">us.</p>
-    </div>
-  );
-}
-
-// ─── Right page photos ────────────────────────────────────────────────────────
-function RightPhoto({ src, caption, rotate, objectPos }: {
-  src: string; caption: string; rotate: number; objectPos: string;
-}) {
-  return (
-    <div
-      className="bg-white shadow-sm"
-      style={{ padding: '4px 4px 18px 4px', width: 148, rotate: `${rotate}deg`, boxShadow: '0 3px 10px rgba(0,0,0,0.09)' }}
-    >
-      <img
-        src={src}
-        alt={caption}
-        style={{ width: '100%', height: 116, objectFit: 'cover', objectPosition: objectPos, display: 'block', filter: 'sepia(0.06) contrast(1.02)' }}
-      />
-      <p className="font-handwriting text-[14px] text-charcoal/30 text-center mt-1.5">{caption}</p>
-    </div>
-  );
-}
-
 // ─── Reflections — the poem ────────────────────────────────────────────────────
 type ReflectionLine = {
   text: string;
@@ -212,14 +171,71 @@ const REFLECTIONS: ReflectionLine[] = [
   { text: 'thousands of tiny ones.', font: 'display', delay: 12.9 },
 ];
 
+// ─── Polaroid-development animation ───────────────────────────────────────────
+// Photos emerge like printed Polaroids: greyscale → colour develops → subtle
+// shake as they're 'placed' on the page.
+function PolaroidDevelop({
+  src, alt, width, height, objectPos = 'center',
+  caption, rotate = 0, delay, reduced,
+}: {
+  src: string; alt: string; width: number; height: number;
+  objectPos?: string; caption?: string; rotate?: number;
+  delay: number; reduced: boolean | null;
+}) {
+  return (
+    <motion.div
+      className="bg-white shadow-md"
+      style={{
+        padding: '5px 5px 24px 5px',
+        rotate: `${rotate}deg`,
+        boxShadow: '0 6px 22px rgba(0,0,0,0.13)',
+        width,
+      }}
+      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 20 }}
+      animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      transition={
+        reduced
+          ? { duration: 0.4, delay }
+          : {
+              opacity: { delay, duration: 0.5 },
+              y: {
+                type: 'spring', stiffness: 36, damping: 9, delay,
+                // tiny shake after landing — built into spring physics
+              },
+            }
+      }
+    >
+      <motion.img
+        src={src}
+        alt={alt}
+        style={{
+          width: '100%', height, objectFit: 'cover' as const,
+          objectPosition: objectPos, display: 'block',
+        }}
+        // Colour-development: starts greyscale + slightly blown-out, warms up
+        initial={{ filter: 'saturate(0) brightness(1.22) contrast(0.88)' }}
+        animate={{ filter: 'saturate(1) brightness(1.00) contrast(1.02) sepia(0.05)' }}
+        transition={reduced ? { duration: 0.3, delay } : { duration: 2.4, delay: delay + 0.35, ease: 'easeOut' }}
+      />
+      {caption && (
+        <p className="font-handwriting text-[14px] text-charcoal/28 text-center mt-1.5">
+          {caption}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 // ─── Chapter Seven ────────────────────────────────────────────────────────────
 export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
   const shouldReduceMotion = useReducedMotion();
+  // "Silence" opening — the page breathes for a moment before memories arrive
+  const SILENCE_DUR = shouldReduceMotion ? 0 : 2.6;
 
   const fadeIn = (delay: number, duration = 2.2): { initial: { opacity: number }; animate: { opacity: number }; transition: Transition } =>
     shouldReduceMotion
       ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4 } }
-      : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay, duration, ease: [0.25, 0.1, 0.25, 1] } };
+      : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: delay + SILENCE_DUR, duration, ease: [0.25, 0.1, 0.25, 1] } };
 
   const paperDrop = (delay: number) =>
     shouldReduceMotion
@@ -228,8 +244,8 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
           initial: { opacity: 0, y: 26 },
           animate: { opacity: 1, y: 0 },
           transition: {
-            opacity: { delay, duration: 0.5 },
-            y: { type: 'spring', stiffness: 40, damping: 10, delay },
+            opacity: { delay: delay + SILENCE_DUR, duration: 0.5 },
+            y: { type: 'spring', stiffness: 40, damping: 10, delay: delay + SILENCE_DUR },
           } as Transition,
         };
 
@@ -243,6 +259,28 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
       transition={{ duration: 1.8, ease: 'easeInOut' }}
       aria-label="Chapter Seven: The Little Things We Never Want To Forget"
     >
+      {/* ── Silence opening ── One word. Then the memories come. ────────────────
+           This single phrase appears on an otherwise blank page for ~2.5s
+           before the rest of the chapter fades in. Creates emotional contrast. */}
+      {!shouldReduceMotion && (
+        <motion.div
+          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 1.0, delay: SILENCE_DUR - 0.8, ease: 'easeInOut' }}
+          aria-hidden="true"
+        >
+          <motion.p
+            className="font-handwriting text-[2.2rem] text-charcoal/30 italic select-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 1, 0] }}
+            transition={{ duration: SILENCE_DUR, times: [0, 0.25, 0.75, 1], ease: 'easeInOut' }}
+          >
+            remember.
+          </motion.p>
+        </motion.div>
+      )}
+
       {/* Very soft morning warmth */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -303,14 +341,13 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             </motion.div>
 
             {/* Real photo — top area, slightly overlapping rose */}
-            <motion.div
-              {...paperDrop(2.2)}
-              className="absolute"
-              style={{ top: 10, left: 48 }}
-              aria-label="A photo of the two of us"
-            >
-              <RealPhoto />
-            </motion.div>
+            <div className="absolute" style={{ top: 10, left: 48 }}>
+              <PolaroidDevelop
+                src={usPhoto} alt="Naresh and Meghana — a natural moment together"
+                width={218} height={178} objectPos="top center"
+                caption="us." rotate={-2.5} delay={2.2 + SILENCE_DUR} reduced={shouldReduceMotion}
+              />
+            </div>
 
             {/* Temple receipt / old ticket */}
             <motion.div
@@ -367,7 +404,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
               className="absolute pointer-events-none select-none"
               style={{ bottom: 32, left: 6 }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: shouldReduceMotion ? 0.4 : 11.0, duration: 3.0 }}
+              transition={{ delay: shouldReduceMotion ? 0.4 : 11.0 + SILENCE_DUR, duration: 3.0 }}
               aria-hidden="true"
             >
               <p className="font-handwriting text-[14px] text-charcoal/12 italic" style={{ rotate: '-1deg' }}>
@@ -388,47 +425,32 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
             June 2026
           </motion.p>
 
-          {/* Three scattered photos at the top of the right page */}
+          {/* Three scattered Polaroids — each develops its colour as it arrives */}
           <div className="relative mb-8" style={{ minHeight: 280 }}>
-            {/* Photo 1 — far left, tilted left */}
-            <motion.div
-              {...fadeIn(1.2, 2.4)}
-              className="absolute"
-              style={{ top: 0, left: 0 }}
-            >
-              <RightPhoto
-                src={photoGreenSaree}
-                caption="green saree."
-                rotate={-3}
-                objectPos="center top"
+            <div className="absolute" style={{ top: 0, left: 0 }}>
+              <PolaroidDevelop
+                src={photoGreenSaree} alt="Meghana in green saree"
+                width={148} height={116} objectPos="center top"
+                caption="green saree." rotate={-3}
+                delay={1.2 + SILENCE_DUR} reduced={shouldReduceMotion}
               />
-            </motion.div>
-            {/* Photo 2 — centre, rotated right, overlapping first */}
-            <motion.div
-              {...fadeIn(1.8, 2.4)}
-              className="absolute"
-              style={{ top: 20, left: 120 }}
-            >
-              <RightPhoto
-                src={usPhoto}
-                caption="us."
-                rotate={2}
-                objectPos="top center"
+            </div>
+            <div className="absolute" style={{ top: 20, left: 120 }}>
+              <PolaroidDevelop
+                src={usPhoto} alt="Us together"
+                width={148} height={116} objectPos="top center"
+                caption="us." rotate={2}
+                delay={1.8 + SILENCE_DUR} reduced={shouldReduceMotion}
               />
-            </motion.div>
-            {/* Photo 3 — right, tilted left, overlapping second */}
-            <motion.div
-              {...fadeIn(2.4, 2.4)}
-              className="absolute"
-              style={{ top: 4, right: 0 }}
-            >
-              <RightPhoto
-                src={photoTemple}
-                caption="together."
-                rotate={-1.5}
-                objectPos="center top"
+            </div>
+            <div className="absolute" style={{ top: 4, right: 0 }}>
+              <PolaroidDevelop
+                src={photoTemple} alt="Together at the temple"
+                width={148} height={116} objectPos="center top"
+                caption="together." rotate={-1.5}
+                delay={2.4 + SILENCE_DUR} reduced={shouldReduceMotion}
               />
-            </motion.div>
+            </div>
           </div>
 
           {/* Reflections poem */}

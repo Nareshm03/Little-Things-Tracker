@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Cover from './chapters/Cover';
 import Dedication from './chapters/Dedication';
 import BeforeWeBegin from './chapters/BeforeWeBegin';
@@ -20,6 +20,102 @@ export type ChapterProps = {
   onNext: () => void;
   onPrev: () => void;
 };
+
+// ─── Page-turn wrapper variants ───────────────────────────────────────────────
+// Adds a 3-D rotateY tilt on top of each chapter's own x-slide.
+// The chapters handle the horizontal movement; this wrapper adds the book-page
+// rotation so it feels like turning a physical page rather than scrolling divs.
+// We deliberately omit 'x' here to avoid doubling the slide distance.
+const pageTurnVariants = {
+  enter: (dir: number) => ({
+    rotateY: dir > 0 ? 14 : -14,
+    scale: 0.97,
+    opacity: 0,
+    transformPerspective: 1400,
+  }),
+  center: {
+    rotateY: 0,
+    scale: 1,
+    opacity: 1,
+    transformPerspective: 1400,
+  },
+  exit: (dir: number) => ({
+    rotateY: dir > 0 ? -14 : 14,
+    scale: 0.97,
+    opacity: 0,
+    transformPerspective: 1400,
+  }),
+};
+
+// ─── Mouse-reactive paper-curl corner ─────────────────────────────────────────
+function PageCurlCorner({ visible }: { visible: boolean }) {
+  const shouldReduceMotion = useReducedMotion();
+  const [nearCorner, setNearCorner] = useState(false);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!visible || shouldReduceMotion) return;
+    const handleMove = (e: MouseEvent) => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        const dx = window.innerWidth  - e.clientX;
+        const dy = window.innerHeight - e.clientY;
+        setNearCorner(Math.sqrt(dx * dx + dy * dy) < 110);
+      });
+    };
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [visible, shouldReduceMotion]);
+
+  if (!visible || shouldReduceMotion) return null;
+
+  return (
+    <div
+      className="fixed bottom-0 right-0 z-40 pointer-events-none"
+      style={{ width: 64, height: 64 }}
+      aria-hidden="true"
+    >
+      {/* Shadow cast by curling page */}
+      <motion.div
+        className="absolute bottom-0 right-0"
+        style={{
+          width: nearCorner ? 52 : 28,
+          height: nearCorner ? 52 : 28,
+          background: 'radial-gradient(circle at bottom right, rgba(0,0,0,0.08) 0%, transparent 70%)',
+          borderRadius: '50% 0 0 0',
+          filter: 'blur(4px)',
+        }}
+        animate={{ width: nearCorner ? 52 : 28, height: nearCorner ? 52 : 28 }}
+        transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+      />
+      {/* Curled corner */}
+      <motion.div
+        className="absolute bottom-0 right-0"
+        style={{ transformOrigin: 'bottom right' }}
+        animate={{
+          scale: nearCorner ? 1.45 : 1,
+          rotate: nearCorner ? -4 : 0,
+        }}
+        transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        <svg width="32" height="32" viewBox="0 0 32 32">
+          <defs>
+            <linearGradient id="curlG" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#D8CCBA" />
+              <stop offset="60%" stopColor="#C8B89A" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#B8A888" stopOpacity="0.5" />
+            </linearGradient>
+          </defs>
+          <path d="M 32 0 L 32 32 L 0 32 Z" fill="url(#curlG)" />
+          <path d="M 32 6 L 32 32 L 6 32 Z" fill="rgba(255,255,255,0.14)" />
+        </svg>
+      </motion.div>
+    </div>
+  );
+}
 
 const chapters = [
   { id: 'cover',      component: Cover,           isDark: false },
@@ -42,12 +138,15 @@ function App() {
   const [isMuted, setIsMuted] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const shouldReduceMotion = useReducedMotion();
 
   const currentChapter = chapters[currentChapterIndex];
   const CurrentComponent = currentChapter.component;
   const isLastChapter = currentChapterIndex === chapters.length - 1;
 
   const nextChapter = () => {
+    setDirection(1);
     if (isLastChapter) {
       setIsClosing(true);
     } else if (currentChapterIndex < chapters.length - 1) {
@@ -56,13 +155,15 @@ function App() {
   };
 
   const prevChapter = () => {
+    setDirection(-1);
     if (currentChapterIndex > 0) {
       setCurrentChapterIndex(prev => prev - 1);
     }
   };
 
   const goToChapter = (index: number) => {
-    if (index >= 0 && index < chapters.length) {
+    if (index >= 0 && index < chapters.length && index !== currentChapterIndex) {
+      setDirection(index > currentChapterIndex ? 1 : -1);
       setCurrentChapterIndex(index);
     }
   };
@@ -147,17 +248,29 @@ function App() {
         />
       )}
 
-      {/* Chapter content */}
-      <AnimatePresence mode="wait">
+      {/* Chapter content — wrapped in direction-aware page-turn transition */}
+      <AnimatePresence mode="wait" custom={direction}>
         {!isClosing && (
-          <CurrentComponent
+          <motion.div
             key={currentChapter.id}
-            onNext={() => {
-              if (!hasStarted) setHasStarted(true);
-              nextChapter();
-            }}
-            onPrev={prevChapter}
-          />
+            className="absolute inset-0"
+            custom={direction}
+            variants={shouldReduceMotion ? undefined : pageTurnVariants}
+            initial={shouldReduceMotion ? { opacity: 0 } : 'enter'}
+            animate={shouldReduceMotion ? { opacity: 1 } : 'center'}
+            exit={shouldReduceMotion ? { opacity: 0 } : 'exit'}
+            transition={shouldReduceMotion
+              ? { duration: 0.25 }
+              : { duration: 1.3, ease: [0.77, 0, 0.175, 1] }}
+          >
+            <CurrentComponent
+              onNext={() => {
+                if (!hasStarted) setHasStarted(true);
+                nextChapter();
+              }}
+              onPrev={prevChapter}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -167,6 +280,9 @@ function App() {
           <ClosingSequence key="closing" onReadAgain={handleReadAgain} />
         )}
       </AnimatePresence>
+
+      {/* Paper curl corner — micro-detail, appears once in the scrapbook */}
+      <PageCurlCorner visible={hasStarted && !isClosing} />
 
     </div>
   );

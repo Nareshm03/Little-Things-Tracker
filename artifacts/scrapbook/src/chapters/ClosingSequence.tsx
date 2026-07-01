@@ -254,6 +254,84 @@ function Sunlight({ fading }: { fading: boolean }) {
   );
 }
 
+// ─── Pressed flower — remains on the final page like a keepsake ───────────────
+// Appears after the book closes. A dried marigold, the same one from the cover,
+// now resting alone on the cream page. It never leaves.
+function FinalPressedFlower({ visible }: { visible: boolean }) {
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          key="final-flower"
+          className="absolute pointer-events-none"
+          style={{ bottom: '14%', right: '12%' }}
+          initial={{ opacity: 0, scale: 0.82, rotate: -8 }}
+          animate={{ opacity: 1, scale: 1, rotate: -6 }}
+          transition={{ duration: 3.2, ease: [0.16, 1, 0.3, 1] }}
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" width="88" height="88">
+            <defs>
+              <radialGradient id="fpg-a" cx="50%" cy="28%" r="72%">
+                <stop offset="0%"   stopColor="#EDD08A" />
+                <stop offset="55%"  stopColor="#C98D30" />
+                <stop offset="100%" stopColor="#7A5018" stopOpacity="0.8" />
+              </radialGradient>
+              <radialGradient id="fpg-b" cx="50%" cy="28%" r="72%">
+                <stop offset="0%"   stopColor="#E0BC6A" />
+                <stop offset="55%"  stopColor="#B87820" />
+                <stop offset="100%" stopColor="#6B4010" stopOpacity="0.75" />
+              </radialGradient>
+              <radialGradient id="fpg-c" cx="38%" cy="32%" r="65%">
+                <stop offset="0%"   stopColor="#4A2808" />
+                <stop offset="100%" stopColor="#1E0E02" />
+              </radialGradient>
+            </defs>
+            {/* Outer petals */}
+            {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => (
+              <ellipse key={`op-${i}`} cx="60" cy="42" rx="8" ry="19"
+                fill={i % 2 === 0 ? 'url(#fpg-a)' : 'url(#fpg-b)'}
+                transform={`rotate(${deg} 60 60)`} opacity={0.72 + (i % 3) * 0.05} />
+            ))}
+            {/* Vein lines */}
+            {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => (
+              <line key={`vl-${i}`} x1="60" y1="57" x2="60" y2="37"
+                stroke="#7A4A10" strokeWidth="0.5" opacity="0.25"
+                transform={`rotate(${deg} 60 60)`} />
+            ))}
+            {/* Inner petals */}
+            {[15,45,75,105,135,165,195,225,255,285,315,345].map((deg, i) => (
+              <ellipse key={`ip-${i}`} cx="60" cy="46" rx="6" ry="14"
+                fill={i % 2 === 0 ? 'url(#fpg-b)' : 'url(#fpg-a)'}
+                transform={`rotate(${deg} 60 60)`} opacity={0.62 + (i % 3) * 0.05} />
+            ))}
+            {/* Centre disc */}
+            <circle cx="60" cy="60" r="13" fill="url(#fpg-c)" opacity="0.9" />
+            {[[60,52],[56,54],[64,54],[58,57],[62,57],[55,59],[65,59],[57,62],[63,62],[60,65]].map(([x,y],i) => (
+              <circle key={i} cx={x} cy={y} r="1" fill="#D4A040" opacity="0.45" />
+            ))}
+            <ellipse cx="56" cy="54" rx="4" ry="2.5" fill="rgba(255,230,150,0.12)" transform="rotate(-25 56 54)" />
+          </svg>
+          {/* Tiny stem / shadow to ground it on the page */}
+          <motion.div
+            style={{
+              position: 'absolute', bottom: -8, left: '50%', transform: 'translateX(-50%)',
+              width: 1.5, height: 18,
+              background: 'linear-gradient(to bottom, rgba(107,124,58,0.55), rgba(107,124,58,0.08))',
+              borderRadius: 2,
+              transformOrigin: 'top',
+            }}
+            initial={{ scaleY: 0, opacity: 0 }}
+            animate={{ scaleY: 1, opacity: 1 }}
+            transition={{ duration: 1.8, delay: 1.2, ease: 'easeOut' }}
+            aria-hidden="true"
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // ─── Final text screen ────────────────────────────────────────────────────────
 function FinalText({
   phase,
@@ -266,12 +344,16 @@ function FinalText({
   const showGratitude = ['gratitude','reopen','readagain'].includes(phase);
   const showReopen    = ['reopen','readagain'].includes(phase);
   const showReadAgain = phase === 'readagain';
+  const showFlower    = ['final','gratitude','reopen','readagain'].includes(phase);
 
   return (
     <div
       className="absolute inset-0 flex flex-col items-center justify-center gap-8 pointer-events-none"
       aria-live="polite"
     >
+      {/* Pressed flower — placed like a keepsake, stays forever */}
+      <FinalPressedFlower visible={showFlower} />
+
       {/* Title */}
       <AnimatePresence>
         {showTitle && (
