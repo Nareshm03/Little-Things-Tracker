@@ -12,7 +12,7 @@ function DateDivider({ date, delay }: { date: string; delay: number }) {
       transition={{ delay, duration: 1.2 }}
       className="flex items-center gap-3 my-5"
     >
-      <div className="flex-1 h-px bg-charcoal/12" />
+      <div className="w-5 h-px bg-charcoal/10" />
       <p className="font-handwriting text-xs text-charcoal/38 whitespace-nowrap tracking-wide">
         {date}
       </p>
@@ -397,10 +397,14 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
           {/* ── 8 February ── */}
           <DateDivider date="8 February 2026" delay={2.1} />
 
-          <div className="space-y-4">
+          <div className="flex flex-col">
             <ChatPrintout delay={2.4} />
-            <MeghanaQuoteSlip delay={4.0} />
-            <DisappearingMessagesCard delay={5.2} />
+            <div className="mt-7 ml-2">
+              <MeghanaQuoteSlip delay={4.0} />
+            </div>
+            <div className="mt-2">
+              <DisappearingMessagesCard delay={5.2} />
+            </div>
           </div>
 
           {/* Spacer */}

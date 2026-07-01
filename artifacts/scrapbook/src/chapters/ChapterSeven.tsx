@@ -221,6 +221,18 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
       ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4 } }
       : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay, duration, ease: [0.25, 0.1, 0.25, 1] } };
 
+  const paperDrop = (delay: number) =>
+    shouldReduceMotion
+      ? { initial: { opacity: 0, y: 0 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4 } as Transition }
+      : {
+          initial: { opacity: 0, y: 26 },
+          animate: { opacity: 1, y: 0 },
+          transition: {
+            opacity: { delay, duration: 0.5 },
+            y: { type: 'spring', stiffness: 40, damping: 10, delay },
+          } as Transition,
+        };
+
   return (
     <motion.div
       className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden"
@@ -282,7 +294,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Pressed rose — top left, arrives early */}
             <motion.div
-              {...fadeIn(1.4, 2.8)}
+              {...paperDrop(1.4)}
               className="absolute"
               style={{ top: 0, left: 8 }}
               aria-label="Pressed rose"
@@ -292,7 +304,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Real photo — top area, slightly overlapping rose */}
             <motion.div
-              {...fadeIn(2.2, 2.8)}
+              {...paperDrop(2.2)}
               className="absolute"
               style={{ top: 10, left: 48 }}
               aria-label="A photo of the two of us"
@@ -302,7 +314,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Temple receipt / old ticket */}
             <motion.div
-              {...fadeIn(3.6, 2.8)}
+              {...paperDrop(3.6)}
               className="absolute"
               style={{ top: 8, right: 6 }}
               aria-label="Temple receipt from Tirupati"
@@ -312,7 +324,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Tobby polaroid — mid left */}
             <motion.div
-              {...fadeIn(5.0, 2.8)}
+              {...paperDrop(5.0)}
               className="absolute"
               style={{ top: 156, left: 0 }}
               aria-label="Tobby photo"
@@ -322,7 +334,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Breakfast sticky — mid, overlapping Tobby a little */}
             <motion.div
-              {...fadeIn(6.4, 2.8)}
+              {...paperDrop(6.4)}
               className="absolute"
               style={{ top: 148, left: 66 }}
               aria-label="Breakfast sticky — Had breakfast?"
@@ -332,7 +344,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Little note — lower right of cluster */}
             <motion.div
-              {...fadeIn(7.8, 2.8)}
+              {...paperDrop(7.8)}
               className="absolute"
               style={{ top: 162, right: 4 }}
               aria-label="Ride safe note"
@@ -342,7 +354,7 @@ export default function ChapterSeven({ onNext, onPrev }: ChapterProps) {
 
             {/* Chocolate wrapper — lower left, standalone */}
             <motion.div
-              {...fadeIn(9.2, 2.8)}
+              {...paperDrop(9.2)}
               className="absolute"
               style={{ top: 290, left: 14 }}
               aria-label="Chocolate wrapper"

@@ -392,16 +392,22 @@ function SDCIdCard({ delay }: { delay: number }) {
 function IELTSNotes({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
-      style={{ width: 166, rotate: '-1.5deg' }}
-      className="bg-white border border-charcoal/10 shadow-sm overflow-hidden"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
+      style={{ width: 166, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
+      className="relative border border-charcoal/10 shadow-sm overflow-hidden"
     >
-      <div className="bg-[#E4EAF3] px-3 py-1.5 border-b border-charcoal/8">
+      {/* Aged paper tint — slight yellowing from being kept */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(135deg, rgba(220,195,140,0.09) 0%, transparent 55%)', zIndex: 1 }}
+        aria-hidden="true"
+      />
+      <div className="bg-[#E4EAF3] px-3 py-1.5 border-b border-charcoal/8 relative z-10">
         <p className="font-sans text-[6px] tracking-[0.3em] uppercase text-[#3A5C82]/40">IELTS Vocabulary</p>
       </div>
-      <div className="px-3 pt-2 pb-2.5">
+      <div className="px-3 pt-2 pb-2.5 relative z-10" style={{ backgroundColor: '#FDFBF5' }}>
         {[
           { word: 'ambiguous', def: 'unclear in meaning' },
           { word: 'perseverance', def: 'keep going no matter what' },

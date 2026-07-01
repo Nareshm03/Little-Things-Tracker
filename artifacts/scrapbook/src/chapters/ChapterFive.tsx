@@ -94,8 +94,8 @@ function ChocolateWrapper({ delay }: { delay: number }) {
     <motion.div
       className="relative"
       style={{ width: 162, height: 58 }}
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 42, damping: 10, delay } }}
     >
       {/* Content revealed beneath wrapper */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" aria-hidden={!peeled}>
@@ -168,8 +168,8 @@ function ChocolateWrapper({ delay }: { delay: number }) {
 function HandwrittenRecipe({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
       style={{ width: 154, rotate: '-1.5deg' }}
     >
@@ -249,8 +249,8 @@ function StickyNote({
 function GroceryNote({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
       style={{ width: 136, rotate: '2.5deg' }}
     >
@@ -259,8 +259,20 @@ function GroceryNote({ delay }: { delay: number }) {
         <path d="M0,9 C8,3 18,10 30,6 C42,2 54,9 66,5 C78,1 90,8 102,4 C114,0 126,7 136,5 L136,12 L0,12 Z"
           fill="#FDFAF3" />
       </svg>
-      <div className="bg-[#FDFAF3] border-x border-b border-charcoal/10 shadow-sm px-3 pb-4 pt-2">
-        <p className="font-handwriting text-[8px] text-charcoal/30 mb-2 tracking-wider">this week —</p>
+      <div className="bg-[#FDFAF3] border-x border-b border-charcoal/10 shadow-sm px-3 pb-4 pt-2 relative overflow-hidden">
+        {/* Oil / grease stain — this is a food list, paper gets touched */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: 14, right: 5,
+            width: 34, height: 26,
+            borderRadius: '50%',
+            background: 'radial-gradient(ellipse at 45% 40%, rgba(170,130,50,0.10) 28%, transparent 70%)',
+            transform: 'rotate(-14deg)',
+          }}
+          aria-hidden="true"
+        />
+        <p className="font-handwriting text-[8px] text-charcoal/30 mb-2 tracking-wider relative">this week —</p>
         <div className="space-y-1">
           {[
             { text: 'fish curry 🐟', checked: true },
@@ -289,8 +301,8 @@ function GroceryNote({ delay }: { delay: number }) {
 function MathNotebook({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       style={{ width: 224, rotate: '1deg' }}
       className="relative bg-white border border-charcoal/12 shadow-sm overflow-hidden"
     >

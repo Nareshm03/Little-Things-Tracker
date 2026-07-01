@@ -1,0 +1,282 @@
+This is the FINAL POLISH PASS.
+
+Do NOT add new chapters.
+Do NOT redesign the project.
+Do NOT change the story.
+
+Your job is to make this scrapbook feel like a real physical memory book instead of a modern website.
+
+The content is finished.
+
+Now we are polishing craftsmanship.
+
+----------------------------------------------------
+OVERALL GOAL
+----------------------------------------------------
+
+Every page should feel like:
+
+• someone opened an old scrapbook
+• memories collected over months
+• objects placed naturally
+• nothing perfectly aligned
+• nothing looking generated
+• every artifact touched by human hands
+
+The reader should forget they are using a website.
+
+They should feel like they are holding memories.
+
+----------------------------------------------------
+RULE 1
+NOTHING SHOULD LOOK PERFECT
+----------------------------------------------------
+
+Whenever you see
+
+• equal spacing
+• centered layouts
+• identical rotations
+• identical shadows
+• perfectly clean paper
+
+fix it.
+
+Every object should have its own personality.
+
+Examples:
+
+photo
+rotate 2°
+
+ticket
+rotate -5°
+
+sticky note
+rotate 6°
+
+receipt
+rotate -3°
+
+letter
+rotate 1°
+
+Never use the same shadow twice.
+
+----------------------------------------------------
+RULE 2
+PAPER IMPERFECTIONS
+----------------------------------------------------
+
+Every chapter should contain subtle imperfections.
+
+Examples:
+
+• fingerprints
+• faded ink
+• bent corners
+• coffee rings
+• tiny stains
+• tape lifting
+• folded paper
+• wrinkles
+• scratched polaroids
+• yellowing paper
+• tiny dust
+
+These should be subtle.
+
+Never distracting.
+
+----------------------------------------------------
+RULE 3
+STACK OBJECTS
+----------------------------------------------------
+
+Nothing should float alone.
+
+Objects should overlap naturally.
+
+Examples:
+
+photo covering receipt
+
+sticky note partly hiding ticket
+
+letter under photograph
+
+paper clip holding two notes
+
+masking tape over image
+
+Every page should have depth.
+
+----------------------------------------------------
+RULE 4
+DISCOVERY
+----------------------------------------------------
+
+Readers should discover memories.
+
+Instead of showing everything immediately:
+
+• captions appear later
+
+• handwritten notes fade slowly
+
+• hidden text under photos
+
+• lift objects
+
+• unfold paper
+
+• rotate ticket
+
+• pull candy wrapper
+
+The scrapbook rewards curiosity.
+
+----------------------------------------------------
+RULE 5
+PHYSICS
+----------------------------------------------------
+
+Everything should behave like paper.
+
+Use
+
+spring
+
+weight
+
+tiny wobble
+
+slow settling
+
+paper resistance
+
+Never use UI animations.
+
+Everything should feel physical.
+
+----------------------------------------------------
+RULE 6
+LIGHT
+----------------------------------------------------
+
+All pages use warm sunlight.
+
+Top-right warm light.
+
+Soft shadows.
+
+No harsh contrast.
+
+No glassmorphism.
+
+No modern UI.
+
+----------------------------------------------------
+RULE 7
+OBJECT AGING
+----------------------------------------------------
+
+Every object ages differently.
+
+Examples
+
+Rose photo
+slightly bent
+
+Temple receipt
+yellow
+
+Movie ticket
+creased
+
+Chocolate wrapper
+crumpled
+
+Recipe page
+oil stain
+
+Notebook
+heavy writing pressure
+
+Passport strip
+clean
+
+Nothing shares the same aging.
+
+----------------------------------------------------
+RULE 8
+TYPOGRAPHY
+----------------------------------------------------
+
+Typography must breathe.
+
+Large whitespace.
+
+Do not fill pages.
+
+Some chapters are photo-heavy.
+
+Some are text-heavy.
+
+Some are almost empty.
+
+Different rhythm.
+
+----------------------------------------------------
+RULE 9
+AMBIENCE
+----------------------------------------------------
+
+If sound exists
+
+keep it subtle.
+
+Paper
+
+cloth
+
+soft page
+
+coffee cup
+
+wind
+
+No cinematic music.
+
+No dramatic effects.
+
+----------------------------------------------------
+RULE 10
+NEVER LOOK LIKE FIGMA
+----------------------------------------------------
+
+Whenever something feels like
+
+"designed"
+
+make it feel
+
+"placed."
+
+The reader should believe someone physically assembled every page.
+
+----------------------------------------------------
+OUTPUT
+----------------------------------------------------
+
+Improve craftsmanship only.
+
+Do not rewrite memories.
+
+Do not replace text.
+
+Do not change chronology.
+
+Polish realism.
+
+Everything should feel handmade.

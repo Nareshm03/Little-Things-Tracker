@@ -26,7 +26,7 @@ function DateDivider({ date, delay = 0 }: { date: string; delay?: number }) {
       transition={{ delay, duration: 1.2 }}
       className="flex items-center gap-3 my-4"
     >
-      <div className="flex-1 h-px bg-charcoal/12" />
+      <div className="w-4 h-px bg-charcoal/10" />
       <p className="font-handwriting text-xs text-charcoal/38 whitespace-nowrap tracking-wide">{date}</p>
       <div className="flex-1 h-px bg-charcoal/12" />
     </motion.div>
