@@ -29,9 +29,9 @@ function FoldedLetter({ delay }: { delay: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1.2 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 38, damping: 11, delay } }}
       className="relative"
     >
       {/* Coffee stain — overlaps one corner */}
@@ -69,12 +69,13 @@ function FoldedLetter({ delay }: { delay: number }) {
 
       {/* Tape — slightly lifting on the right side */}
       <div
-        className="absolute -top-3 left-1/2 washi-tape z-20"
+        className="absolute -top-3 washi-tape z-20"
         style={{
-          width: 76,
-          height: 20,
-          transform: 'translateX(-50%) rotate(1deg) skewX(-2deg)',
-          transformOrigin: 'left center',
+          left: '46%',
+          width: 62,
+          height: 17,
+          transform: 'translateX(-50%) rotate(-1.5deg)',
+          transformOrigin: 'right center',
         }}
       />
 
@@ -237,9 +238,9 @@ function FoldedLetter({ delay }: { delay: number }) {
 function MovieTicket({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: -3 }}
-      animate={{ opacity: 1, rotate: -3 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 22, rotate: -8 }}
+      animate={{ opacity: 1, y: 0, rotate: -3 }}
+      transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 42, damping: 10, delay }, rotate: { type: 'spring', stiffness: 42, damping: 10, delay } }}
       className="relative"
       style={{ width: 130 }}
     >
@@ -295,9 +296,9 @@ function MovieTicket({ delay }: { delay: number }) {
 function HandwritingStrip({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 2 }}
-      animate={{ opacity: 1, rotate: 2 }}
-      transition={{ delay, duration: 0.9 }}
+      initial={{ opacity: 0, y: 14, rotate: 6 }}
+      animate={{ opacity: 1, y: 0, rotate: 2 }}
+      transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 42, damping: 10, delay }, rotate: { type: 'spring', stiffness: 42, damping: 10, delay } }}
       className="relative"
       style={{ width: 160 }}
     >
@@ -367,9 +368,9 @@ function HandwritingStrip({ delay }: { delay: number }) {
 function TobbyPolaroid({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, rotate: 4 }}
-      animate={{ opacity: 1, rotate: 4 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 18, rotate: 9 }}
+      animate={{ opacity: 1, y: 0, rotate: 4 }}
+      transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 40, damping: 10, delay }, rotate: { type: 'spring', stiffness: 40, damping: 10, delay } }}
       className="relative"
       style={{ width: 116 }}
     >

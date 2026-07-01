@@ -214,8 +214,8 @@ function HandwrittenRecipe({ delay }: { delay: number }) {
       </div>
       {/* Washi tape strip holding it down */}
       <div
-        className="absolute -top-2.5 left-1/2 z-20 h-3.5 w-14"
-        style={{ backgroundColor: 'rgba(201,168,76,0.38)', transform: 'translateX(-50%) rotate(1deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+        className="absolute -top-2.5 z-20 h-3 w-11"
+        style={{ left: '44%', backgroundColor: 'rgba(201,168,76,0.44)', transform: 'translateX(-50%) rotate(-2deg)', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
         aria-hidden="true"
       />
     </motion.div>

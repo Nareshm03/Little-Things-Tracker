@@ -103,9 +103,9 @@ function BucketList({ delay }: { delay: number }) {
 function PassportPhoto({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 0.9 }}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
       style={{ width: 72, rotate: '2.5deg' }}
     >
@@ -233,9 +233,9 @@ function BikeSketch({ delay }: { delay: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 42, damping: 11, delay } }}
       className="relative"
       style={{ width: 182 }}
     >
@@ -431,9 +431,9 @@ function IELTSNotes({ delay }: { delay: number }) {
 function VelouraSketch({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
       style={{ width: 160 }}
     >
@@ -486,9 +486,9 @@ function VelouraSketch({ delay }: { delay: number }) {
 function NotebookFragment({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1 }}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       style={{ width: 190, rotate: '0.5deg' }}
       className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
     >

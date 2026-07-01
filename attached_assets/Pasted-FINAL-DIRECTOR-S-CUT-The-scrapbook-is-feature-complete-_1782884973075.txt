@@ -1,0 +1,140 @@
+FINAL DIRECTOR'S CUT
+
+The scrapbook is feature complete.
+
+DO NOT add:
+- new interactions
+- new animations
+- new chapters
+- new decorative elements
+- new sounds
+- page-turn sound effects
+- ambient music
+- visual gimmicks
+
+The goal is no longer "make it cooler."
+
+The goal is "make it disappear."
+
+The reader should stop noticing the website and start believing the scrapbook.
+
+----------------------------------------------------
+MISSION
+----------------------------------------------------
+
+Walk through every page individually.
+
+Ask one question repeatedly:
+
+"What still feels like software?"
+
+Only fix those things.
+
+----------------------------------------------------
+CHECKLIST
+----------------------------------------------------
+
+For every object:
+
+✓ Does it cast the same shadow as everything else?
+→ Give it its own shadow.
+
+✓ Is the rotation mathematically neat?
+→ Make it imperfect.
+
+✓ Is the spacing evenly distributed?
+→ Break the rhythm.
+
+✓ Does the paper look freshly printed?
+→ Add subtle age where appropriate.
+
+✓ Is handwriting too clean?
+→ Introduce tiny wobble and pressure variation.
+
+✓ Are tape pieces identical?
+→ Make every tape strip unique.
+
+✓ Does every photo have the same border?
+→ Slightly vary thickness and wear.
+
+✓ Does every animation start and stop identically?
+→ Offset timing naturally.
+
+----------------------------------------------------
+ANIMATION REVIEW
+----------------------------------------------------
+
+No object should "fade in."
+
+Everything should feel physically placed.
+
+Paper falls.
+
+Photos settle.
+
+Letters unfold.
+
+Notes slide slightly.
+
+Nothing behaves like UI.
+
+----------------------------------------------------
+LIGHTING
+----------------------------------------------------
+
+Review every chapter.
+
+Ensure one consistent warm afternoon light source.
+
+Soft shadows.
+
+No object appears to float.
+
+Everything should feel grounded on paper.
+
+----------------------------------------------------
+CONSISTENCY REVIEW
+----------------------------------------------------
+
+Check:
+
+Chapter 1
+Chapter 2
+Chapter 3
+Chapter 4
+Chapter 5
+Chapter 6
+Chapter 7
+Epilogue
+
+Ensure they all belong to the same physical scrapbook.
+
+Not seven different design systems.
+
+----------------------------------------------------
+REMOVE ANYTHING THAT FEELS "DESIGNED"
+----------------------------------------------------
+
+Whenever something feels like:
+
+"nice UI"
+
+replace it with
+
+"hand placed memory."
+
+----------------------------------------------------
+FINAL REVIEW
+----------------------------------------------------
+
+Do not tell me what you changed.
+
+Instead, review the finished scrapbook and identify:
+
+1. The three weakest visual moments that still look digital.
+
+2. The three strongest moments that now feel truly physical.
+
+If a change would not make someone believe this scrapbook exists in real life,
+
+do not make it.

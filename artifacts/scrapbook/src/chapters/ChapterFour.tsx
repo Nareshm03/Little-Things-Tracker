@@ -88,9 +88,9 @@ function PhotoSlot({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 1.1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 40, damping: 10, delay } }}
       className="relative"
       style={{ width }}
     >
