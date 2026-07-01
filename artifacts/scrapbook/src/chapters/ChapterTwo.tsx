@@ -44,7 +44,7 @@ function EnvelopeCard({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 280 }}
+      style={{ width: 360 }}
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
 
@@ -193,7 +193,7 @@ function RecipeArtifact({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 220 }}
+      style={{ width: 170 }}
     >
       <div className="absolute -top-3 left-4 w-12 h-5 washi-tape rotate-[2deg]" />
       <div
@@ -239,7 +239,7 @@ function StickyArtifact({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 224 }}
+      style={{ width: 178 }}
     >
       <div
         className="bg-[#FEF08A] px-4 py-4"
@@ -264,7 +264,7 @@ function CampusDoodle({ delay }: { delay: number }) {
     <motion.div
       {...settle}
       className="relative"
-      style={{ width: 206 }}
+      style={{ width: 162 }}
     >
       <div className="absolute -top-3 left-3 w-12 h-5 washi-tape -rotate-[1deg]" />
       <div
@@ -432,7 +432,7 @@ function FebQuoteNote({ delay }: { delay: number }) {
   return (
     <motion.div
       {...settle}
-      style={{ width: 206 }}
+      style={{ width: 162 }}
       className="relative"
     >
       {/* Folded receipt — just cream paper, no border */}

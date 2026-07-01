@@ -23,12 +23,12 @@ export default function Dedication({ onNext }: ChapterProps) {
       transition={{ duration: 1.5, ease: "easeInOut" }}
       onClick={isWritten ? onNext : undefined}
     >
-      <div className="max-w-xl px-8 md:px-16 text-center cursor-pointer">
+      <div className="max-w-xl px-12 md:px-20 text-center cursor-pointer">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 2, delay: 1 }}
-          className="font-quote text-2xl md:text-4xl text-charcoal leading-relaxed space-y-6"
+          className="font-quote text-3xl md:text-5xl text-charcoal leading-[2.0] space-y-6"
         >
           <p>
             "For Meghana — every little thing we've shared, pressed between these pages, kept forever."

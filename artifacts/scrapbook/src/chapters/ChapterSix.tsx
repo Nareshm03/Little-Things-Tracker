@@ -34,7 +34,7 @@ function BucketList({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 260, rotate: '-1deg' }}
+      style={{ width: 335, rotate: '-1deg' }}
       className="relative"
     >
       {/* Torn top edge */}
@@ -174,7 +174,7 @@ function PassportFolder({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
-      style={{ width: 195, rotate: '1.5deg' }}
+      style={{ width: 232, rotate: '1.5deg' }}
     >
       <motion.div
         className="relative cursor-pointer overflow-hidden"
@@ -395,7 +395,7 @@ function IELTSNotes({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 214, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
+      style={{ width: 172, rotate: '-1.5deg', backgroundColor: '#FDFBF5' }}
       className="relative border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Aged paper tint — slight yellowing from being kept */}
@@ -435,7 +435,7 @@ function VelouraSketch({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
       className="relative"
-      style={{ width: 206 }}
+      style={{ width: 165 }}
     >
       {/* Logo sketch paper — deliberately not centred */}
       <div
@@ -489,7 +489,7 @@ function NotebookFragment({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 246, rotate: '0.5deg' }}
+      style={{ width: 185, rotate: '0.5deg' }}
       className="relative bg-white border border-charcoal/10 shadow-sm overflow-hidden"
     >
       {/* Spiral holes */}

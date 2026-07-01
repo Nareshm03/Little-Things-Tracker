@@ -303,7 +303,7 @@ function MathNotebook({ delay }: { delay: number }) {
     <motion.div
       initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
       transition={{ opacity: { delay, duration: 0.5 }, y: { type: 'spring', stiffness: 44, damping: 11, delay } }}
-      style={{ width: 290, rotate: '1deg' }}
+      style={{ width: 355, rotate: '1deg' }}
       className="relative bg-white border border-charcoal/12 shadow-sm overflow-hidden"
     >
       {/* Spiral holes */}

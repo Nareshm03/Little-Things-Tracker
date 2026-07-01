@@ -86,7 +86,7 @@ function FoldedLetter({ delay }: { delay: number }) {
 
       <div
         className="bg-[#FEFCE8] border border-[#D4C89A]/55 shadow-md cursor-pointer focus-within:ring-2 focus-within:ring-coffee/20"
-        style={{ width: 330 }}
+        style={{ width: 390 }}
         onClick={() => setOpened(v => !v)}
         role="button"
         tabIndex={0}
@@ -300,7 +300,7 @@ function HandwritingStrip({ delay }: { delay: number }) {
       animate={{ opacity: 1, y: 0, rotate: 2 }}
       transition={{ opacity: { delay, duration: 0.4 }, y: { type: 'spring', stiffness: 42, damping: 10, delay }, rotate: { type: 'spring', stiffness: 42, damping: 10, delay } }}
       className="relative"
-      style={{ width: 210 }}
+      style={{ width: 172 }}
     >
       {/* Tape */}
       <div className="absolute -top-3 left-4 w-10 h-4 washi-tape -rotate-[1deg]" />
@@ -459,7 +459,7 @@ function LunchWrapper({ delay }: { delay: number }) {
       animate={{ opacity: 1, rotate: -2 }}
       transition={{ delay, duration: 1 }}
       className="relative"
-      style={{ width: 232 }}
+      style={{ width: 185 }}
     >
       <div className="absolute -top-3 right-4 w-14 h-4 washi-tape rotate-[1deg]" />
       <div className="overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-coffee/20"
@@ -510,7 +510,7 @@ function LunchWrapper({ delay }: { delay: number }) {
 function BusTicket({ delay }: { delay: number }) {
   return (
     <motion.div initial={{ opacity: 0, rotate: 2 }} animate={{ opacity: 1, rotate: 2 }}
-      transition={{ delay, duration: 0.9 }} style={{ width: 210 }} className="relative">
+      transition={{ delay, duration: 0.9 }} style={{ width: 170 }} className="relative">
       {/* Tape strip */}
       <div
         className="absolute -top-3 left-1/2 washi-tape z-10"

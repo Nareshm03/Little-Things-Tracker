@@ -439,8 +439,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoSareeDhoti}
                 alt="Tamil New Year — saree and dhoti"
-                width={340}
-                height={270}
+                width={410}
+                height={340}
                 rotate={-2}
                 delay={0.6}
                 caption="14 April 2026"
@@ -524,8 +524,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoRose}
                 alt="First rose"
-                width={284}
-                height={222}
+                width={340}
+                height={270}
                 rotate={2.5}
                 delay={1}
                 caption="6 April 2026"
@@ -543,8 +543,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoFitcheckThem}
                 alt="Fitcheck together"
-                width={218}
-                height={174}
+                width={175}
+                height={140}
                 rotate={-2.5}
                 delay={1.2}
                 caption="just us."
@@ -561,8 +561,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoDesignTeam}
                 alt="Swayam design team"
-                width={247}
-                height={190}
+                width={195}
+                height={150}
                 rotate={1.5}
                 delay={1.4}
                 caption="her team."
@@ -603,8 +603,8 @@ export default function ChapterFour({ onNext, onPrev }: ChapterProps) {
               <PhotoSlot
                 src={photoSwayam}
                 alt="Swayam Fest together"
-                width={255}
-                height={203}
+                width={192}
+                height={152}
                 rotate={2}
                 delay={1.5}
                 caption="late April."

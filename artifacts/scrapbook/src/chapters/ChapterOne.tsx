@@ -38,7 +38,7 @@ function DisappearingMessagesCard({ delay }: { delay: number }) {
       initial={{ opacity: 0, rotate: -1.5, y: 8 }}
       animate={{ opacity: 1, rotate: -1.5, y: 0 }}
       transition={{ delay, duration: 1 }}
-      className="relative max-w-[248px]"
+      className="relative max-w-[210px]"
     >
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 washi-tape" />
       {/* Printed-screenshot style — no UI toggle */}
@@ -161,7 +161,7 @@ function MeghanaQuoteSlip({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 8, rotate: -1.5 }}
       animate={{ opacity: 1, y: 0, rotate: -1.5 }}
       transition={{ delay, duration: 1 }}
-      className="relative max-w-[232px]"
+      className="relative max-w-[192px]"
     >
       <div className="absolute -top-2.5 left-4 w-12 h-4 washi-tape rotate-[1deg]" />
       <div
@@ -244,7 +244,7 @@ function HackathonCard({ delay }: { delay: number }) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.9 }}
-      className="bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm max-w-[248px]"
+      className="bg-[#F9F6F0] border border-charcoal/10 p-4 shadow-sm max-w-[196px]"
       style={{ rotate: '1deg' }}
     >
       <div className="absolute -top-3 right-4 w-12 h-5 washi-tape rotate-[2deg]" />
@@ -360,15 +360,15 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
             transition={{ delay: 0.6, duration: 1.4 }}
             className="space-y-6 max-w-sm mb-10"
           >
-            <p className="font-display text-3xl text-charcoal font-light leading-[1.75]">
+            <p className="font-display text-3xl text-charcoal font-light leading-[2.1]">
               Nobody tells you<br />
               the exact moment<br />
               someone slowly becomes<br />
               your favourite person.
             </p>
 
-            <div className="space-y-2 pt-2">
-              <p className="font-quote text-base text-charcoal/55 leading-loose">
+            <div className="space-y-3 pt-3">
+              <p className="font-quote text-base text-charcoal/55 leading-[2.0]">
                 Maybe it was somewhere between
               </p>
               <p className="font-handwriting text-2xl text-coffee pl-3">"Had breakfast?"</p>
@@ -430,15 +430,15 @@ export default function ChapterOne({ onNext, onPrev }: ChapterProps) {
         {/* ═══════════ RIGHT PAGE ═══════════ */}
         <div className="flex-1 md:pl-12 flex flex-col py-8">
 
-          {/* Single sticky note — prominent */}
+          {/* HERO: yellow sticky — dominant first impression */}
           <motion.div
             initial={{ opacity: 0, y: -8, rotate: -3 }}
             animate={{ opacity: 1, y: 0, rotate: -3 }}
             transition={{ delay: 0.9, duration: 0.9 }}
             className="inline-block self-start mb-2"
           >
-            <div className="bg-[#FEF08A] px-6 py-5 shadow-md">
-              <p className="font-letter text-[2.2rem] text-charcoal/85">Had breakfast?</p>
+            <div className="bg-[#FEF08A] px-10 py-8 shadow-lg">
+              <p className="font-letter text-[3.8rem] text-charcoal/88 leading-none">Had breakfast?</p>
             </div>
           </motion.div>
 

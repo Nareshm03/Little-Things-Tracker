@@ -145,17 +145,17 @@ function RealPhoto() {
     <div
       className="bg-white shadow-md"
       style={{
-        padding: '4px 4px 24px 4px',
-        width: 148,
+        padding: '5px 5px 28px 5px',
+        width: 218,
         rotate: '-2.5deg',
-        boxShadow: '0 3px 12px rgba(0,0,0,0.10)',
+        boxShadow: '0 6px 22px rgba(0,0,0,0.13)',
       }}
       aria-label="A candid photo of the two of us"
     >
       <img
         src={usPhoto}
         alt="Naresh and Meghana — a natural moment together"
-        style={{ width: '100%', height: 126, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
+        style={{ width: '100%', height: 178, objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
       />
       <p className="font-handwriting text-[14px] text-charcoal/28 text-center mt-1.5">us.</p>
     </div>
