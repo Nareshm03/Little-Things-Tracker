@@ -758,7 +758,7 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
             </div>
 
             {/* Movie ticket — overlaps top-right corner of letter */}
-            <div style={{ position: 'absolute', top: 10, left: 256, zIndex: 9 }}>
+            <div style={{ position: 'absolute', top: 10, left: 316, zIndex: 9 }}>
               <MovieTicket delay={2.0} />
             </div>
 
@@ -768,7 +768,7 @@ export default function ChapterThree({ onNext, onPrev }: ChapterProps) {
             </div>
 
             {/* Tobby — tucked under ticket, right of handwriting */}
-            <div style={{ position: 'absolute', top: 300, left: 252, zIndex: 7 }}>
+            <div style={{ position: 'absolute', top: 300, left: 290, zIndex: 7 }}>
               <TobbyPolaroid delay={2.9} />
             </div>
           </div>
